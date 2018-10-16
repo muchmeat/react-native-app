@@ -24,6 +24,10 @@ const resetAction = NavigationActions.reset({
 
 class LoginPage extends Component {
 
+    static navigationOptions =()=>({
+        header:null
+    });
+
       componentWillMount(){
           this.userName = "";
           this.passWord = "";
