@@ -1,14 +1,33 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator,DrawerNavigator } from 'react-navigation';
 import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
 import MainPage from '../pages/main/MainPage'
+import screen1 from '../pages/login/screen1'
+import screen2 from '../pages/login/screen2'
+import screen3 from '../pages/login/screen3'
+import screen4 from '../pages/login/screen4'
+
+const draw = DrawerNavigator({
+    login:{screen:LoginPage},
+    screen1: {screen: screen1},
+    screen2: {screen: screen2},
+    screen3: {screen: screen3},
+    screen4: {screen: screen4}
+},{
+    initialRouteName: 'login',
+    swipeEnabled: true,
+    animationEnabled: true,
+    lazy: false,
+    tabBarPosition:'bottom'
+});
 
 const App= StackNavigator ({
+    draw:{screen:draw,navigationOptions:{header:null}},
     login:{screen:LoginPage},
     main:{screen:MainPage},
 },{
-    initialRouteName: 'login', // 默认显示界面
+    initialRouteName: 'draw', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示
     mode: 'card',              //使用默认风格
     navigationOptions: {       //此处设置的navigationOptions属性为所有页面使用，页面可以设置static navigationOptions，将此属性覆盖
