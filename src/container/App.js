@@ -3,6 +3,10 @@ import { StackNavigator,DrawerNavigator } from 'react-navigation';
 import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
 import MainPage from '../pages/main/MainPage'
+import Main1 from '../pages/main/Main1'
+import List1 from '../pages/list/List1'
+import List2 from '../pages/list/List2'
+import List3 from '../pages/list/List3'
 import screen1 from '../pages/login/screen1'
 import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
@@ -13,7 +17,8 @@ const draw = DrawerNavigator({
     screen1: {screen: screen1},
     screen2: {screen: screen2},
     screen3: {screen: screen3},
-    screen4: {screen: screen4}
+    screen4: {screen: screen4},
+    Main1: {screen: Main1},
 },{
     initialRouteName: 'login',
     swipeEnabled: true,
@@ -26,6 +31,8 @@ const App= StackNavigator ({
     draw:{screen:draw,navigationOptions:{header:null}},
     login:{screen:LoginPage},
     main:{screen:MainPage},
+    List1: {screen: List1},
+    List3: {screen: List3},
 },{
     initialRouteName: 'draw', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示
