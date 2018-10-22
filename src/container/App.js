@@ -1,21 +1,116 @@
 import React from 'react';
-import { StackNavigator,DrawerNavigator } from 'react-navigation';
+import {
+    View,
+    Text
+} from 'react-native';
+import { StackNavigator,DrawerNavigator,TabNavigator} from 'react-navigation';
 import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
+import Tab from '../pages/Tab'
 import MainPage from '../pages/main/MainPage'
 import screen1 from '../pages/login/screen1'
 import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
 import screen4 from '../pages/login/screen4'
+import form from '../pages/form/form1'
+import {Header} from 'react-native-elements'
+
+const tabs = TabNavigator({
+    1: {
+        screen: MainPage,
+        navigationOptions:{
+            tabBarLabel: '首页'
+        },
+    },
+    2: {
+        screen: form,
+        navigationOptions:{
+            header:null,
+            // ()=>{
+            //     return <View style={mainStyle.header}>
+            //         <Text style={mainStyle.headerFont}>待办列表</Text>
+            //     </View>
+            // },
+            tabBarLabel: '列表'
+        },
+    },
+    3: {
+        screen: form,
+        navigationOptions:{
+            // header:()=>{
+            //     return <Header
+            //         placement="left"
+            //         leftComponent={{ icon: 'menu', color: '#fff' }}
+            //         centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+            //         rightComponent={{ icon: 'home', color: '#fff' }}
+            //     />
+            // },
+            header:()=>{
+                return <View>
+                    <Text>人员列表</Text>
+                </View>
+            },
+            tabBarLabel: '表单'
+        },
+    },
+    4: {
+        screen: form,
+        navigationOptions:{
+            tabBarLabel: '详情'
+        },
+    },
+},{
+    lazy: true, // 是否懒加载
+    // initialRouteName: '1',
+    //设置TabNavigator的位置
+    tabBarPosition: 'bottom',
+    //是否在更改标签时显示动画
+    animationEnabled: true,
+    //是否允许在标签之间进行滑动
+    swipeEnabled: true,
+    //按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
+    backBehavior: "none",
+    tabBarComponent:props => <Tab {...props}/>,
+    tabBarOptions: {
+        //是否使标签大写，默认为true
+        upperCaseLabel: false,
+        showIcon: true,//是否显示图标，默认关闭
+        showLabel: true,//是否显示label，默认开启
+        pressOpacity: 0.8,
+        activeTintColor: ThemeStyle.color.theme,//label和icon的前景色 活跃状态下（选中）
+        inactiveTintColor: ThemeStyle.color.fontGray,//label和icon的前景色 活跃状态下（未选中）
+        style: {
+            height: 70,
+            backgroundColor: '#fff',
+            zIndex: 0,
+            position: 'relative',
+        },
+        indicatorStyle: {//标签指示器的样式对象（选项卡底部的行）。安卓底部会多出一条线，可以将height设置为0来暂时解决这个问题
+            height: 0,
+        },
+        labelStyle: {//文字样式
+            fontSize: 12,
+            paddingVertical: 0,
+            marginTop: 10,
+        },
+        iconStyle: {//图标样式
+            marginTop: 5
+        },
+        tabStyle: {
+            backgroundColor: '#fff',
+        },
+    }
+});
+
 
 const draw = DrawerNavigator({
-    login:{screen:LoginPage},
+    tabs:{screen:tabs},
     screen1: {screen: screen1},
     screen2: {screen: screen2},
     screen3: {screen: screen3},
     screen4: {screen: screen4}
 },{
-    initialRouteName: 'login',
+    initialRouteName: 'tabs',
     swipeEnabled: true,
     animationEnabled: true,
     lazy: false,

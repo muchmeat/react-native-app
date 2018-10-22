@@ -36,6 +36,10 @@ const defualt_themes = Object.freeze({
         width:1,
         color:"#000"
     },
+    container:{
+        flex:1,
+        backgroundColor:"#F5F5F9"
+    }
 });
 
 module.exports = defualt_themes;
