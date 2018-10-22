@@ -29,6 +29,12 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class LoginScreen2 extends Component {
+
+    static navigationOptions =()=>({
+        drawerLabel:'登录页二',
+        header:null
+    });
+
   constructor(props) {
     super(props);
     this.state = {

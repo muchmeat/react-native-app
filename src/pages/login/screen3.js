@@ -39,6 +39,11 @@ TabSelector.propTypes = {
 
 export default class LoginScreen2 extends Component {
 
+    static navigationOptions =()=>({
+        drawerLabel:'登录页三',
+        header:null
+    });
+
   constructor(props) {
     super(props);
 

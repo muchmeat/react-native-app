@@ -25,6 +25,7 @@ const resetAction = NavigationActions.reset({
 class LoginPage extends Component {
 
     static navigationOptions =()=>({
+        drawerLabel:'主页',
         header:null
     });
 
