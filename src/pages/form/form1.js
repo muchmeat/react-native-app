@@ -8,10 +8,27 @@ import RxForm from '../../components/RxForm';
 import {isTel} from '../../../utils/common';
 import t from "tcomb-form-native";
 import DefualtBtn from '../../components/DefualtBtn';
+import {Header,Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/SimpleLineIcons'
 
 class form1 extends Component {
 
-    static navigationOptions={header:null,drawerLabel:'主体'};
+    static navigationOptions={
+        header:()=>{
+            return <Header
+                placement="left"
+                leftComponent={{ icon: 'menu', color: '#fff'}}
+                centerComponent={{ text: '表单示例', style: { color: '#fff'} }}
+                containerStyle={{
+                    paddingTop:5,
+                    height:60,
+                    backgroundColor:styles.color.theme
+                    // justifyContent:"center",
+                    // alignItems:"center"
+                }}
+            />
+        }
+    };
 
     componentWillMount() {
         let _this = this;

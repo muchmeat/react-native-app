@@ -38,7 +38,7 @@ const defualt_themes = Object.freeze({
     },
     container:{
         flex:1,
-        backgroundColor:"#F5F5F9"
+        backgroundColor:"#F5F5F9",
     }
 });
 

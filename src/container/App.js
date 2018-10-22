@@ -17,43 +17,26 @@ import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
 import screen4 from '../pages/login/screen4'
 import form from '../pages/form/form1'
-import {Header} from 'react-native-elements'
+
 
 const tabs = TabNavigator({
     1: {
         screen: MainPage,
         navigationOptions:{
-            tabBarLabel: '首页'
+            tabBarLabel: '首页',
+            header:null
         },
     },
     2: {
         screen: form,
         navigationOptions:{
             header:null,
-            // ()=>{
-            //     return <View style={mainStyle.header}>
-            //         <Text style={mainStyle.headerFont}>待办列表</Text>
-            //     </View>
-            // },
             tabBarLabel: '列表'
         },
     },
     3: {
         screen: form,
         navigationOptions:{
-            // header:()=>{
-            //     return <Header
-            //         placement="left"
-            //         leftComponent={{ icon: 'menu', color: '#fff' }}
-            //         centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-            //         rightComponent={{ icon: 'home', color: '#fff' }}
-            //     />
-            // },
-            header:()=>{
-                return <View>
-                    <Text>人员列表</Text>
-                </View>
-            },
             tabBarLabel: '表单'
         },
     },
@@ -123,7 +106,7 @@ const draw = DrawerNavigator({
 });
 
 const App= StackNavigator ({
-    draw:{screen:draw,navigationOptions:{header:null}},
+    draw:{screen:draw},
     login:{screen:LoginPage},
     main:{screen:MainPage},
     List1: {screen: List1},

@@ -51,7 +51,7 @@ export default class RxForm extends Component {
     render() {
         let _this = this;
         return (
-            <View style={{flex:1, backgroundColor:defualt_themes.color.defaultBg}}>
+            <View style={{flex:1, backgroundColor:defualt_themes.color.defaultBg,marginTop:5}}>
                 <ScrollView ref = "scroll" keyboardShouldPersistTaps={"handled"}
                             onMomentumScrollEnd ={(event)=>{
                                 _this.scrollY = event.nativeEvent.contentOffset.y;
