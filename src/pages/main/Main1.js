@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, ImageBackground, Dimensions, Image, Text, ScrollView, TouchableOpacity} from 'react-native';
 import {Input, Button, SearchBar, Card, ListItem, Icon} from 'react-native-elements'
+import Svg from 'react-native-svg';
+import IconLib from '../../../assets/icons/IconLib';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -51,9 +53,7 @@ export default class LoginScreen1 extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ScrollView style={{flex: 1}}
-                            onScrollBeginDrag={this.onScrollBeginDrag}
-                            onScrollEndDrag={this.onScrollEndDrag}>
+
                     <ImageBackground style={{
                         width: SCREEN_WIDTH,
                         height: SCREEN_HEIGHT / 3,
@@ -101,6 +101,9 @@ export default class LoginScreen1 extends Component {
                                 alignItems: "center",
                                 justifyContent: 'center'
                             }}>
+                                <Svg height="48" width="40" viewBox="0 0 113 95">
+                                    {IconLib.IC_MAIN_SFZSM}
+                                </Svg>
                                 <Text style={{color: '#fff'}}>身份证识别</Text>
                             </View>
                         </TouchableOpacity>
@@ -115,7 +118,9 @@ export default class LoginScreen1 extends Component {
                                 justifyContent: 'center'
                             }}>
                                 <View style={{marginTop: 12}}>
-
+                                    <Svg height={34} width={32} viewBox="0 0 91 90">
+                                        {IconLib.IC_MAIN_SCAN}
+                                    </Svg>
                                 </View>
                                 <View style={{height: 30, justifyContent: "center", alignItems: "center"}}>
                                     <Text style={{color: '#fff'}}>二维码扫描</Text>
@@ -139,7 +144,9 @@ export default class LoginScreen1 extends Component {
                                 backgroundColor: "#FFF",
                                 borderRadius: 8}}>
                                 <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
+                                    <Svg height="34" width="34" viewBox="0 0 1081 1024">
+                                        {IconLib.IC_RHZF}
+                                    </Svg>
                                 </View>
                                 <View style={{justifyContent: "center", alignItems: "flex-start"}}>
                                     <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>入户走访</Text>
@@ -160,7 +167,9 @@ export default class LoginScreen1 extends Component {
                                 backgroundColor: "#FFF",
                                 borderRadius: 8}}>
                                 <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
+                                    <Svg height="34" width="34" viewBox="0 0 1081 1024">
+                                        {IconLib.IC_RKDJ}
+                                    </Svg>
                                 </View>
                                 <View style={{justifyContent: "center", alignItems: "flex-start"}}>
                                     <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>人口登记</Text>
@@ -181,7 +190,9 @@ export default class LoginScreen1 extends Component {
                                 backgroundColor: "#FFF",
                                 borderRadius: 8}}>
                                 <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
+                                    <Svg height="34" width="34" viewBox="0 0 1081 1024">
+                                        {IconLib.IC_DWDJ}
+                                    </Svg>
                                 </View>
                                 <View style={{justifyContent: "center", alignItems: "flex-start"}}>
                                     <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>单位采集</Text>
@@ -201,67 +212,9 @@ export default class LoginScreen1 extends Component {
                                 backgroundColor: "#FFF",
                                 borderRadius: 8}}>
                                 <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
-                                </View>
-                                <View style={{justifyContent: "center", alignItems: "flex-start"}}>
-                                    <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>情报线索</Text>
-                                    <Text style={{color: '#999', fontSize: 12}}>收集上报辖区情报线索</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8}
-                                          onPress={() => {
-
-                                          }}>
-                            <View style={{width: SCREEN_WIDTH - 40,
-                                height: 57,
-                                alignItems: "center",
-                                justifyContent: 'flex-start',
-                                flexDirection: "row",
-                                backgroundColor: "#FFF",
-                                borderRadius: 8}}>
-                                <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
-                                </View>
-                                <View style={{justifyContent: "center", alignItems: "flex-start"}}>
-                                    <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>情报线索</Text>
-                                    <Text style={{color: '#999', fontSize: 12}}>收集上报辖区情报线索</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8}
-                                          onPress={() => {
-
-                                          }}>
-                            <View style={{width: SCREEN_WIDTH - 40,
-                                height: 57,
-                                alignItems: "center",
-                                justifyContent: 'flex-start',
-                                flexDirection: "row",
-                                backgroundColor: "#FFF",
-                                borderRadius: 8}}>
-                                <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
-                                </View>
-                                <View style={{justifyContent: "center", alignItems: "flex-start"}}>
-                                    <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>情报线索</Text>
-                                    <Text style={{color: '#999', fontSize: 12}}>收集上报辖区情报线索</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8}
-                                          onPress={() => {
-
-                                          }}>
-                            <View style={{width: SCREEN_WIDTH - 40,
-                                height: 57,
-                                alignItems: "center",
-                                justifyContent: 'flex-start',
-                                flexDirection: "row",
-                                backgroundColor: "#FFF",
-                                borderRadius: 8}}>
-                                <View style={{height: 60, width: 85, justifyContent: "center", alignItems: "center"}}>
-
+                                    <Svg height="32" width="32" viewBox="0 0 1024 1024">
+                                        {IconLib.IC_MAIN_QBXS}
+                                    </Svg>
                                 </View>
                                 <View style={{justifyContent: "center", alignItems: "flex-start"}}>
                                     <Text style={{color: '#333', fontSize: 16, lineHeight: 30}}>情报线索</Text>
@@ -271,7 +224,6 @@ export default class LoginScreen1 extends Component {
                         </TouchableOpacity>
                     </View>
 
-                </ScrollView>
             </View>
         );
     }
