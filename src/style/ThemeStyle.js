@@ -14,7 +14,7 @@ const defualt_themes = Object.freeze({
         width:Dimensions.get("window").width
     },
     color:{
-        theme:"#007FFA",
+        theme:"#008EFE",
         theme_a:"rgba(0,127,250,0.5)",
         // theme_a:"red",
         defaultBg:"#F5F5F9",

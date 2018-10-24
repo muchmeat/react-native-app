@@ -13,22 +13,34 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons'
 
 class form1 extends Component {
 
-    static navigationOptions={
-        header:()=>{
-            return <Header
-                placement="left"
-                leftComponent={{ icon: 'menu', color: '#fff'}}
-                centerComponent={{ text: '表单示例', style: { color: '#fff'} }}
-                containerStyle={{
-                    paddingTop:5,
-                    height:60,
-                    backgroundColor:styles.color.theme
-                    // justifyContent:"center",
-                    // alignItems:"center"
-                }}
-            />
-        }
+    static navigationOptions = {
+        title: '表单',
+        headerStyle: {
+            backgroundColor:styles.color.theme,
+            height:50
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
     };
+
+    // static navigationOptions={
+    //     header:()=>{
+    //         return <Header
+    //             placement="left"
+    //             leftComponent={{ icon: 'menu', color: '#fff'}}
+    //             centerComponent={{ text: '表单示例', style: { color: '#fff'} }}
+    //             containerStyle={{
+    //                 paddingTop:5,
+    //                 height:60,
+    //                 backgroundColor:styles.color.theme
+    //                 // justifyContent:"center",
+    //                 // alignItems:"center"
+    //             }}
+    //         />
+    //     }
+    // };
 
     componentWillMount() {
         let _this = this;

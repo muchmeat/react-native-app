@@ -14,9 +14,8 @@ import {
 } from 'react-native';
 import {Input, Button, SearchBar, Card, ListItem, Icon, TouchableHighlight} from 'react-native-elements'
 import Svg from 'react-native-svg';
-import IconLib from '../../../assets/icons/IconLib';
 import ThemeStyle from '../../style/ThemeStyle'
-
+import IconLib from '../../../assets/svg/IconLib';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -24,7 +23,7 @@ const list = [
     {
         name: '沟通交流',
         avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
-        subtitle: '今天完成工作有构建此页面，调整样式',
+        subtitle: '今天完成工作有构建此页面',
         value: '2',
         icon: 'av-timer'
     },
@@ -52,22 +51,17 @@ const list = [
 ]
 
 export default class List1 extends Component {
-    static navigationOptions=({navigation,screenProps}) => ({
-        headerTitle:'列表', // 只会设置导航栏文字,
+    static navigationOptions = {
+        title: '列表-1',
         headerStyle: {
-            backgroundColor: "#ccc",
-            elevation: 0
+            backgroundColor:ThemeStyle.color.theme,
+            height:50
         },
-        headerTitleStyle: {
-            color: ThemeStyle.color.fontWithe,
-            fontSize: ThemeStyle.font.size_L,
-            fontWeight:"normal"
-        },
-        //返回图标颜色
         headerTintColor: '#fff',
-        //返回图标按住的样色
-        headerPressColorAndroid:"transparent"
-    })
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
+    };
 
     constructor(props) {
         super(props);
@@ -95,16 +89,24 @@ export default class List1 extends Component {
             title={item.name}
             subtitle={item.subtitle}
             leftAvatar={{source: {uri: item.avatar_url}}}
-            badge={{value: item.value, textStyle: {color: '#FFF'}}}
+            badge={{value: item.value, containerStyle:{ backgroundColor: '#FE922F'},textStyle: {color: '#FFF'}}}
         />
     )
 
     _renderItem1 = ({item,index}) => (
         <ListItem
             title={item.name}
+            titleStyle={{fontSize:16,color:"#333",paddingBottom:5}}
+            subtitleStyle={{ fontSize:14,color:"#999",paddingTop:5}}
             subtitle={item.subtitle}
             leftAvatar={{source: {uri: item.avatar_url}}}
-            checkBox={{checked:item.selected}}
+            checkBox={{checked:item.selected,onPress:() => {let temp;
+                temp = [...this.state.data];
+                temp[index] = {...item, selected: !item.selected};
+                this.setState({data:temp})},
+                checkedIcon: <Svg height="24" width="24" viewBox="0 0 1024 1024">{IconLib.IC_SELECTED}</Svg>,
+                uncheckedIcon:<Svg height="24" width="24" viewBox="0 0 1024 1024">{IconLib.IC_UNSELECTED}</Svg>
+            }}
             onPress={()=>{
                 let temp;
                 temp = [...this.state.data];
@@ -117,9 +119,10 @@ export default class List1 extends Component {
     _renderItem2 = ({item,index}) => (
         <ListItem
             subtitle={item.subtitle}
-            rightIcon={{name:'arrow-right',
+            rightIcon={{name:'chevron-small-right',
                 color:'#ccc',
-                size:15}}
+                type:"entypo",
+                size:20}}
             onPress={()=>{
 
             }}
@@ -142,6 +145,7 @@ export default class List1 extends Component {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'flex-end',
+            alignItems:"center"
         }}>
 
             <View style={{

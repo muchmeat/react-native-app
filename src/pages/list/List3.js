@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, StyleSheet, FlatList, SectionList, Dimensions} from 'react-native'
-
+import ThemeStyle from '../../style/ThemeStyle';
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
@@ -8,10 +8,17 @@ const CateData = require('./CategoryListData.json')
 
 export default class List3 extends Component {
 
-
-    static navigationOptions =()=>({
-        header:null
-    });
+    static navigationOptions = {
+        title: '列表-1',
+        headerStyle: {
+            backgroundColor:ThemeStyle.color.theme,
+            height:50
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
+    };
 
     constructor(props) {
         super(props)

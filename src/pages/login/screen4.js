@@ -7,13 +7,20 @@ import {
     View,
     TextInput
 } from 'react-native';
-
+import ThemeStyle from '../../style/ThemeStyle';
 export default class screen4 extends Component {
 
-    static navigationOptions =()=>({
-        drawerLabel:'登录页四',
-        header:null
-    });
+    static navigationOptions = {
+        title: '登录-4',
+        headerStyle: {
+            backgroundColor:ThemeStyle.color.theme,
+            height:50
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
+    };
 
     render() {
         return (

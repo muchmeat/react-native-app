@@ -15,7 +15,7 @@ import { Input, Button } from 'react-native-elements'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
-
+import ThemeStyle from '../../style/ThemeStyle';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -39,10 +39,22 @@ TabSelector.propTypes = {
 
 export default class LoginScreen2 extends Component {
 
-    static navigationOptions =()=>({
-        drawerLabel:'登录页三',
-        header:null
-    });
+  static navigationOptions = {
+    title: '登录-3',
+    headerStyle: {
+      backgroundColor:ThemeStyle.color.theme,
+      height:50
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      color: '#fff', fontSize: 16
+    },
+  };
+    //
+    // static navigationOptions =()=>({
+    //     drawerLabel:'登录页三',
+    //     header:null
+    // });
 
   constructor(props) {
     super(props);

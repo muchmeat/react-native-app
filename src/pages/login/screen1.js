@@ -12,6 +12,19 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const BG_IMAGE = require('../../../assets/images/bg_screen1.jpg');
 
 export default class LoginScreen1 extends Component {
+
+    static navigationOptions = {
+        title: '登录-1',
+        headerStyle: {
+            backgroundColor:ThemeStyle.color.theme,
+            height:50
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
+    };
+
     constructor(props) {
         super(props);
 

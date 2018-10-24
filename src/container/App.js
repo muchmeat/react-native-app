@@ -8,6 +8,7 @@ import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
 import Tab from '../pages/Tab'
 import MainPage from '../pages/main/MainPage'
+import PageList from '../pages/main/PageList'
 import Main1 from '../pages/main/Main1'
 import List1 from '../pages/list/List1'
 import List2 from '../pages/list/List2'
@@ -17,37 +18,27 @@ import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
 import screen4 from '../pages/login/screen4'
 import form from '../pages/form/Form'
-import Detail from '../pages/form/Detail'
-import Detail2 from '../pages/form/Detail2'
 
 
 const tabs = TabNavigator({
     1: {
         screen: MainPage,
         navigationOptions:{
-            tabBarLabel: '首页',
-            header:null
+            tabBarLabel: '首页'
         },
     },
     2: {
-        screen: form,
+        screen: PageList,
         navigationOptions:{
-            header:null,
-            tabBarLabel: '列表'
+            tabBarLabel: '页面'
         },
     },
     3: {
         screen: form,
         navigationOptions:{
-            tabBarLabel: '表单'
+            tabBarLabel: '组件'
         },
-    },
-    4: {
-        screen: form,
-        navigationOptions:{
-            tabBarLabel: '详情'
-        },
-    },
+    }
 },{
     lazy: true, // 是否懒加载
     // initialRouteName: '1',
@@ -66,6 +57,7 @@ const tabs = TabNavigator({
         showIcon: true,//是否显示图标，默认关闭
         showLabel: true,//是否显示label，默认开启
         pressOpacity: 0.8,
+        pressColor: "#ccc",
         activeTintColor: ThemeStyle.color.theme,//label和icon的前景色 活跃状态下（选中）
         inactiveTintColor: ThemeStyle.color.fontGray,//label和icon的前景色 活跃状态下（未选中）
         style: {
@@ -92,39 +84,25 @@ const tabs = TabNavigator({
 });
 
 
-const draw = DrawerNavigator({
+const App= StackNavigator ({
     tabs:{screen:tabs},
     screen1: {screen: screen1},
     screen2: {screen: screen2},
     screen3: {screen: screen3},
     screen4: {screen: screen4},
     Main1: {screen: Main1},
-    Detail: {screen: Detail},
-    Detail2: {screen: Detail2},
-},{
-    navigationOptions:{
-        header:null
-    },
-    initialRouteName: 'tabs',
-    swipeEnabled: true,
-    animationEnabled: true,
-    lazy: false,
-    tabBarPosition:'bottom'
-});
-
-const App= StackNavigator ({
-    draw:{screen:draw},
     login:{screen:LoginPage},
     main:{screen:MainPage},
+    form:{screen:form},
     List1: {screen: List1},
-    List3: {screen: List3}
+    List3: {screen: List3},
 },{
-    initialRouteName: 'draw', // 默认显示界面
+    initialRouteName: 'tabs', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示
     mode: 'card',              //使用默认风格
     navigationOptions: {       //此处设置的navigationOptions属性为所有页面使用，页面可以设置static navigationOptions，将此属性覆盖
-        //右边的button，可在页面上写
-        // headerRight:<View style={{paddingRight:20,height:50,width:60,alignItems:"center"}}><Text style={{flex:1}} onPress={()=>{alert("曹尼玛啊")}}>重中之重</Text></View>,
+                               //右边的button，可在页面上写
+                               // headerRight:<View style={{paddingRight:20,height:50,width:60,alignItems:"center"}}><Text style={{flex:1}} onPress={()=>{alert("曹尼玛啊")}}>重中之重</Text></View>,
         headerStyle: {
             backgroundColor: ThemeStyle.color.theme
         },
