@@ -129,5 +129,6 @@ const styles = StyleSheet.create({
     bottombtn: {
         fontSize: 15,
         color: '#1DBAF1',
+        paddingBottom:10
     }
 });

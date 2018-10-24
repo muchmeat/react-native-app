@@ -147,11 +147,11 @@ export default class LoginScreen2 extends Component {
               <KeyboardAvoidingView contentContainerStyle={styles.loginContainer} behavior='position'>
                 <View style={styles.titleContainer}>
                   <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.titleText}>BEAUX</Text>
+                    <Text style={styles.titleText}>合成作战平台</Text>
                   </View>
-                  <View style={{marginTop: -10, marginLeft: 10}}>
-                    <Text style={styles.titleText}>VOYAGES</Text>
-                  </View>
+                  {/*<View style={{marginTop: -10, marginLeft: 10}}>*/}
+                    {/*<Text style={styles.titleText}>VOYAGES</Text>*/}
+                  {/*</View>*/}
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <Button
@@ -161,7 +161,7 @@ export default class LoginScreen2 extends Component {
                     onPress={() => this.selectCategory(0)}
                     containerStyle={{flex: 1}}
                     titleStyle={[styles.categoryText, isLoginPage && styles.selectedCategoryText]}
-                    title={'Login'}
+                    title={'登录'}
                   />
                   <Button
                     disabled={isLoading}
@@ -170,7 +170,7 @@ export default class LoginScreen2 extends Component {
                     onPress={() => this.selectCategory(1)}
                     containerStyle={{flex: 1}}
                     titleStyle={[styles.categoryText, isSignUpPage && styles.selectedCategoryText]}
-                    title={'Sign up'}
+                    title={'注册'}
                   />
                 </View>
                 <View style={styles.rowSelector}>
@@ -195,12 +195,12 @@ export default class LoginScreen2 extends Component {
                     keyboardType='email-address'
                     returnKeyType='next'
                     inputStyle={{marginLeft: 10}}
-                    placeholder={'Email'}
+                    placeholder={'账 号'}
                     containerStyle={{borderBottomColor: 'rgba(0, 0, 0, 0.38)'}}
                     ref={input => this.emailInput = input}
                     onSubmitEditing={() => this.passwordInput.focus()}
                     onChangeText={email => this.setState({ email })}
-                    errorMessage={isEmailValid ? null : 'Please enter a valid email address'}
+                    errorMessage={isEmailValid ? null : '请输入6到12位英文或数字组合'}
                   />
                   <Input
                     leftIcon={
@@ -220,15 +220,15 @@ export default class LoginScreen2 extends Component {
                     blurOnSubmit={true}
                     containerStyle={{marginTop: 16, borderBottomColor: 'rgba(0, 0, 0, 0.38)'}}
                     inputStyle={{marginLeft: 10}}
-                    placeholder={'Password'}
+                    placeholder={'密 码'}
                     ref={input => this.passwordInput = input}
                     onSubmitEditing={() => isSignUpPage ? this.confirmationInput.focus() : this.login()}
                     onChangeText={(password) => this.setState({password})}
-                    errorMessage={isPasswordValid ? null : 'Please enter at least 8 characters'}
+                    errorMessage={isPasswordValid ? null : '请输入6到12位英文或数字组合'}
                   />
                   {isSignUpPage &&
                     <Input
-                      icon={
+                        leftIcon={
                         <SimpleIcon
                           name='lock'
                           color='rgba(0, 0, 0, 0.38)'
@@ -246,17 +246,17 @@ export default class LoginScreen2 extends Component {
                       blurOnSubmit={true}
                       containerStyle={{marginTop: 16, borderBottomColor: 'rgba(0, 0, 0, 0.38)'}}
                       inputStyle={{marginLeft: 10}}
-                      placeholder={'Confirm password'}
+                      placeholder={'确认密码'}
                       ref={input => this.confirmationInput = input}
                       onSubmitEditing={this.signUp}
                       onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}
-                      errorMessage={isConfirmationValid ? null : 'Please enter the same password'}
+                      errorMessage={isConfirmationValid ? null : '两次输入的密码不一样'}
                     />}
                     <Button
                       buttonStyle={styles.loginButton}
-                      containerStyle={{marginTop: 32, flex: 0}}
+                      containerStyle={{marginTop: 32, flex: 0,elevation:0}}
                       activeOpacity={0.8}
-                      title={isLoginPage ? 'LOGIN' : 'SIGN UP'}
+                      title={isLoginPage ? '登 录' : '注 册'}
                       onPress={isLoginPage ? this.login : this.signUp}
                       titleStyle={styles.loginTextButton}
                       loading={isLoading}
@@ -265,13 +265,13 @@ export default class LoginScreen2 extends Component {
                 </View>
               </KeyboardAvoidingView>
               <View style={styles.helpContainer}>
-                <Button
-                  title={'Need help ?'}
-                  titleStyle={{color: 'white'}}
-                  buttonStyle={{backgroundColor: 'transparent'}}
-                  underlayColor='transparent'
-                  onPress={() => console.log('Account created')}
-                />
+                {/*<Button*/}
+                  {/*title={'Need help ?'}*/}
+                  {/*titleStyle={{color: 'white'}}*/}
+                  {/*buttonStyle={{backgroundColor: 'transparent'}}*/}
+                  {/*underlayColor='transparent'*/}
+                  {/*onPress={() => console.log('Account created')}*/}
+                {/*/>*/}
               </View>
             </View>
         </ImageBackground>
@@ -318,6 +318,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 50,
     width: 200,
+    elevation:0
   },
   titleContainer: {
     height: 150,

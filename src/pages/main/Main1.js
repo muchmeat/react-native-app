@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, ImageBackground, Dimensions, Image, Text, ScrollView, TouchableOpacity} from 'react-native';
 import {Input, Button, SearchBar, Card, ListItem, Icon} from 'react-native-elements'
 import Svg from 'react-native-svg';
-import IconLib from '../../../assets/icons/IconLib';
+import IconLib from '../../../assets/svg/IconLib';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
-    View,
-    Text
+    View
 } from "react-native";
 import components from "../style/Components";
+import {Text} from "react-native-elements";
 
 export default class GroupTitle extends Component {
     render() {

@@ -34,7 +34,8 @@ const components = Object.freeze({
             backgroundColor:defualt_themes.color.theme,
             alignItems:"center",
             justifyContent:"center",
-            borderRadius:8
+            borderRadius:8,
+            elevation:0
         },
         text:{
             fontSize:defualt_themes.font.size_L,
@@ -89,10 +90,21 @@ const components = Object.freeze({
             fontSize:defualt_themes.font.size_S
         }
     },
+    groupTitle2:{
+        view:{
+            width:defualt_themes.screen.width,
+            height:45,
+            paddingTop:15,
+            paddingLeft:15
+        },
+        text:{
+            fontSize:defualt_themes.font.size_M
+        }
+    },
     //分组列表item
     groupItem:{
         container:{
-            width:defualt_themes.screen.width,
+            // width:defualt_themes.screen.width,
             height:45,
             paddingLeft:15,
             marginBottom:2,

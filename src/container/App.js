@@ -16,7 +16,9 @@ import screen1 from '../pages/login/screen1'
 import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
 import screen4 from '../pages/login/screen4'
-import form from '../pages/form/form1'
+import form from '../pages/form/Form'
+import Detail from '../pages/form/Detail'
+import Detail2 from '../pages/form/Detail2'
 
 
 const tabs = TabNavigator({
@@ -97,7 +99,12 @@ const draw = DrawerNavigator({
     screen3: {screen: screen3},
     screen4: {screen: screen4},
     Main1: {screen: Main1},
+    Detail: {screen: Detail},
+    Detail2: {screen: Detail2},
 },{
+    navigationOptions:{
+        header:null
+    },
     initialRouteName: 'tabs',
     swipeEnabled: true,
     animationEnabled: true,
@@ -110,7 +117,7 @@ const App= StackNavigator ({
     login:{screen:LoginPage},
     main:{screen:MainPage},
     List1: {screen: List1},
-    List3: {screen: List3},
+    List3: {screen: List3}
 },{
     initialRouteName: 'draw', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示

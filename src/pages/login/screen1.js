@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Dimensions } from 'react-native';
+import {StyleSheet, Text, View, ImageBackground, Dimensions, Alert} from 'react-native';
 import { Input, Button } from 'react-native-elements'
+import ThemeStyle from '../../style/ThemeStyle'
 
 // import { Font } from 'expo';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -62,11 +63,11 @@ export default class LoginScreen1 extends Component {
                         <View style={styles.loginView}>
                             <View style={styles.loginTitle}>
                                 <View style={{flexDirection: 'row'}}>
-                                    <Text style={styles.travelText}>TRAVEL</Text>
+                                    <Text style={styles.travelText}>芜湖公安</Text>
                                     <Text style={styles.plusText}>+</Text>
                                 </View>
                                 <View style={{marginTop: -10}}>
-                                    <Text style={styles.travelText}>LEISURE</Text>
+                                    <Text style={styles.travelText}>合成作战平台</Text>
                                 </View>
                             </View>
                             <View style={styles.loginInput}>
@@ -81,9 +82,9 @@ export default class LoginScreen1 extends Component {
                                     containerStyle={{marginVertical: 10}}
                                     onChangeText={email => this.setState({email})}
                                     value={email}
-                                    inputStyle={{marginLeft: 10, color: 'white'}}
+                                    inputStyle={{marginLeft: 10,fontSize:15, color: 'white'}}
                                     keyboardAppearance="light"
-                                    placeholder="Email"
+                                    placeholder="警 号"
                                     autoFocus={false}
                                     autoCapitalize="none"
                                     autoCorrect={false}
@@ -110,10 +111,10 @@ export default class LoginScreen1 extends Component {
                                     containerStyle={{marginVertical: 10}}
                                     onChangeText={(password) => this.setState({password})}
                                     value={password}
-                                    inputStyle={{marginLeft: 10, color: 'white'}}
+                                    inputStyle={{marginLeft: 10, fontSize:15,color: 'white'}}
                                     secureTextEntry={true}
                                     keyboardAppearance="light"
-                                    placeholder="Password"
+                                    placeholder="密 码"
                                     autoCapitalize="none"
                                     autoCorrect={false}
                                     keyboardType="default"
@@ -124,29 +125,29 @@ export default class LoginScreen1 extends Component {
                                 />
                             </View>
                             <Button
-                                title='LOG IN'
-                                activeOpacity={1}
+                                title='登 录'
+                                activeOpacity={0}
                                 underlayColor="transparent"
                                 onPress={this.submitLoginCredentials.bind(this)}
                                 loading={showLoading}
                                 loadingProps={{size: 'small', color: 'white'}}
                                 disabled={ !email_valid && password.length < 8}
-                                buttonStyle={{height: 50, width: 250, backgroundColor: 'transparent', borderWidth: 2, borderColor: 'white', borderRadius: 30}}
-                                containerStyle={{marginVertical: 10}}
+                                buttonStyle={{height: 50, width: 250, borderWidth:2,borderColor: 'white', borderRadius: 30,elevation:0}}
+                                containerStyle={{ borderColor: 'white',elevation:0}}
                                 titleStyle={{fontWeight: 'bold', color: 'white'}}
                             />
                             <View style={styles.footerView}>
-                                <Text style={{color: 'grey'}}>
-                                    New here?
-                                </Text>
-                                <Button
-                                    title="Create an Account"
-                                    clear
-                                    activeOpacity={0.5}
-                                    titleStyle={{color: 'white', fontSize: 15}}
-                                    containerStyle={{marginTop: -10}}
-                                    onPress={() => console.log('Account created')}
-                                />
+                                {/*<Text style={{color: 'grey'}}>*/}
+                                    {/*New here?*/}
+                                {/*</Text>*/}
+                                {/*<Button*/}
+                                    {/*title="Create an Account"*/}
+                                    {/*clear*/}
+                                    {/*activeOpacity={0.5}*/}
+                                    {/*titleStyle={{color: 'white', fontSize: 15}}*/}
+                                    {/*containerStyle={{marginTop: -10}}*/}
+                                    {/*onPress={() => console.log('Account created')}*/}
+                                {/*/>*/}
                             </View>
                         </View>
                 </ImageBackground>

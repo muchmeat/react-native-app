@@ -40,7 +40,16 @@ class form1 extends Component {
             "1":"见面谈话",
             "2":"通讯工具通话"
         }, 'thfs');
-
+        let jfmd = t.enums({
+            "1":"康复情况",
+            "2":"复吸调查",
+            "3":"其它",
+        }, 'jfmd');
+        let cxfs = t.enums({
+            "1":"步行/骑行",
+            "2":"自驾",
+            "3":"其它",
+        }, 'cxfs');
         let jslxfs = t.refinement(t.String, function (v) {
             if( !v || v.indexOf("-") == -1 || v.indexOf(";") == -1)
                 return false;
@@ -52,8 +61,13 @@ class form1 extends Component {
         _this.rows = t.struct({
             thry:t.String,
             thdd:t.String,
+            sfjzd:t.Boolean,
+            cxfs:cxfs,
+            fycc:t.maybe(t.String),
+            thrq:t.Date,
             thsj:t.maybe(t.Date),
             thfs:thfs,
+            jfmd:jfmd,
             jslxfs:jslxfs,
             pgjg:pgjg,
             fj:t.list(t.String),
@@ -64,24 +78,45 @@ class form1 extends Component {
                 thry:{
                     label: '谈话人员',
                     placeholder:' 输入谈话人员',
-                    maxLength:50
+                    maxLength:50,
+                    onSubmitEditing:() => _this.refs.RxForm.refs.form.getComponent('thdd').refs.input.focus()
                 },
                 thdd:{
                     label: '谈话地点',
                     placeholder:' 输入谈话地点',
-                    maxLength:100
+                    maxLength:100,
+                    onSubmitEditing:() => _this.refs.RxForm.refs.form.getComponent('fycc').refs.input.focus()
+                },
+                sfjzd:{
+                    label: '是否居住地'
+                },
+                cxfs:{
+                    label: '出行方式'
+                },
+                fycc:{
+                    label: '费用产出',
+                    maxLength:100,
+                    onSubmitEditing:() => _this.refs.RxForm.refs.form.getComponent('jslxfs').refs.input.focus()
+                },
+                thrq:{
+                    label:"谈话日期",
+                    mode:"date",
+                    maximumDate:new Date()
                 },
                 thsj:{
                     label:"谈话时间",
-                    mode:"date",
-                    maximumDate:new Date()
+                    mode:"datetime"
                 },
                 thfs:{
                     label:"谈话方式",
                 },
+                jfmd:{
+                    label:"家访目的",
+                },
                 jslxfs:{
                     label:"家属联系方式",
-                    error:"请输入“姓名-联系电话;姓名-联系电话”格式"
+                    error:"请输入“姓名-联系电话;姓名-联系电话”格式",
+                    onSubmitEditing:() => _this.refs.RxForm.refs.form.getComponent('pynr').refs.input.focus()
                 },
                 pgjg:{
                     label:"评估结果",
@@ -95,7 +130,8 @@ class form1 extends Component {
                     label:"评语内容",
                     mode:"textarea",
                     placeholder:' 输入评语内容',
-                    maxLength:500
+                    maxLength:500,
+                    onSubmitEditing:() => _this._commit()
                 }
             }
         };

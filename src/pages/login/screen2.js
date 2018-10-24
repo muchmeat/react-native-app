@@ -154,25 +154,25 @@ export default class LoginScreen2 extends Component {
             behavior="position"
             contentContainerStyle={styles.formContainer}
           >
-            <Text style={styles.signUpText}>Sign up</Text>
-            <Text style={styles.whoAreYouText}>WHO YOU ARE ?</Text>
+            <Text style={styles.signUpText}>选择身份</Text>
+            {/*<Text style={styles.whoAreYouText}>你 是 谁 ?</Text>*/}
             <View style={styles.userTypesContainer}>
               <UserTypeItem
-                label="COOL"
+                label="物业人员"
                 labelColor="#ECC841"
                 image={USER_COOL}
                 onPress={() => this.setSelectedType('parent')}
                 selected={selectedType === 'parent'}
               />
               <UserTypeItem
-                label="STUDENT"
+                label="小区用户"
                 labelColor="#2CA75E"
                 image={USER_STUDENT}
                 onPress={() => this.setSelectedType('child')}
                 selected={selectedType === 'child'}
               />
               <UserTypeItem
-                label="HARRY POTTER"
+                label="公安干事"
                 labelColor="#36717F"
                 image={USER_HP}
                 onPress={() => this.setSelectedType('teacher')}
@@ -185,7 +185,7 @@ export default class LoginScreen2 extends Component {
                 icon="user"
                 value={username}
                 onChangeText={username => this.setState({ username })}
-                placeholder="Username"
+                placeholder="用户名/警号"
                 returnKeyType="next"
                 errorMessage={usernameValid ? null : 'Your username can\'t be blank'}
                 onSubmitEditing={() => {
@@ -198,7 +198,7 @@ export default class LoginScreen2 extends Component {
                 icon="envelope"
                 value={email}
                 onChangeText={email => this.setState({ email })}
-                placeholder="Email"
+                placeholder="邮箱"
                 keyboardType="email-address"
                 returnKeyType="next"
                 errorMessage={emailValid ? null : 'Please enter a valid email address'}
@@ -212,7 +212,7 @@ export default class LoginScreen2 extends Component {
                 icon="lock"
                 value={password}
                 onChangeText={password => this.setState({ password })}
-                placeholder="Password"
+                placeholder="密码"
                 secureTextEntry
                 returnKeyType="next"
                 errorMessage={passwordValid ? null : 'Please enter at least 8 characters'}
@@ -227,7 +227,7 @@ export default class LoginScreen2 extends Component {
                 value={confirmationPassword}
                 onChangeText={confirmationPassword =>
                   this.setState({ confirmationPassword })}
-                placeholder="Confirm Password"
+                placeholder="确认密码"
                 secureTextEntry
                 errorMessage={confirmationPasswordValid ? null : 'The password fields are not identics'}
                 returnKeyType="go"
@@ -239,7 +239,7 @@ export default class LoginScreen2 extends Component {
             </View>
             <Button
               loading={isLoading}
-              title="SIGNUP"
+              title="保 存"
               containerStyle={{ flex: -1 }}
               buttonStyle={styles.signUpButton}
               // linearGradientProps={{
@@ -254,13 +254,13 @@ export default class LoginScreen2 extends Component {
           </KeyboardAvoidingView>
           <View style={styles.loginHereContainer}>
             <Text style={styles.alreadyAccountText}>
-              Already have an account.
+              已经注册过了 点此
             </Text>
             <Button
-              title="Login here"
+              title="登 录"
               titleStyle={styles.loginHereText}
               containerStyle={{ flex: -1 }}
-              buttonStyle={{ backgroundColor: 'transparent' }}
+              buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}
               underlayColor="transparent"
               onPress={() => Alert.alert('🔥', 'You can login here')}
             />
@@ -396,6 +396,7 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 50,
     height: 45,
+    elevation:0
   },
   loginHereContainer: {
     flexDirection: 'row',
