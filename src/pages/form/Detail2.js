@@ -11,15 +11,21 @@ import styles from "../../style/Personal";
 import GroupItem from "../../components/GroupItem";
 import GroupTitle from "../../components/GroupTitle2";
 import { connect } from 'react-redux';
+import ThemeStyle from "../../style/ThemeStyle";
 
 
 class Detail extends Component {
 
-    static navigationOptions = ({ navigation }) => {
-        const { params } = navigation.state;
-        return {
-            title: "详情页面",
-        }
+    static navigationOptions = {
+        title: '详情-2',
+        headerStyle: {
+            backgroundColor:ThemeStyle.color.theme,
+            height:50
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
     };
 
     componentDidMount(){

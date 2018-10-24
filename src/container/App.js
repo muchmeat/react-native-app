@@ -18,6 +18,8 @@ import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
 import screen4 from '../pages/login/screen4'
 import form from '../pages/form/Form'
+import Detail from '../pages/form/Detail'
+import Detail2 from '../pages/form/Detail2'
 
 
 const tabs = TabNavigator({
@@ -96,6 +98,8 @@ const App= StackNavigator ({
     form:{screen:form},
     List1: {screen: List1},
     List3: {screen: List3},
+    Detail: {screen: Detail},
+    Detail2: {screen: Detail2},
 },{
     initialRouteName: 'tabs', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示

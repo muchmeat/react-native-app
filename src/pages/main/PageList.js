@@ -51,6 +51,15 @@ const lists = [
         page: "List3",
         svg: IconLib.IC_MAIN_XXTX
     }
+    , {
+        name: '详情-1',
+        page: "Detail",
+        svg: IconLib.IC_MAIN_XXTX
+    }, {
+        name: '详情-2',
+        page: "Detail2",
+        svg: IconLib.IC_MAIN_XXTX
+    }
 ]
 
 

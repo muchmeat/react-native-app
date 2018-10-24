@@ -13,15 +13,21 @@ import GroupTitle from "../../components/GroupTitle";
 import Svg from "react-native-svg";
 import IconLib from "../../../assets/svg/IconLib";
 import { connect } from 'react-redux';
+import ThemeStyle from "../../style/ThemeStyle";
 
 
 class Detail extends Component {
 
-    static navigationOptions = ({ navigation }) => {
-        const { params } = navigation.state;
-        return {
-            title: "详情页面",
-        }
+    static navigationOptions = {
+        title: '详情-1',
+        headerStyle: {
+            backgroundColor:ThemeStyle.color.theme,
+            height:50
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff', fontSize: 16
+        },
     };
 
     componentDidMount(){
