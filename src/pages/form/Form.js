@@ -15,14 +15,6 @@ class form1 extends Component {
 
     static navigationOptions = {
         title: '表单',
-        headerStyle: {
-            backgroundColor:styles.color.theme,
-            height:50
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            color: '#fff', fontSize: 16
-        },
     };
 
     // static navigationOptions={
