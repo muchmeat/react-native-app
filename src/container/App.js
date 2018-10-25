@@ -10,6 +10,7 @@ import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
 import MainPage from '../pages/main/MainPage'
 import PageList from '../pages/main/PageList'
+import Wait from '../pages/Wait'
 import Main1 from '../pages/main/Main1'
 import List1 from '../pages/list/List1'
 import List2 from '../pages/list/List2'
@@ -24,7 +25,7 @@ import Detail2 from '../pages/form/Detail2'
 
 
 const Tabs = createMaterialTopTabNavigator({
-    'Abc': {
+    'A': {
         screen: MainPage,
         navigationOptions: {
             headerTitle: '',
@@ -35,7 +36,7 @@ const Tabs = createMaterialTopTabNavigator({
             )
         }
     },
-    'Def': {
+    'B': {
         screen: PageList,
         navigationOptions: {
             headerTitle: '通用页面',
@@ -46,8 +47,8 @@ const Tabs = createMaterialTopTabNavigator({
             )
         }
     },
-    'Ghi': {
-        screen: form,
+    'C': {
+        screen: Wait,
         navigationOptions: {
             headerTitle: '通用组件',
             tabBarLabel: '组件', // tabBar显示的文字
@@ -58,7 +59,7 @@ const Tabs = createMaterialTopTabNavigator({
         }
     }
 }, {
-    initialRouteName: 'Abc',
+    initialRouteName: 'A',
     // activeColor: '#f0edf6',
     // inactiveColor: '#3e2465',
     tabBarPosition: 'bottom',

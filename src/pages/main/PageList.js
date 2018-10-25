@@ -61,45 +61,45 @@ import {NavigationActions} from 'react-navigation';
 
 const lists = [
     {
-        name: "登录",icon:"login",type:"material-community", second: [{
-        name: '登录-1',
-        page: "screen1",
-        svg: IconLib.IC_MAIN_DBGZ
-    },
-        {
-            name: '登录-2',
-            page: "screen2",
-            svg: IconLib.IC_MAIN_SJTJ
+        name: "登录", icon: "login", type: "material-community", second: [{
+            name: '登录-1',
+            page: "screen1",
+            svg: IconLib.IC_MAIN_DBGZ
         },
-        {
-            name: '登录-3',
-            page: "screen3",
-            svg: IconLib.IC_MAIN_DTDW
-        }
-    ]
+            {
+                name: '登录-2',
+                page: "screen2",
+                svg: IconLib.IC_MAIN_SJTJ
+            },
+            {
+                name: '登录-3',
+                page: "screen3",
+                svg: IconLib.IC_MAIN_DTDW
+            }
+        ]
     },
     {
-        name: "列表",icon:"list",type:"entypo", second: [{
-        name: '列表-1',
-        page: "List1",
-        svg: IconLib.IC_MAIN_XXTX
-    }, {
-        name: '列表-2',
-        page: "List3",
-        svg: IconLib.IC_MAIN_XXTX
-    }]
+        name: "列表", icon: "list", type: "entypo", second: [{
+            name: '列表-1',
+            page: "List1",
+            svg: IconLib.IC_MAIN_XXTX
+        }, {
+            name: '列表-2',
+            page: "List3",
+            svg: IconLib.IC_MAIN_XXTX
+        }]
     },
-    {name: "表单",icon:"format-align-justify",type:"material-community",page:"form"},
+    {name: "表单", icon: "format-align-justify", type: "material-community", page: "form"},
     {
-        name: "详情",icon:"account-details",type:"material-community", second: [{
-        name: '详情-1',
-        page: "Detail",
-        svg: IconLib.IC_MAIN_XXTX
-    }, {
-        name: '详情-2',
-        page: "Detail2",
-        svg: IconLib.IC_MAIN_XXTX
-    }]
+        name: "详情", icon: "account-details", type: "material-community", second: [{
+            name: '详情-1',
+            page: "Detail",
+            svg: IconLib.IC_MAIN_XXTX
+        }, {
+            name: '详情-2',
+            page: "Detail2",
+            svg: IconLib.IC_MAIN_XXTX
+        }]
     }];
 
 class PageList extends Component {
@@ -108,29 +108,15 @@ class PageList extends Component {
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
             BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
         );
-        this.first=true;
+        this.first = true;
         this.state = {
-            data:lists
+            data: lists
         }
     }
 
-    static navigationOptions = {
-        header: ()=> {
-            return <Header
-                placement="left"
-                centerComponent={{text: '页面', style: {color: '#000', fontSize: 18}}}
-                containerStyle={{
-                    paddingTop: 5,
-                    height: 50,
-                    backgroundColor: '#fff'
-                }}
-            />
-        }
-    };
-
     onBackButtonPressAndroid = (state) => {
         if (!this.first) {
-            this.first=true;
+            this.first = true;
             this.setState({
                 data: lists
             })
@@ -147,22 +133,24 @@ class PageList extends Component {
     _renderItem = ({item, index}) => (
         <ListItem
             subtitle={item.name}
-            subtitleStyle={{ fontSize:16}}
+            subtitleStyle={{fontSize: 16}}
             leftIcon={{
                 name: item.icon,
                 color: '#999',
                 type: item.type,
                 size: 28
             }}
-            rightIcon={{name:'chevron-small-right',
-                color:'#ccc',
-                type:"entypo",
-                size:24}}
-            onPress={()=> {
-                if(item.page){
+            rightIcon={{
+                name: 'chevron-small-right',
+                color: '#ccc',
+                type: "entypo",
+                size: 24
+            }}
+            onPress={() => {
+                if (item.page) {
                     this.props.navigation.dispatch(NavigationActions.navigate({routeName: item.page}))
-                }else{
-                    this.first=false;
+                } else {
+                    this.first = false;
                     this.setState({
                         data: item.second
                     })
@@ -211,7 +199,7 @@ class PageList extends Component {
         return (
             <View style={styles.container}>
                 <FlatList
-                    data={lists}
+                    data={this.state.data}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                     showsVerticalScrollIndicator={false}
@@ -224,6 +212,6 @@ class PageList extends Component {
 }
 
 export default connect(
-    (state) =>({}),
+    (state) => ({}),
     (dispatch) => ({})
 )(PageList)
