@@ -137,7 +137,7 @@ export default class LoginScreen1 extends Component {
                                 loading={showLoading}
                                 loadingProps={{size: 'small', color: 'white'}}
                                 disabled={ !email_valid && password.length < 8}
-                                buttonStyle={{height: 50, width: 250, borderWidth:2,borderColor: 'white', borderRadius: 30,elevation:0}}
+                                buttonStyle={{height: 50, width: 250,borderRadius: 30,elevation:0}}
                                 containerStyle={{ borderColor: 'white',elevation:0}}
                                 titleStyle={{fontWeight: 'bold', color: 'white'}}
                             />

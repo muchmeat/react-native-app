@@ -12,7 +12,7 @@ function struct(locals) {
   var controlLabelStyle = stylesheet.controlLabel.normal;
 
   if (locals.hasError) {
-    controlLabelStyle = stylesheet.controlLabel.error;
+    controlLabelStyle = stylesheet.controlLabel.normal;
   }
 
   var label = locals.label ? (
