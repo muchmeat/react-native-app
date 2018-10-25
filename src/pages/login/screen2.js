@@ -31,15 +31,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 export default class LoginScreen2 extends Component {
 
   static navigationOptions = {
-    title: '登录-2',
-    headerStyle: {
-      backgroundColor:ThemeStyle.color.theme,
-      height:50
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      color: '#fff', fontSize: 16
-    },
+    header:null
   };
     // static navigationOptions =()=>({
     //     drawerLabel:'登录页二',

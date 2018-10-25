@@ -96,30 +96,30 @@ class MainPage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Button
-                    title='搜索'
-                    buttonStyle={{
-                        height: 32,
-                        width: styles.screen.width - 20,
-                        backgroundColor: '#fff',
-                        borderRadius: 10,
-                        elevation: 0
-                    }}
-                    containerStyle={{
-                        height: 45,
-                        width: styles.screen.width,
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                    titleStyle={{fontSize: 16, color: '#BBBBBB'}}
-                    icon={
-                        <View style={{justifyContent: "center", alignItems: "center"}}>
-                            <Svg height="30" width="30" viewBox="0 0 1024 1024">
-                                {IconLib.IC_SEARCH}
-                            </Svg>
-                        </View>
-                    }
-                />
+                {/*<Button*/}
+                    {/*title='搜索'*/}
+                    {/*buttonStyle={{*/}
+                        {/*height: 32,*/}
+                        {/*width: styles.screen.width - 20,*/}
+                        {/*backgroundColor: '#fff',*/}
+                        {/*borderRadius: 10,*/}
+                        {/*elevation: 0*/}
+                    {/*}}*/}
+                    {/*containerStyle={{*/}
+                        {/*height: 45,*/}
+                        {/*width: styles.screen.width,*/}
+                        {/*justifyContent: "center",*/}
+                        {/*alignItems: "center"*/}
+                    {/*}}*/}
+                    {/*titleStyle={{fontSize: 16, color: '#BBBBBB'}}*/}
+                    {/*icon={*/}
+                        {/*<View style={{justifyContent: "center", alignItems: "center"}}>*/}
+                            {/*<Svg height="30" width="30" viewBox="0 0 1024 1024">*/}
+                                {/*{IconLib.IC_SEARCH}*/}
+                            {/*</Svg>*/}
+                        {/*</View>*/}
+                    {/*}*/}
+                {/*/>*/}
                 <ImageBackground style={{width: styles.screen.width, height: styles.screen.height / 3 - 30}}
                                  source={require('../../../assets/images/bg_screen1.jpg')}>
                 </ImageBackground>

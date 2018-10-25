@@ -7,6 +7,7 @@ import { StackNavigator,DrawerNavigator,TabNavigator} from 'react-navigation';
 import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
 import Tab from '../pages/Tab'
+import Wait from '../pages/Wait'
 import MainPage from '../pages/main/MainPage'
 import PageList from '../pages/main/PageList'
 import Main1 from '../pages/main/Main1'
@@ -36,7 +37,7 @@ const tabs = TabNavigator({
         },
     },
     3: {
-        screen: form,
+        screen: Wait,
         navigationOptions:{
             tabBarLabel: '组件'
         },
@@ -91,7 +92,6 @@ const App= StackNavigator ({
     screen1: {screen: screen1},
     screen2: {screen: screen2},
     screen3: {screen: screen3},
-    screen4: {screen: screen4},
     Main1: {screen: Main1},
     login:{screen:LoginPage},
     main:{screen:MainPage},

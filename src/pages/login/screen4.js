@@ -11,15 +11,7 @@ import ThemeStyle from '../../style/ThemeStyle';
 export default class screen4 extends Component {
 
     static navigationOptions = {
-        title: '登录-4',
-        headerStyle: {
-            backgroundColor:ThemeStyle.color.theme,
-            height:50
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            color: '#fff', fontSize: 16
-        },
+        header:null
     };
 
     render() {
