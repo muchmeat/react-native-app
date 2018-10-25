@@ -10,12 +10,12 @@ import { connect } from 'react-redux'; // 引入connect函数
 import *as loginAction from '../actions/loginAction';
 import themeStyle from '../style/ThemeStyle';
 import LoginBtn from '../components/LoginBtn';
-import { NavigationActions } from 'react-navigation';
+import { StackActions,NavigationActions } from 'react-navigation';
 
 /**
  * redux 与 navigator相关，参数：type
  */
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
     index: 0,
     actions: [
         NavigationActions.navigate({ routeName: 'App2'})

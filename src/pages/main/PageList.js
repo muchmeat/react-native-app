@@ -64,20 +64,6 @@ const lists = [
 
 
 class PageList extends Component {
-    static navigationOptions = {
-        header: ()=> {
-            return <Header
-                placement="center"
-                centerComponent={{text: '页面', style: {color: '#fff', fontSize: 18}}}
-                containerStyle={{
-                    paddingTop: 5,
-                    height: 50,
-                    backgroundColor: styles.color.theme
-                }}
-            />
-        }
-    };
-
     _renderItem = ({item, index})=> {
         return (
             <TouchableOpacity activeOpacity={0.5} onPress={()=> {
