@@ -56,7 +56,7 @@ function list(locals) {
   var errorBlockStyle = stylesheet.errorBlock;
 
   if (locals.hasError) {
-    controlLabelStyle = stylesheet.controlLabel.error;
+    controlLabelStyle = stylesheet.controlLabel.normal;
   }
 
   var notNull = !isMaybe ? (

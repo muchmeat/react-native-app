@@ -30,17 +30,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class LoginScreen2 extends Component {
 
-  static navigationOptions = {
-    title: '登录-2',
-    headerStyle: {
-      backgroundColor:ThemeStyle.color.theme,
-      height:50
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      color: '#fff', fontSize: 16
-    },
-  };
+    static navigationOptions = {
+        header:null
+    };
+
     // static navigationOptions =()=>({
     //     drawerLabel:'登录页二',
     //     header:null
@@ -157,17 +150,21 @@ export default class LoginScreen2 extends Component {
     } = this.state
 
     return  <ScrollView
-			scrollEnabled={false}
+			scrollEnabled={true}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.container}
+          contentContainerStyle={[styles.container]}
         >
+        {/*<Text style={styles.signUpText}>选择身份</Text>*/}
           <KeyboardAvoidingView
             behavior="position"
-            contentContainerStyle={styles.formContainer}
+            enabled={false}
+            keyboardVerticalOffset={50}
+            styles={{backgroundColor:"#FFF"}}
+            contentContainerStyle={[styles.formContainer]}
           >
-            <Text style={styles.signUpText}>选择身份</Text>
+            <View><Text style={styles.signUpText}>选择身份</Text></View>
             {/*<Text style={styles.whoAreYouText}>你 是 谁 ?</Text>*/}
-            <View style={styles.userTypesContainer}>
+            <View style={[styles.userTypesContainer, {backgroundColor:"#293046",paddingBottom:50,marginTop:0}]}>
               <UserTypeItem
                 label="物业人员"
                 labelColor="#ECC841"
@@ -190,7 +187,7 @@ export default class LoginScreen2 extends Component {
                 selected={selectedType === 'teacher'}
               />
             </View>
-            <View style={{width: '80%', alignItems: 'center'}}>
+            <View style={{width: '80%', alignItems: 'center',paddingBottom:40}}>
               <FormInput
                 refInput={input => (this.usernameInput = input)}
                 icon="user"
@@ -250,7 +247,7 @@ export default class LoginScreen2 extends Component {
             </View>
             <Button
               loading={isLoading}
-              title="保 存"
+              title="注 册"
               containerStyle={{ flex: -1 }}
               buttonStyle={styles.signUpButton}
               // linearGradientProps={{
@@ -264,17 +261,17 @@ export default class LoginScreen2 extends Component {
             />
           </KeyboardAvoidingView>
           <View style={styles.loginHereContainer}>
-            <Text style={styles.alreadyAccountText}>
-              已经注册过了 点此
-            </Text>
-            <Button
-              title="登 录"
-              titleStyle={styles.loginHereText}
-              containerStyle={{ flex: -1 }}
-              buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}
-              underlayColor="transparent"
-              onPress={() => Alert.alert('🔥', 'You can login here')}
-            />
+            {/*<Text style={styles.alreadyAccountText}>*/}
+              {/*已经注册过了 点此*/}
+            {/*</Text>*/}
+            {/*<Button*/}
+              {/*title="登 录"*/}
+              {/*titleStyle={styles.loginHereText}*/}
+              {/*containerStyle={{ flex: -1 }}*/}
+              {/*buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}*/}
+              {/*underlayColor="transparent"*/}
+              {/*onPress={() => Alert.alert('🔥', 'You can login here')}*/}
+            {/*/>*/}
           </View>
         </ScrollView>
   }
@@ -329,7 +326,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 20,
-    paddingTop: 20,
+    paddingTop: 30,
     backgroundColor: '#293046',
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
@@ -410,6 +407,8 @@ const styles = StyleSheet.create({
     elevation:0
   },
   loginHereContainer: {
+      position:'absolute',
+      bottom:5,
     flexDirection: 'row',
     alignItems: 'center',
   },

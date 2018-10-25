@@ -27,7 +27,7 @@ export default class RxForm extends Component {
                     toY =this.scrollY;
                 }
                 this.scrollY = toY;
-                this.refs.scroll.scrollTo({ y :toY,animated: true});
+                this.refs.scroll.scrollTo({ y :toY - 55,animated: true});
             });
         }
         return result;

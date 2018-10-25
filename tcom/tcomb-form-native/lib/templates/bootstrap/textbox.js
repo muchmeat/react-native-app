@@ -21,8 +21,8 @@ function textbox(locals) {
   var errorBlockStyle = stylesheet.errorBlock;
 
   if (locals.hasError) {
-    formGroupStyle = stylesheet.formGroup.error;
-    controlLabelStyle = stylesheet.controlLabel.error;
+    formGroupStyle = stylesheet.formGroup.normal;
+    controlLabelStyle = stylesheet.controlLabel.normal;
     textboxStyle = stylesheet.textbox.error;
   }
 

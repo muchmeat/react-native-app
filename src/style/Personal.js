@@ -39,8 +39,8 @@ const personal = Object.freeze({
         width:defualt_themes.screen.width,
     },
     group2:{
-        paddingLeft:15,
-        paddingRight:15,
+        // paddingLeft:15,
+        // paddingRight:15,
         // width:defualt_themes.screen.width - 20,
     },
     zzItem:{
@@ -74,6 +74,14 @@ const personal = Object.freeze({
             alignItems:"center",
             backgroundColor:defualt_themes.color.backgroundColor,
             marginBottom:2
+        },
+        imgRow2:{
+            flex:1,
+            height:80,
+            flexDirection:"row",
+            justifyContent:"flex-start",
+            alignItems:"center",
+            backgroundColor:defualt_themes.color.backgroundColor
         },
         left:{
             paddingLeft:15,

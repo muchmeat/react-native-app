@@ -35,10 +35,6 @@ const lists = [
         page: "screen3",
         svg: IconLib.IC_MAIN_DTDW
     }, {
-        name: '登录-4',
-        page: "screen4",
-        svg: IconLib.IC_MAIN_XCKC
-    }, {
         name: '表单',
         page: "form",
         svg: IconLib.IC_MAIN_GRZX
