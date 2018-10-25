@@ -9,6 +9,7 @@ import LoginPage from '../pages/LoginPage'
 import Tab from '../pages/Tab'
 import Wait from '../pages/Wait'
 import MainPage from '../pages/main/MainPage'
+import MainPage2 from '../pages/main/MainPage2'
 import PageList from '../pages/main/PageList'
 import Main1 from '../pages/main/Main1'
 import List1 from '../pages/list/List1'
@@ -100,6 +101,8 @@ const App= StackNavigator ({
     List3: {screen: List3},
     Detail: {screen: Detail},
     Detail2: {screen: Detail2},
+    MainPage: {screen: MainPage},
+    MainPage2: {screen: MainPage2},
 },{
     initialRouteName: 'tabs', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示

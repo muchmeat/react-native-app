@@ -100,7 +100,11 @@ const lists = [
         page: "Detail2",
         svg: IconLib.IC_MAIN_XXTX
     }]
-    }];
+    },{name: "首页",icon:"account-details",type:"material-community", second:[{name: '首页-1',
+        page: "MainPage",
+        svg: IconLib.IC_MAIN_XXTX},{name: '首页-2',
+        page: "MainPage2",
+        svg: IconLib.IC_MAIN_XXTX}]}];
 
 class PageList extends Component {
     constructor(props) {
@@ -128,6 +132,12 @@ class PageList extends Component {
         }
     };
 
+    componentDidMount() {
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
+    }
+
     onBackButtonPressAndroid = (state) => {
         if (!this.first) {
             this.first=true;
@@ -142,6 +152,7 @@ class PageList extends Component {
 
     componentWillUnmount() {
         this._didFocusSubscription && this._didFocusSubscription.remove();
+        this._willBlurSubscription && this._willBlurSubscription.remove();
     }
 
     _renderItem = ({item, index}) => (
