@@ -91,7 +91,11 @@ export default class List1 extends Component {
             subtitle={item.subtitle}
             titleStyle={{fontSize:16,color:"#333",paddingBottom:4}}
             subtitleStyle={{ fontSize:14,color:"#999",paddingTop:4}}
-            leftAvatar={{source: require('../../../assets/images/list.png'),size:45}}
+            leftElement={
+                <View style={{justifyContent:"center",alignItems:"center",height:50,width:50,borderRadius:25}}>
+                    <Image source={require('../../../assets/images/list.png')} style={{width: 50, height: 50}}/>
+                </View>
+            }
             badge={{value: item.value, containerStyle:{ backgroundColor: '#FE922F'},textStyle: {color: '#FFF'}}}
         />
     )
@@ -103,7 +107,11 @@ export default class List1 extends Component {
             titleStyle={{fontSize:16,color:"#333",paddingBottom:4}}
             subtitleStyle={{ fontSize:14,color:"#999",paddingTop:4}}
             subtitle={item.subtitle}
-            leftAvatar={{source: require('../../../assets/images/list.png'),size:45}}
+            leftElement={
+                <View style={{justifyContent:"center",alignItems:"center",height:50,width:50,borderRadius:25}}>
+                    <Image source={require('../../../assets/images/list.png')} style={{width: 50, height: 50}}/>
+                </View>
+            }
             checkBox={{checked:item.selected,onPress:() => {let temp;
                 temp = [...this.state.data];
                 temp[index] = {...item, selected: !item.selected};

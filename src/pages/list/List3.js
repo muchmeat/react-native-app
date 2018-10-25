@@ -54,6 +54,8 @@ export default class List3 extends Component {
         )
     }
 
+    _keyExtractor = (item, index) => index.toString();
+
     renderRootCate() {
         let data = []
         CateData.data.map((item, index) => {
@@ -64,6 +66,7 @@ export default class List3 extends Component {
                 <FlatList
                     ref={flatList => this._flatList = flatList}
                     data={data}
+                    keyExtractor={this._keyExtractor}
                     ListHeaderComponent={() => (<View/>)}
                     ListFooterComponent={() => (<View/>)}
                     ItemSeparatorComponent={() => <View style={{height:1, backgroundColor:'#F5F5F5'}}/>}
