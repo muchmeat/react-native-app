@@ -30,10 +30,9 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class LoginScreen2 extends Component {
 
-    static navigationOptions = {
-        header:null
-    };
-
+  static navigationOptions = {
+    header:null
+  };
     // static navigationOptions =()=>({
     //     drawerLabel:'登录页二',
     //     header:null
@@ -150,21 +149,17 @@ export default class LoginScreen2 extends Component {
     } = this.state
 
     return  <ScrollView
-			scrollEnabled={true}
+			scrollEnabled={false}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={[styles.container]}
+          contentContainerStyle={styles.container}
         >
-        {/*<Text style={styles.signUpText}>选择身份</Text>*/}
           <KeyboardAvoidingView
             behavior="position"
-            enabled={false}
-            keyboardVerticalOffset={50}
-            styles={{backgroundColor:"#FFF"}}
-            contentContainerStyle={[styles.formContainer]}
+            contentContainerStyle={styles.formContainer}
           >
-            <View><Text style={styles.signUpText}>选择身份</Text></View>
+            <Text style={styles.signUpText}>选择身份</Text>
             {/*<Text style={styles.whoAreYouText}>你 是 谁 ?</Text>*/}
-            <View style={[styles.userTypesContainer, {backgroundColor:"#293046",paddingBottom:50,marginTop:0}]}>
+            <View style={styles.userTypesContainer}>
               <UserTypeItem
                 label="物业人员"
                 labelColor="#ECC841"
@@ -187,7 +182,7 @@ export default class LoginScreen2 extends Component {
                 selected={selectedType === 'teacher'}
               />
             </View>
-            <View style={{width: '80%', alignItems: 'center',paddingBottom:40}}>
+            <View style={{width: '80%', alignItems: 'center'}}>
               <FormInput
                 refInput={input => (this.usernameInput = input)}
                 icon="user"
@@ -247,7 +242,7 @@ export default class LoginScreen2 extends Component {
             </View>
             <Button
               loading={isLoading}
-              title="注 册"
+              title="保 存"
               containerStyle={{ flex: -1 }}
               buttonStyle={styles.signUpButton}
               // linearGradientProps={{
@@ -261,17 +256,17 @@ export default class LoginScreen2 extends Component {
             />
           </KeyboardAvoidingView>
           <View style={styles.loginHereContainer}>
-            {/*<Text style={styles.alreadyAccountText}>*/}
-              {/*已经注册过了 点此*/}
-            {/*</Text>*/}
-            {/*<Button*/}
-              {/*title="登 录"*/}
-              {/*titleStyle={styles.loginHereText}*/}
-              {/*containerStyle={{ flex: -1 }}*/}
-              {/*buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}*/}
-              {/*underlayColor="transparent"*/}
-              {/*onPress={() => Alert.alert('🔥', 'You can login here')}*/}
-            {/*/>*/}
+            <Text style={styles.alreadyAccountText}>
+              已经注册过了 点此
+            </Text>
+            <Button
+              title="登 录"
+              titleStyle={styles.loginHereText}
+              containerStyle={{ flex: -1 }}
+              buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}
+              underlayColor="transparent"
+              onPress={() => Alert.alert('🔥', 'You can login here')}
+            />
           </View>
         </ScrollView>
   }
@@ -326,7 +321,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 20,
-    paddingTop: 30,
+    paddingTop: 20,
     backgroundColor: '#293046',
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
@@ -407,8 +402,6 @@ const styles = StyleSheet.create({
     elevation:0
   },
   loginHereContainer: {
-      position:'absolute',
-      bottom:5,
     flexDirection: 'row',
     alignItems: 'center',
   },
