@@ -136,11 +136,11 @@ class MainPage2 extends Component {
                         keyExtractor={this._keyExtractor}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
+                        numColumns={3}
+                        horizontal={false}
                         contentContainerStyle={{// 主轴方向
-                            flexDirection: 'row',
                             justifyContent: 'space-between',
                             // 一行显示不下,换一行
-                            flexWrap: 'wrap',
                             alignItems: 'center', // 必须设置,否则换行不起作用
                             paddingHorizontal: 5
                         }}

@@ -115,7 +115,7 @@ class MainPage extends Component {
                         keyExtractor={this._keyExtractor}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
-                        numColumns={3}
+                        numColumns={4}
                         horizontal={false}
                         contentContainerStyle={{// 主轴方向
                             justifyContent: 'space-between',

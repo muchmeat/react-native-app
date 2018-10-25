@@ -3,7 +3,8 @@ import {
     View,
     Text
 } from 'react-native';
-import { StackNavigator,DrawerNavigator,TabNavigator} from 'react-navigation';
+import {StackNavigator, createMaterialTopTabNavigator} from 'react-navigation';
+import Icon from "react-native-vector-icons/Ionicons";
 import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
 import Tab from '../pages/Tab'
@@ -90,22 +91,22 @@ Tabs.navigationOptions = ({navigation}) => {
     };
 };
 
-const App= StackNavigator ({
-    tabs:{screen:tabs},
+const App = StackNavigator({
+    tabs: {screen: Tabs},
     screen1: {screen: screen1},
     screen2: {screen: screen2},
     screen3: {screen: screen3},
     Main1: {screen: Main1},
-    login:{screen:LoginPage},
-    main:{screen:MainPage},
-    form:{screen:form},
+    login: {screen: LoginPage},
+    main: {screen: MainPage},
+    form: {screen: form},
     List1: {screen: List1},
     List3: {screen: List3},
     Detail: {screen: Detail},
     Detail2: {screen: Detail2},
     MainPage: {screen: MainPage},
     MainPage2: {screen: MainPage2},
-},{
+}, {
     initialRouteName: 'tabs', // 默认显示界面
     headerMode: 'float',       //header的显示模式，值为none时不显示
     mode: 'card',              //使用默认风格
