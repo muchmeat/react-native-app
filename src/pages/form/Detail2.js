@@ -17,7 +17,7 @@ import ThemeStyle from "../../style/ThemeStyle";
 class Detail extends Component {
 
     static navigationOptions = {
-        title: '详情-2'
+        title: '详情-2',
     };
 
     componentDidMount(){

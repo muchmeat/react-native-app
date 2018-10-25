@@ -124,7 +124,7 @@ class MainPage2 extends Component {
                 {/*}*/}
                 {/*/>*/}
                 <ImageBackground style={{width: styles.screen.width, height: styles.screen.height / 3 - 30}}
-                                 source={require('../../../assets/images/bg_screen1.jpg')}>
+                                 source={require('../../../assets/images/main_title.png')}>
                 </ImageBackground>
                 <View style={{backgroundColor: "#FFF", marginTop: 20}}>
                     <View style={{paddingLeft: 15, paddingTop: 15, paddingBottom: 10}}>

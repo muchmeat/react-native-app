@@ -25,35 +25,35 @@ const users = [
     {
         name: '待办工作',
         svg: IconLib.IC_MAIN_DBGZ,
-        bgColor:"#20C6DC"
+        bgColor: "#20C6DC"
     }, {
         name: '数据统计',
         svg: IconLib.IC_MAIN_SJTJ,
-        bgColor:"#27B4FC"
+        bgColor: "#27B4FC"
     }, {
         name: '地图定位',
         svg: IconLib.IC_MAIN_DTDW,
-        bgColor:"#4A94FF"
+        bgColor: "#4A94FF"
     }, {
         name: '视频监控',
         svg: IconLib.IC_MAIN_SPJK,
-        bgColor:"#4A94FF"
+        bgColor: "#4A94FF"
     }, {
         name: '施工日志',
         svg: IconLib.IC_MAIN_SGRZ,
-        bgColor:"#27B4FC"
+        bgColor: "#27B4FC"
     }, {
         name: '岗前培训',
         svg: IconLib.IC_MAIN_VIDOE,
-        bgColor:"#20C6DC"
+        bgColor: "#20C6DC"
     }, {
         name: '个人中心',
         svg: IconLib.IC_MAIN_GRZX,
-        bgColor:"#20C6DC"
+        bgColor: "#20C6DC"
     }, {
         name: '任务管理',
         svg: IconLib.IC_MAIN_RWGL,
-        bgColor:"#20C6DC"
+        bgColor: "#20C6DC"
     }
 ]
 
@@ -87,14 +87,22 @@ class MainPage extends Component {
                 <View style={{
                     width: cellWH,
                     alignItems: 'center',
-                    height:cellWH-10,marginBottom:10
+                    height: cellWH - 10, marginBottom: 10
                 }}>
-                    <View style={{width:cellWH-35,height:cellWH-35,justifyContent: "center", alignItems: "center",backgroundColor:item.bgColor,borderRadius:(cellWH-35)/2}}>
+                    <View style={{
+                        width: cellWH - 35,
+                        height: cellWH - 35,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: item.bgColor,
+                        borderRadius: (cellWH - 35) / 2
+                    }}>
                         <Svg height="24" width="24" viewBox="0 0 1024 1024">
                             {item.svg}
                         </Svg>
                     </View>
-                    <Text style={{marginTop: 5, textAlign: 'center',color:"#444"}} numberOfLines={1}>{item.name}</Text>
+                    <Text style={{marginTop: 5, textAlign: 'center', color: "#444"}}
+                          numberOfLines={1}>{item.name}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -105,10 +113,10 @@ class MainPage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ImageBackground style={{width: styles.screen.width, height: styles.screen.height / 3 - 30}}
-                                 source={require('../../../assets/images/bg_screen1.jpg')}>
+                <ImageBackground style={{width: styles.screen.width, height: styles.screen.height / 3 - 40}}
+                                 source={require('../../../assets/images/main_title.png')}>
                 </ImageBackground>
-                <View style={{marginTop:10}}>
+                <View style={{marginTop: 10}}>
                     <FlatList
                         data={users}
                         renderItem={this._renderItem}
@@ -126,46 +134,66 @@ class MainPage extends Component {
                 </View>
                 <ListItem
                     subtitle={"岗前培训"}
-                    subtitleStyle={{ fontSize:15,color:"#222"}}
-                    rightIcon={{name:'chevron-small-right',
-                        color:'#ccc',
-                        type:"entypo",
-                        size:20}}
+                    subtitleStyle={{fontSize: 15, color: "#222"}}
+                    rightIcon={{
+                        name: 'chevron-small-right',
+                        color: '#ccc',
+                        type: "entypo",
+                        size: 20
+                    }}
                     leftIcon={<View style={{justifyContent: "center", alignItems: "center"}}>
                         <Svg height="24" width="24" viewBox="0 0 1024 1024">
                             {IconLib.IC_VIDOE}
                         </Svg>
                     </View>}
-                    containerStyle={{height:45}}
-                    onPress={()=>{
+                    containerStyle={{height: 45}}
+                    onPress={()=> {
 
                     }}
                 />
                 <ListItem
-                    leftElement={<View style={{height:18,width:45,justifyContent: "center", alignItems: "center",backgroundColor:"#FE922F",borderRadius:10}}>
-                        <Text style={{fontSize:12,color:"#FFF"}}>必学</Text>
+                    leftElement={<View style={{
+                        height: 18,
+                        width: 45,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#FE922F",
+                        borderRadius: 10
+                    }}>
+                        <Text style={{fontSize: 12, color: "#FFF"}}>必学</Text>
                     </View>}
                     subtitle={"安全教育：安全基础知识"}
                     rightElement={<View style={{justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{fontSize:13,color:"#f2860f"}}>去学习</Text>
+                        <Text style={{fontSize: 13, color: "#f2860f"}}>去学习</Text>
                     </View>}
-                    subtitleStyle={{ fontSize:14,color:"#888"}}
-                    containerStyle={{height:45,borderBottomWidth:1/PixelRatio.get(),borderBottomColor:styles.line.color}}
-                    onPress={()=>{
+                    subtitleStyle={{fontSize: 14, color: "#888"}}
+                    containerStyle={{
+                        height: 45,
+                        borderBottomWidth: 1 / PixelRatio.get(),
+                        borderBottomColor: styles.line.color
+                    }}
+                    onPress={()=> {
 
                     }}
                 />
                 <ListItem
-                    leftElement={<View style={{height:18,width:45,justifyContent: "center", alignItems: "center",backgroundColor:"#FE922F",borderRadius:10}}>
-                        <Text style={{fontSize:12,color:"#FFF"}}>必学</Text>
+                    leftElement={<View style={{
+                        height: 18,
+                        width: 45,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#FE922F",
+                        borderRadius: 10
+                    }}>
+                        <Text style={{fontSize: 12, color: "#FFF"}}>必学</Text>
                     </View>}
                     subtitle={"钢结构工程施工基础知识"}
-                    subtitleStyle={{ fontSize:14,color:"#888"}}
+                    subtitleStyle={{fontSize: 14, color: "#888"}}
                     rightElement={<View style={{justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{fontSize:13,color:"#08c954"}}>已完成</Text>
+                        <Text style={{fontSize: 13, color: "#08c954"}}>已完成</Text>
                     </View>}
-                    containerStyle={{height:45}}
-                    onPress={()=>{
+                    containerStyle={{height: 45}}
+                    onPress={()=> {
 
                     }}
                 />
