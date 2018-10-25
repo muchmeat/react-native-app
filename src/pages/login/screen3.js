@@ -40,15 +40,7 @@ TabSelector.propTypes = {
 export default class LoginScreen2 extends Component {
 
   static navigationOptions = {
-    title: '登录-3',
-    headerStyle: {
-      backgroundColor:ThemeStyle.color.theme,
-      height:50
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      color: '#fff', fontSize: 16
-    },
+    header:null
   };
     //
     // static navigationOptions =()=>({

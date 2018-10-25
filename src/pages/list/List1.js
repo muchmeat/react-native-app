@@ -86,20 +86,24 @@ export default class List1 extends Component {
 
     _renderItem = ({item}) => (
         <ListItem
+            containerStyle={{height:75}}
             title={item.name}
             subtitle={item.subtitle}
-            leftAvatar={{source: {uri: item.avatar_url}}}
+            titleStyle={{fontSize:16,color:"#333",paddingBottom:4}}
+            subtitleStyle={{ fontSize:14,color:"#999",paddingTop:4}}
+            leftAvatar={{source: require('../../../assets/images/list.png'),size:45}}
             badge={{value: item.value, containerStyle:{ backgroundColor: '#FE922F'},textStyle: {color: '#FFF'}}}
         />
     )
 
     _renderItem1 = ({item,index}) => (
         <ListItem
+            containerStyle={{height:75}}
             title={item.name}
-            titleStyle={{fontSize:16,color:"#333",paddingBottom:5}}
-            subtitleStyle={{ fontSize:14,color:"#999",paddingTop:5}}
+            titleStyle={{fontSize:16,color:"#333",paddingBottom:4}}
+            subtitleStyle={{ fontSize:14,color:"#999",paddingTop:4}}
             subtitle={item.subtitle}
-            leftAvatar={{source: {uri: item.avatar_url}}}
+            leftAvatar={{source: require('../../../assets/images/list.png'),size:45}}
             checkBox={{checked:item.selected,onPress:() => {let temp;
                 temp = [...this.state.data];
                 temp[index] = {...item, selected: !item.selected};
@@ -150,7 +154,7 @@ export default class List1 extends Component {
 
             <View style={{
                 backgroundColor: "#C76A65",
-                height: 72,
+                height: 74,
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: 60,
@@ -172,13 +176,13 @@ export default class List1 extends Component {
                                    keyExtractor={this._keyExtractor}
                                    ItemSeparatorComponent={this._separatorComponent}
                                    getItemLayout={(data, index) => (
-                                   {length: 70 + 1 / PixelRatio.get(), offset: 70 * index, index}
+                                   {length: 67 + 1 / PixelRatio.get(), offset: 67 * index, index}
                                    )}
                                    renderQuickActions={this.getQuickActions}//创建侧滑菜单
                                    maxSwipeDistance={60}//可展开（滑动）的距离
                                    bounceFirstRowOnMount={false}//进去的时候不展示侧滑效果
                 />
-                <View style={{height:20}}/>
+                <View style={{height:18}}/>
                 <FlatList data={this.state.data}
                           renderItem={this._renderItem1}
                           keyExtractor={this._keyExtractor}

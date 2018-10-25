@@ -15,8 +15,8 @@ function checkbox(locals) {
   var errorBlockStyle = stylesheet.errorBlock;
 
   if (locals.hasError) {
-    formGroupStyle = stylesheet.formGroup.error;
-    controlLabelStyle = stylesheet.controlLabel.error;
+      formGroupStyle = stylesheet.formGroup.normal;
+      controlLabelStyle = stylesheet.controlLabel.normal;
     checkboxStyle = stylesheet.checkbox.error;
     helpBlockStyle = stylesheet.helpBlock.error;
   }

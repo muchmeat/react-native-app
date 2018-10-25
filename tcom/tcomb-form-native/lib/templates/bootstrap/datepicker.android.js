@@ -150,8 +150,8 @@ function datepicker(locals) {
   var dateValueStyle = stylesheet.dateValue.normal;
 
   if (locals.hasError) {
-    formGroupStyle = stylesheet.formGroup.error;
-    controlLabelStyle = stylesheet.controlLabel.error;
+    formGroupStyle = stylesheet.formGroup.normal;
+    controlLabelStyle = stylesheet.controlLabel.normal;
     dateValueStyle = stylesheet.dateValue.error;
   }
 

@@ -92,10 +92,14 @@ const components = Object.freeze({
     },
     groupTitle2:{
         view:{
+            marginTop:10,
+            backgroundColor:defualt_themes.color.fontWithe,
             width:defualt_themes.screen.width,
             height:45,
-            paddingTop:15,
-            paddingLeft:15
+            justifyContent:"center",
+            paddingLeft:15,
+            borderBottomColor:defualt_themes.color.defaultBg,
+            borderBottomWidth:2
         },
         text:{
             fontSize:defualt_themes.font.size_M
@@ -125,6 +129,33 @@ const components = Object.freeze({
             paddingRight:15,
             justifyContent:"center",
             alignItems:"flex-end"
+        },
+        rightText:{
+            fontSize:defualt_themes.font.size_M,
+            color:defualt_themes.color.fontGray
+        }
+    },
+    groupItem2:{
+        container:{
+            // width:defualt_themes.screen.width,
+            height:45,
+            paddingLeft:15,
+            backgroundColor:defualt_themes.color.backgroundColor,
+            flexDirection:"row"
+        },
+        left:{
+            width:120,
+            justifyContent:"center",
+            alignItems:"flex-start"
+        },
+        leftText:{
+            fontSize:defualt_themes.font.size_M,
+            color:defualt_themes.color.fontGray
+        },
+        right:{
+            flex:1,
+            justifyContent:"center",
+            alignItems:"flex-start"
         },
         rightText:{
             fontSize:defualt_themes.font.size_M,
