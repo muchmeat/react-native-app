@@ -157,7 +157,7 @@ export default class List1 extends Component {
                 height: 74,
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 60,
+                width: 80,
             }}>
                 <Text style={{
                     color: "#FFF",
@@ -179,10 +179,10 @@ export default class List1 extends Component {
                                    {length: 67 + 1 / PixelRatio.get(), offset: 67 * index, index}
                                    )}
                                    renderQuickActions={this.getQuickActions}//创建侧滑菜单
-                                   maxSwipeDistance={60}//可展开（滑动）的距离
+                                   maxSwipeDistance={80}//可展开（滑动）的距离
                                    bounceFirstRowOnMount={false}//进去的时候不展示侧滑效果
                 />
-                <View style={{height:18}}/>
+                <View style={{height:10}}/>
                 <FlatList data={this.state.data}
                           renderItem={this._renderItem1}
                           keyExtractor={this._keyExtractor}
@@ -191,7 +191,7 @@ export default class List1 extends Component {
                           {length: 70 + 1 / PixelRatio.get(), offset: 70 * index, index}
                           )}
                 />
-                <View style={{height:20}}/>
+                <View style={{height:10}}/>
                 <FlatList data={this.state.data}
                           renderItem={this._renderItem2}
                           keyExtractor={this._keyExtractor}
@@ -200,7 +200,7 @@ export default class List1 extends Component {
                           {length: 50 + 1 / PixelRatio.get(), offset: 50 * index, index}
                           )}
                 />
-                <View style={{height:20}}/>
+                <View style={{height:10}}/>
                 <FlatList data={this.state.data}
                           renderItem={this._renderItem3}
                           keyExtractor={this._keyExtractor}

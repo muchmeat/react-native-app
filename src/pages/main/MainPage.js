@@ -66,7 +66,7 @@ const hMargin = 25;
 
 class MainPage extends Component {
     static navigationOptions = {
-        header: ()=> {
+        header: () => {
             return <Header
                 placement="center"
                 centerComponent={{text: '首页', style: {color: '#fff', fontSize: 18}}}
@@ -81,13 +81,15 @@ class MainPage extends Component {
         }
     };
 
-    _renderItem = ({item, index})=> {
+    _renderItem = ({item, index}) => {
         return (
             <TouchableOpacity activeOpacity={0.5}>
                 <View style={{
                     width: cellWH,
                     alignItems: 'center',
-                    height: cellWH - 10, marginBottom: 10
+                    height: cellWH - 10,
+                    marginLeft:5,
+                    marginBottom:10,
                 }}>
                     <View style={{
                         width: cellWH - 35,
@@ -101,7 +103,7 @@ class MainPage extends Component {
                             {item.svg}
                         </Svg>
                     </View>
-                    <Text style={{marginTop: 5, textAlign: 'center', color: "#444"}}
+                    <Text style={{marginTop: 5, textAlign: 'center', color: "#444", fontSize: 12,}}
                           numberOfLines={1}>{item.name}</Text>
                 </View>
             </TouchableOpacity>
@@ -139,15 +141,15 @@ class MainPage extends Component {
                         name: 'chevron-small-right',
                         color: '#ccc',
                         type: "entypo",
-                        size: 20
+                        size: 24
                     }}
                     leftIcon={<View style={{justifyContent: "center", alignItems: "center"}}>
-                        <Svg height="24" width="24" viewBox="0 0 1024 1024">
+                        <Svg height="18" width="18" viewBox="0 0 1024 1024">
                             {IconLib.IC_VIDOE}
                         </Svg>
                     </View>}
                     containerStyle={{height: 45}}
-                    onPress={()=> {
+                    onPress={() => {
 
                     }}
                 />
@@ -166,13 +168,13 @@ class MainPage extends Component {
                     rightElement={<View style={{justifyContent: "center", alignItems: "center"}}>
                         <Text style={{fontSize: 13, color: "#f2860f"}}>去学习</Text>
                     </View>}
-                    subtitleStyle={{fontSize: 14, color: "#888"}}
+                    subtitleStyle={{fontSize: 14, color: "#444"}}
                     containerStyle={{
                         height: 45,
                         borderBottomWidth: 1 / PixelRatio.get(),
                         borderBottomColor: styles.line.color
                     }}
-                    onPress={()=> {
+                    onPress={() => {
 
                     }}
                 />
@@ -188,12 +190,12 @@ class MainPage extends Component {
                         <Text style={{fontSize: 12, color: "#FFF"}}>必学</Text>
                     </View>}
                     subtitle={"钢结构工程施工基础知识"}
-                    subtitleStyle={{fontSize: 14, color: "#888"}}
+                    subtitleStyle={{fontSize: 14, color: "#444"}}
                     rightElement={<View style={{justifyContent: "center", alignItems: "center"}}>
                         <Text style={{fontSize: 13, color: "#08c954"}}>已完成</Text>
                     </View>}
                     containerStyle={{height: 45}}
-                    onPress={()=> {
+                    onPress={() => {
 
                     }}
                 />
@@ -203,6 +205,6 @@ class MainPage extends Component {
 }
 
 export default connect(
-    (state) =>({}),
+    (state) => ({}),
     (dispatch) => ({})
 )(MainPage)

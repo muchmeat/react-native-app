@@ -22,43 +22,6 @@ import IconLib from '../../../assets/svg/IconLib';
 import Svg from 'react-native-svg';
 import {NavigationActions} from 'react-navigation';
 
-// const lists = [
-//     {
-//         name: '登录-1',
-//         page: "screen1",
-//         svg: IconLib.IC_MAIN_DBGZ
-//     }, {
-//         name: '登录-2',
-//         page: "screen2",
-//         svg: IconLib.IC_MAIN_SJTJ
-//     }, {
-//         name: '登录-3',
-//         page: "screen3",
-//         svg: IconLib.IC_MAIN_DTDW
-//     },{
-//         name: '表单',
-//         page: "form",
-//         svg: IconLib.IC_MAIN_GRZX
-//     }, {
-//         name: '列表-1',
-//         page: "List1",
-//         svg: IconLib.IC_MAIN_XXTX
-//     }, {
-//         name: '列表-2',
-//         page: "List3",
-//         svg: IconLib.IC_MAIN_XXTX
-//     }
-//     , {
-//         name: '详情-1',
-//         page: "Detail",
-//         svg: IconLib.IC_MAIN_XXTX
-//     }, {
-//         name: '详情-2',
-//         page: "Detail2",
-//         svg: IconLib.IC_MAIN_XXTX
-//     }
-// ]
-
 const lists = [
     {
         name: "登录", icon: "exit-to-app", type: "material", second: [{
@@ -114,6 +77,13 @@ const lists = [
     }];
 
 class PageList extends Component {
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: navigation.getParam("title", '通用页面')
+        };
+    };
+
     constructor(props) {
         super(props);
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
@@ -134,6 +104,7 @@ class PageList extends Component {
     onBackButtonPressAndroid = (state) => {
         if (!this.first) {
             this.first = true;
+            this.props.navigation.setParams({title: "通用页面"});
             this.setState({
                 data: lists
             })
@@ -168,6 +139,7 @@ class PageList extends Component {
                     this.props.navigation.dispatch(NavigationActions.navigate({routeName: item.page}))
                 } else {
                     this.first = false;
+                    this.props.navigation.setParams({title: item.name});
                     this.setState({
                         data: item.second
                     })

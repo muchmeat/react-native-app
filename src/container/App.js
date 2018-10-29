@@ -3,7 +3,7 @@ import {
     View,
     Text
 } from 'react-native';
-import {StackNavigator, createMaterialTopTabNavigator} from 'react-navigation';
+import {createStackNavigator, createMaterialTopTabNavigator} from 'react-navigation';
 import Icon from "react-native-vector-icons/Ionicons";
 import ThemeStyle from '../style/ThemeStyle'
 import LoginPage from '../pages/LoginPage'
@@ -29,7 +29,6 @@ const Tabs = createMaterialTopTabNavigator({
     'A': {
         screen: MainPage,
         navigationOptions: {
-            headerTitle: '',
             tabBarLabel: '首页', // tabBar显示的文字
             tabBarIcon: ({tintColor}) => ( // tabBar显示的图标
                 // 这里使用了react-native-vector-icons, 不熟悉的请看上方连接
@@ -38,9 +37,21 @@ const Tabs = createMaterialTopTabNavigator({
         }
     },
     'B': {
-        screen: PageList,
+        screen: createStackNavigator({P: PageList},{
+            headerMode: 'float',       //header的显示模式，值为none时不显示
+            mode: 'card',              //使用默认风格
+            navigationOptions:{
+                headerStyle: {
+                    backgroundColor: ThemeStyle.color.theme
+                },
+                headerTitleStyle: {
+                    color: ThemeStyle.color.fontWithe
+                },
+                //返回图标颜色
+                headerTintColor: '#000',
+            }
+        }),
         navigationOptions: {
-            headerTitle: '通用页面',
             tabBarLabel: '页面', // tabBar显示的文字
             tabBarIcon: ({tintColor}) => ( // tabBar显示的图标
                 // 这里使用了react-native-vector-icons, 不熟悉的请看上方连接
@@ -51,7 +62,6 @@ const Tabs = createMaterialTopTabNavigator({
     'C': {
         screen: Wait,
         navigationOptions: {
-            headerTitle: '通用组件',
             tabBarLabel: '组件', // tabBar显示的文字
             tabBarIcon: ({tintColor}) => ( // tabBar显示的图标
                 // 这里使用了react-native-vector-icons, 不熟悉的请看上方连接
@@ -61,6 +71,7 @@ const Tabs = createMaterialTopTabNavigator({
     }
 }, {
     initialRouteName: 'A',
+    swipeEnabled:false,
     // activeColor: '#f0edf6',
     // inactiveColor: '#3e2465',
     tabBarPosition: 'bottom',
@@ -86,12 +97,18 @@ const Tabs = createMaterialTopTabNavigator({
 const TITLES = ["React Native模板", "通用页面", "通用组件"];
 //设置嵌入stack的tab Title
 Tabs.navigationOptions = ({navigation}) => {
-    return {
-        headerTitle: TITLES[navigation.state.index]
-    };
+    if (navigation.state.index === 1) {
+        return {
+            header: null
+        };
+    } else {
+        return {
+            headerTitle: TITLES[navigation.state.index]
+        };
+    }
 };
 
-const App = StackNavigator({
+const App = createStackNavigator({
     tabs: {screen: Tabs},
     screen1: {screen: screen1},
     screen2: {screen: screen2},
@@ -111,8 +128,8 @@ const App = StackNavigator({
     headerMode: 'float',       //header的显示模式，值为none时不显示
     mode: 'card',              //使用默认风格
     navigationOptions: {       //此处设置的navigationOptions属性为所有页面使用，页面可以设置static navigationOptions，将此属性覆盖
-        //右边的button，可在页面上写
-        // headerRight:<View style={{paddingRight:20,height:50,width:60,alignItems:"center"}}><Text style={{flex:1}} onPress={()=>{alert("曹尼玛啊")}}>重中之重</Text></View>,
+                               //右边的button，可在页面上写
+                               // headerRight:<View style={{paddingRight:20,height:50,width:60,alignItems:"center"}}><Text style={{flex:1}} onPress={()=>{alert("曹尼玛啊")}}>重中之重</Text></View>,
         headerStyle: {
             backgroundColor: ThemeStyle.color.theme
         },
