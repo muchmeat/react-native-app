@@ -1,3 +1,5 @@
+import IconLib from "../../../../../assets/svg/IconLib";
+import Svg from 'react-native-svg'
 var React = require("react");
 var { View, Text, Picker,PixelRatio } = require("react-native");
 
@@ -24,25 +26,27 @@ function select(locals) {
     selectStyle = stylesheet.select.normal;
   }
 
-  var notNull = !locals.isMaybe ? (
-      <Text style={{color:"red"}}>*</Text>
-  ):null;
-  var label = locals.label ? (
-      <Text style={[controlLabelStyle]}>{locals.label}{notNull}</Text>
-  ) : null;
+    var notNull = isMaybe ? null: (
+        <Text style={{color:"red"}}>*  </Text>
+    );
 
-  // var help = locals.help ? (
-  //   <Text style={helpBlockStyle}>{locals.help}</Text>
-  // ) : null;
-
-  var error =
-    locals.hasError ? (
-        <View style={{flex:1,flexDirection:"row",justifyContent:"flex-end"}}>
-            <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
-                {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
-            </Text>
-        </View>
+    var label = locals.label ? (
+        <Text style={[controlLabelStyle]}>{notNull}{locals.label}</Text>
     ) : null;
+
+    var error =
+        locals.hasError ? (
+            <View style={{flex:1,flexDirection:"row",justifyContent:"flex-start",alignItems:"center",paddingBottom:5,paddingLeft:5}}>
+                <Svg height="14" width="14" viewBox="0 0 1024 1024">
+                    {IconLib.FORM_ERROR}
+                </Svg>
+                <View style={{flex:1,paddingLeft:5}}>
+                    <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
+                        {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
+                    </Text>
+                </View>
+            </View>
+        ) : null;
 
   var options = locals.options.map(({ value, text }) => (
     <Picker.Item key={value} value={value} label={text} />
@@ -50,11 +54,11 @@ function select(locals) {
 
   return (
     <View style={[formGroupStyle]}>
-        <View style={{flexDirection:"row"}}>
-            <View style={{width:120,height:45,flexDirection:"row",justifyContent:"flex-end",alignItems:"center",backgroundColor:"#fff"}}>
+        <View style={{flexDirection:"row",borderBottomWidth:1,borderColor:"#999"}}>
+            <View style={{width:120,height:45,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
                 {label}
             </View>
-            <View style={{flex:1,backgroundColor:"#fff"}}>
+            <View style={{flex:1,flexDirection:"column"}}>
                 <Picker
                     accessibilityLabel={locals.label}
                     ref="input"
@@ -69,9 +73,9 @@ function select(locals) {
                 >
                     {options}
                 </Picker>
+                {error}
             </View>
         </View>
-      {error}
     </View>
   );
 }

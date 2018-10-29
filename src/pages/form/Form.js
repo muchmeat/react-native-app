@@ -69,7 +69,7 @@ class form1 extends Component {
             cxfs:cxfs,
             fycc:t.maybe(t.String),
             thrq:t.Date,
-            thsj:t.maybe(t.Date),
+            thsj:t.Date,
             thfs:thfs,
             jfmd:jfmd,
             jslxfs:jslxfs,
