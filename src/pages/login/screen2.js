@@ -242,7 +242,7 @@ export default class LoginScreen2 extends Component {
             </View>
             <Button
               loading={isLoading}
-              title="保 存"
+              title="注 册"
               containerStyle={{ flex: -1 }}
               buttonStyle={styles.signUpButton}
               // linearGradientProps={{

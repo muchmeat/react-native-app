@@ -9,7 +9,7 @@ const CateData = require('./CategoryListData.json')
 export default class List3 extends Component {
 
     static navigationOptions = {
-        title: '列表-1',
+        title: '列表-2',
     };
 
     constructor(props) {

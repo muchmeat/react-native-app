@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import React, {Component} from 'react';
+import {SafeAreaView, StatusBar} from "react-native";
+import {Provider} from 'react-redux';
 import configureStore from './store/ConfigureStore';
 
+import styles from './style/ThemeStyle';
 import App from './container/App';
 
 const store = configureStore();
@@ -16,11 +18,16 @@ const store = configureStore();
  * 上，connect再进行store的传递。
  */
 export default class Root extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    )
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <SafeAreaView style={styles.container}>
+                    <StatusBar
+                        backgroundColor={styles.color.theme}
+                    />
+                    <App/>
+                </SafeAreaView>
+            </Provider>
+        )
+    }
 }

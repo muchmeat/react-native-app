@@ -81,7 +81,9 @@ class MainPage2 extends Component {
                 <View style={{
                     width: cellWH,
                     alignItems: 'center',
-                    height:cellWH-20,marginBottom:10
+                    height:cellWH-20,
+                    marginRight:15,
+                    marginBottom:10
                 }}>
                     <View style={{width:cellWH-50,height:cellWH-50,justifyContent: "center", alignItems: "center",backgroundColor:item.bgColor,borderRadius:10}}>
                         <Svg height="30" width="30" viewBox="0 0 1024 1024">
@@ -127,7 +129,7 @@ class MainPage2 extends Component {
                                  source={require('../../../assets/images/main_title.png')}>
                 </ImageBackground>
                 <View style={{backgroundColor: "#FFF", marginTop: 20}}>
-                    <View style={{paddingLeft: 15, paddingTop: 15, paddingBottom: 10}}>
+                    <View style={{paddingLeft: 15, paddingTop: 10, paddingBottom: 15}}>
                         <Text style={{fontSize: 16}}>常用事项</Text>
                     </View>
                     <FlatList
@@ -136,11 +138,11 @@ class MainPage2 extends Component {
                         keyExtractor={this._keyExtractor}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
+                        numColumns={3}
+                        horizontal={false}
                         contentContainerStyle={{// 主轴方向
-                            flexDirection: 'row',
                             justifyContent: 'space-between',
                             // 一行显示不下,换一行
-                            flexWrap: 'wrap',
                             alignItems: 'center', // 必须设置,否则换行不起作用
                             paddingHorizontal: 5
                         }}

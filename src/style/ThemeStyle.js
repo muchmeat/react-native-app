@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 
-const defualt_themes = Object.freeze({
+const default_themes = Object.freeze({
     screen:{
         height:Dimensions.get("window").height,
         width:Dimensions.get("window").width
@@ -39,7 +39,22 @@ const defualt_themes = Object.freeze({
     container:{
         flex:1,
         backgroundColor:"#F5F5F9",
-    }
+    },
+    tabBarImage: {
+        marginTop: 8,
+        height:24
+    },
+    tabBarIcon: {
+        height: 32,
+    },
+    tabBarLabel: {
+        fontSize: 12,
+        marginBottom: 8,
+        marginTop: 6,
+    },
+    tabBarItem: {
+        height: 56,
+    },
 });
 
-module.exports = defualt_themes;
+module.exports = default_themes;
