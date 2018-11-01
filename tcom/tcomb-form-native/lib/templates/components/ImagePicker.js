@@ -6,6 +6,7 @@ import React, {Component} from "react";
 import {
     StyleSheet,
     Image,
+    View,
     TouchableHighlight,
 } from "react-native";
 import imagePicker from "react-native-image-picker";
@@ -78,6 +79,9 @@ export default class ImagePicker extends Component {
                     this._selectPhotoTapped(isLimited);
                 }}>
                 <Image source={this.props.source}/>
+                {/*<View style={this.props.svgStyle}>*/}
+                    {/*{this.props.svgBtn}*/}
+                {/*</View>*/}
             </TouchableHighlight>
         );
     }

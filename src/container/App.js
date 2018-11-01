@@ -1,25 +1,17 @@
 import React from 'react';
-import {
-    View,
-    Text
-} from 'react-native';
 import {createStackNavigator, createMaterialTopTabNavigator} from 'react-navigation';
 import Icon from "react-native-vector-icons/Ionicons";
 import ThemeStyle from '../style/ThemeStyle'
-import LoginPage from '../pages/LoginPage'
-import Tab from '../pages/Tab'
 import Wait from '../pages/Wait'
 import MainPage from '../pages/main/MainPage'
 import MainPage2 from '../pages/main/MainPage2'
 import PageList from '../pages/main/PageList'
 import Main1 from '../pages/main/Main1'
 import List1 from '../pages/list/List1'
-import List2 from '../pages/list/List2'
 import List3 from '../pages/list/List3'
 import screen1 from '../pages/login/screen1'
 import screen2 from '../pages/login/screen2'
 import screen3 from '../pages/login/screen3'
-import screen4 from '../pages/login/screen4'
 import form from '../pages/form/Form'
 import Detail from '../pages/form/Detail'
 import Detail2 from '../pages/form/Detail2'
@@ -72,8 +64,6 @@ const Tabs = createMaterialTopTabNavigator({
 }, {
     initialRouteName: 'A',
     swipeEnabled:false,
-    // activeColor: '#f0edf6',
-    // inactiveColor: '#3e2465',
     tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: ThemeStyle.color.theme,
@@ -114,7 +104,6 @@ const App = createStackNavigator({
     screen2: {screen: screen2},
     screen3: {screen: screen3},
     Main1: {screen: Main1},
-    login: {screen: LoginPage},
     main: {screen: MainPage},
     form: {screen: form},
     List1: {screen: List1},

@@ -63,6 +63,7 @@ class form1 extends Component {
             return vs1[0] && isTel(vs1[1]) && vs2[0] && isTel(vs2[1]);
         });
         _this.rows = t.struct({
+            zp:t.list(t.String),
             thry:t.String,
             thdd:t.String,
             sfjzd:t.Boolean,
@@ -79,6 +80,12 @@ class form1 extends Component {
         });
         _this.options = {
             fields: {
+                zp:{
+                    label:"现场照片",
+                    navigation:_this.props.navigation,
+                    mode:"imagePicker",
+                    limit:4,
+                },
                 thry:{
                     label: '谈话人员',
                     placeholder:' 输入谈话人员',
@@ -126,8 +133,9 @@ class form1 extends Component {
                     label:"评估结果",
                 },
                 fj:{
-                    label:"现场照片",
+                    label:"文档",
                     navigation:_this.props.navigation,
+                    mode:"filePicker",
                     limit:4,
                 },
                 pynr:{

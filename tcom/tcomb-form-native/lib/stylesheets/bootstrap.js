@@ -7,15 +7,15 @@
 
 import { Platform,PixelRatio } from "react-native";
 
-var LABEL_COLOR = "#3E3A39";
-var INPUT_COLOR = "#3E3A39";
+var LABEL_COLOR = "#9C9C9C";
+var INPUT_COLOR = "#9C9C9C";
 var ERROR_COLOR = "#a94442";
 var HELP_COLOR = "#999999";
 var BORDER_COLOR = "#ddd";
 var DISABLED_COLOR = "#777777";
 var DISABLED_BACKGROUND_COLOR = "#eeeeee";
 var FONT_SIZE = 16;
-var ERROR_SIZE = 13;
+var ERROR_SIZE = 14;
 var FONT_WEIGHT = "400";
 
 var stylesheet = Object.freeze({
@@ -23,11 +23,10 @@ var stylesheet = Object.freeze({
   // the style applied to the container of all inputs
   formGroup: {
     normal: {
-        backgroundColor:"#F8F8F8",
-        paddingBottom: 2,
+        backgroundColor:"#FFF",
     },
     error: {
-        backgroundColor:"#F8F8F8",
+        backgroundColor:"#FFF",
         paddingBottom: 2,
     }
   },
@@ -35,7 +34,6 @@ var stylesheet = Object.freeze({
     normal: {
       flex:1,
       color: LABEL_COLOR,
-      paddingLeft:10,
       fontSize: FONT_SIZE,
       fontWeight: FONT_WEIGHT
     },
@@ -64,7 +62,6 @@ var stylesheet = Object.freeze({
   errorBlock: {
     marginRight:5,
     fontSize: ERROR_SIZE,
-    marginBottom: 2,
     color: ERROR_COLOR
   },
   textboxView: {
@@ -77,9 +74,10 @@ var stylesheet = Object.freeze({
   },
   textbox: {
     normal: {
+      flex:1,
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
-      height: 45,
+      height: 55,
       paddingVertical: Platform.OS === "ios" ? 7 : 0,
       paddingHorizontal: 7,
       fontWeight:"normal",
@@ -88,7 +86,7 @@ var stylesheet = Object.freeze({
     error: {
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
-      height: 45,
+      height: 55,
       paddingVertical: Platform.OS === "ios" ? 7 : 0,
       paddingHorizontal: 7,
       // borderWidth:1,
@@ -139,7 +137,7 @@ var stylesheet = Object.freeze({
     normal: Platform.select({
       android: {
         flex:1,
-        height:45,
+        height:55,
         paddingLeft: 7,
         color: INPUT_COLOR
       },
@@ -149,7 +147,7 @@ var stylesheet = Object.freeze({
     error: Platform.select({
       android: {
         flex:1,
-        height:45,
+        height:55,
         paddingLeft: 7,
         color: ERROR_COLOR
       },

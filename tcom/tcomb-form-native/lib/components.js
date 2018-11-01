@@ -270,6 +270,13 @@ class Textbox extends Component {
     return keyboardType;
   }
 
+  onChange(value) {
+      this.setState({ value }, () =>{
+          this.props.onChange(value, this.props.ctx.path);
+          this.changeAfter(value);
+      });
+  }
+
   getLocals() {
     let locals = super.getLocals();
     locals.placeholder = this.getPlaceholder();
@@ -361,7 +368,7 @@ class Select extends Component {
   }
 
   getNullOption() {
-    return this.props.options.nullOption || { value: "", text: "请选择" };
+    return this.props.options.nullOption || { value: "", text: " - " };
   }
 
   getEnum() {
