@@ -17,6 +17,7 @@ import {
 import {connect} from 'react-redux'; // 引入connect函数
 import {Header, Button, Card, ListItem} from 'react-native-elements';
 import styles from '../../style/ThemeStyle';
+import mainPageStyle from '../../style/MainPageStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconLib from '../../../assets/svg/IconLib';
 import Svg from 'react-native-svg';
@@ -57,11 +58,10 @@ const users = [
     }
 ]
 
-const {width, height} = Dimensions.get('window')
+const {width} = Dimensions.get('window')
 const cols = 4;
 const vMargin = 10;
 const cellWH = (width - 2 * vMargin - 15) / cols;
-const hMargin = 25;
 
 
 class MainPage extends Component {
@@ -74,8 +74,6 @@ class MainPage extends Component {
                     paddingTop: 5,
                     height: 50,
                     backgroundColor: styles.color.theme
-                    // justifyContent:"center",
-                    // alignItems:"center"
                 }}
             />
         }
@@ -103,7 +101,7 @@ class MainPage extends Component {
                             {item.svg}
                         </Svg>
                     </View>
-                    <Text style={{marginTop: 5, textAlign: 'center', color: "#444", fontSize: 12,}}
+                    <Text style={mainPageStyle.touchText}
                           numberOfLines={1}>{item.name}</Text>
                 </View>
             </TouchableOpacity>
@@ -127,11 +125,7 @@ class MainPage extends Component {
                         showsHorizontalScrollIndicator={false}
                         numColumns={4}
                         horizontal={false}
-                        contentContainerStyle={{// 主轴方向
-                            justifyContent: 'space-between',
-                            alignItems: 'center', // 必须设置,否则换行不起作用
-                            paddingHorizontal: 5
-                        }}
+                        contentContainerStyle={mainPageStyle.contentContainerStyle}
                     />
                 </View>
                 <ListItem
@@ -154,44 +148,26 @@ class MainPage extends Component {
                     }}
                 />
                 <ListItem
-                    leftElement={<View style={{
-                        height: 18,
-                        width: 45,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#FE922F",
-                        borderRadius: 10
-                    }}>
-                        <Text style={{fontSize: 12, color: "#FFF"}}>必学</Text>
+                    leftElement={<View style={mainPageStyle.leftElementStyle}>
+                        <Text style={mainPageStyle.listText}>必学</Text>
                     </View>}
                     subtitle={"安全教育：安全基础知识"}
-                    rightElement={<View style={{justifyContent: "center", alignItems: "center"}}>
+                    rightElement={<View style={mainPageStyle.rightElementStyle}>
                         <Text style={{fontSize: 13, color: "#f2860f"}}>去学习</Text>
                     </View>}
-                    subtitleStyle={{fontSize: 14, color: "#444"}}
-                    containerStyle={{
-                        height: 45,
-                        borderBottomWidth: 1 / PixelRatio.get(),
-                        borderBottomColor: styles.line.color
-                    }}
+                    subtitleStyle={mainPageStyle.subtitleStyle}
+                    containerStyle={mainPageStyle.containerStyle}
                     onPress={() => {
 
                     }}
                 />
                 <ListItem
-                    leftElement={<View style={{
-                        height: 18,
-                        width: 45,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#FE922F",
-                        borderRadius: 10
-                    }}>
-                        <Text style={{fontSize: 12, color: "#FFF"}}>必学</Text>
+                    leftElement={<View style={mainPageStyle.leftElementStyle}>
+                        <Text style={mainPageStyle.listText}>必学</Text>
                     </View>}
                     subtitle={"钢结构工程施工基础知识"}
-                    subtitleStyle={{fontSize: 14, color: "#444"}}
-                    rightElement={<View style={{justifyContent: "center", alignItems: "center"}}>
+                    subtitleStyle={mainPageStyle.subtitleStyle}
+                    rightElement={<View style={mainPageStyle.rightElementStyle}>
                         <Text style={{fontSize: 13, color: "#08c954"}}>已完成</Text>
                     </View>}
                     containerStyle={{height: 45}}

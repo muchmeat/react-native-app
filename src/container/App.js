@@ -6,7 +6,6 @@ import Wait from '../pages/Wait'
 import MainPage from '../pages/main/MainPage'
 import MainPage2 from '../pages/main/MainPage2'
 import PageList from '../pages/main/PageList'
-import Main1 from '../pages/main/Main1'
 import List1 from '../pages/list/List1'
 import List3 from '../pages/list/List3'
 import screen1 from '../pages/login/screen1'
@@ -103,7 +102,6 @@ const App = createStackNavigator({
     screen1: {screen: screen1},
     screen2: {screen: screen2},
     screen3: {screen: screen3},
-    Main1: {screen: Main1},
     main: {screen: MainPage},
     form: {screen: form},
     List1: {screen: List1},

@@ -19,9 +19,9 @@ import {
 import {connect} from 'react-redux'; // 引入connect函数
 import {Header, Button, Card, ListItem} from 'react-native-elements';
 import styles from '../../style/ThemeStyle';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import IconLib from '../../../assets/svg/IconLib';
 import Svg from 'react-native-svg';
+import mainPageStyle from '../../style/MainPageStyle';
 
 const users = [
     {
@@ -49,13 +49,12 @@ const users = [
         svg: IconLib.IC_MAIN_XXTX,
         bgColor:"#20C6DC"
     }
-]
+];
 
-const {width, height} = Dimensions.get('window')
+const {width} = Dimensions.get('window');
 const cols = 3;
 const vMargin = 10;
 const cellWH = (width - 2 * vMargin - 15) / cols;
-const hMargin = 25;
 
 
 class MainPage2 extends Component {
@@ -68,8 +67,6 @@ class MainPage2 extends Component {
                     paddingTop: 5,
                     height: 50,
                     backgroundColor: styles.color.theme
-                    // justifyContent:"center",
-                    // alignItems:"center"
                 }}
             />
         }
@@ -101,35 +98,11 @@ class MainPage2 extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {/*<Button*/}
-                {/*title='搜索'*/}
-                {/*buttonStyle={{*/}
-                {/*height: 32,*/}
-                {/*width: styles.screen.width - 20,*/}
-                {/*backgroundColor: '#fff',*/}
-                {/*borderRadius: 10,*/}
-                {/*elevation: 0*/}
-                {/*}}*/}
-                {/*containerStyle={{*/}
-                {/*height: 45,*/}
-                {/*width: styles.screen.width,*/}
-                {/*justifyContent: "center",*/}
-                {/*alignItems: "center"*/}
-                {/*}}*/}
-                {/*titleStyle={{fontSize: 16, color: '#BBBBBB'}}*/}
-                {/*icon={*/}
-                {/*<View style={{justifyContent: "center", alignItems: "center"}}>*/}
-                {/*<Svg height="30" width="30" viewBox="0 0 1024 1024">*/}
-                {/*{IconLib.IC_SEARCH}*/}
-                {/*</Svg>*/}
-                {/*</View>*/}
-                {/*}*/}
-                {/*/>*/}
                 <ImageBackground style={{width: styles.screen.width, height: styles.screen.height / 3 - 30}}
                                  source={require('../../../assets/images/main_title.png')}>
                 </ImageBackground>
                 <View style={{backgroundColor: "#FFF", marginTop: 20}}>
-                    <View style={{paddingLeft: 15, paddingTop: 10, paddingBottom: 15}}>
+                    <View style={mainPageStyle.titleStyle}>
                         <Text style={{fontSize: 16}}>常用事项</Text>
                     </View>
                     <FlatList
@@ -140,12 +113,7 @@ class MainPage2 extends Component {
                         showsHorizontalScrollIndicator={false}
                         numColumns={3}
                         horizontal={false}
-                        contentContainerStyle={{// 主轴方向
-                            justifyContent: 'space-between',
-                            // 一行显示不下,换一行
-                            alignItems: 'center', // 必须设置,否则换行不起作用
-                            paddingHorizontal: 5
-                        }}
+                        contentContainerStyle={mainPageStyle.contentContainerStyle}
                     />
                 </View>
 

@@ -137,15 +137,9 @@ export default class List3 extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{flex: 1}}>
                 {this.renderCategory()}
             </View>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-})
