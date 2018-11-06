@@ -1,19 +1,20 @@
 import React from "react";
 import {
-  View,
-  Text,
-  Image,
-  DatePickerAndroid,
-  TimePickerAndroid,
-  TouchableOpacity,
-  TouchableNativeFeedback
+    View,
+    Text,
+    Image,
+    DatePickerAndroid,
+    TimePickerAndroid,
+    TouchableOpacity,
+    TouchableNativeFeedback,
 } from "react-native";
-
+import IconLib from "../../../../../assets/svg/IconLib";
+import Svg from 'react-native-svg'
 
 function dateTimeFontClick(locals) {
     let config = {
         date: locals.value || new Date(),
-        mode: "default"
+        mode: "spinner"
     };
     if (locals.minimumDate) {
         config.minDate = locals.minimumDate;
@@ -28,7 +29,8 @@ function dateTimeFontClick(locals) {
             TimePickerAndroid.open({
                 is24Hour: true,
                 hour: newDate.getHours() ? newDate.getHours() : new Date().getHours(),
-                minute: newDate.getMinutes() ? newDate.getMinutes() : new Date().getMinutes()
+                minute: newDate.getMinutes() ? newDate.getMinutes() : new Date().getMinutes(),
+                mode: "spinner"
             }).then(function(time) {
                 if (time.action !== TimePickerAndroid.dismissedAction) {
                     newDate.setHours(time.hour);
@@ -48,7 +50,7 @@ function dateTimeAfterClick(locals,formattedDateValue) {
     if(!formattedDateValue){
         let config = {
             date: locals.value || new Date(),
-            mode: "default"
+            mode: "spinner"
         };
         if (locals.minimumDate) {
             config.minDate = locals.minimumDate;
@@ -63,7 +65,8 @@ function dateTimeAfterClick(locals,formattedDateValue) {
                 TimePickerAndroid.open({
                     is24Hour: true,
                     hour: newDate.getHours() ? newDate.getHours() : new Date().getHours(),
-                    minute: newDate.getMinutes() ? newDate.getMinutes() : new Date().getMinutes()
+                    minute: newDate.getMinutes() ? newDate.getMinutes() : new Date().getMinutes(),
+                    mode: "spinner"
                 }).then(function(time) {
                     if (time.action !== TimePickerAndroid.dismissedAction) {
                         newDate.setHours(time.hour);
@@ -77,7 +80,8 @@ function dateTimeAfterClick(locals,formattedDateValue) {
         TimePickerAndroid.open({
             is24Hour: true,
             hour: locals.value ? (locals.value.getHours() ? locals.value.getHours() : new Date().getHours()) : new Date().getHours(),
-            minute: setTime.minute
+            minute: setTime.minute,
+            mode:"spinner"
         }).then(function(time) {
             if (time.action !== TimePickerAndroid.dismissedAction) {
                 const newTime = new Date(locals.value);
@@ -98,12 +102,14 @@ function dateClick(locals) {
         const isDate = locals.value && locals.value instanceof Date;
         let setTime = {
             hour: isDate ? locals.value.getHours() : now.getHours(),
-            minute: isDate ? locals.value.getMinutes() : now.getMinutes()
+            minute: isDate ? locals.value.getMinutes() : now.getMinutes(),
+            mode:"spinner"
         };
         TimePickerAndroid.open({
             is24Hour: true,
             hour: setTime.hour,
-            minute: setTime.minute
+            minute: setTime.minute,
+            mode: setTime.mode
         }).then(function(time) {
             if (time.action !== TimePickerAndroid.dismissedAction) {
                 const newTime = new Date();
@@ -115,7 +121,7 @@ function dateClick(locals) {
     } else if (locals.mode === "date") {
         let config = {
             date: locals.value || new Date(),
-            mode: "default"
+            mode: "spinner"
         };
         if (locals.minimumDate) {
             config.minDate = locals.minimumDate;
@@ -152,7 +158,7 @@ function datepicker(locals) {
   if (locals.hasError) {
     formGroupStyle = stylesheet.formGroup.normal;
     controlLabelStyle = stylesheet.controlLabel.normal;
-    dateValueStyle = stylesheet.dateValue.error;
+    dateValueStyle = stylesheet.dateValue.normal;
   }
 
   // Setup the picker mode
@@ -206,21 +212,27 @@ function datepicker(locals) {
       formattedValue = formatDateTime(locals.value,datePickerMode);
   }
 
-  var notNull = !isMaybe ? (
-      <Text style={{color:"red"}}>*</Text>
-  ):null;
-  var label = locals.label ? (
-      <Text style={[controlLabelStyle]}>{locals.label}{notNull}</Text>
-  ) : null;
+    var notNull = isMaybe ? null: (
+        <Text style={{color:"red"}}>*  </Text>
+    );
 
-  var error =
-    locals.hasError ? (
-        <View style={{flex:1,flexDirection:"row",justifyContent:"flex-end"}}>
-            <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
-                {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
-            </Text>
-        </View>
+    var label = locals.label ? (
+        <Text style={[controlLabelStyle]}>{notNull}{locals.label}</Text>
     ) : null;
+
+    var error =
+        locals.hasError ? (
+            <View style={{flex:1,flexDirection:"row",justifyContent:"flex-start",alignItems:"center",paddingBottom:5,paddingLeft:125}}>
+                <Svg height="14" width="14" viewBox="0 0 1024 1024">
+                    {IconLib.FORM_ERROR}
+                </Svg>
+                <View style={{flex:1,paddingLeft:5}}>
+                    <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
+                        {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
+                    </Text>
+                </View>
+            </View>
+        ) : null;
 
   var value = locals.value ? (
     <Text style={dateValueStyle}>{formattedValue}</Text>
@@ -230,84 +242,86 @@ function datepicker(locals) {
   return (
     <View style={formGroupStyle}>
       {datePickerMode === "datetime" ? (
-        <View style={{flexDirection:"row"}}>
-            <View style={{width:120,height:45,flexDirection:"row",justifyContent:"flex-end",alignItems:"center",backgroundColor:"#fff"}}>
-                {label}
+        <View style={{flex:1,flexDirection:"column",borderBottomWidth:1,borderColor:"#999"}}>
+            <View style={{flex:1,flexDirection:"row"}}>
+                <View style={{width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
+                    {label}
+                </View>
+                <TouchableNativeFeedback
+                    accessible={true}
+                    disabled={locals.disabled}
+                    ref="input"
+                    background={background}
+                    onPress={()=> {
+                        dateTimeFontClick(locals,formattedDateValue);
+                    }}
+                >
+                    <View style={{flex:1,background:"yellow",justifyContent:"center"}}>
+                        <Text style={dateValueStyle}>{formattedDateValue}</Text>
+                    </View>
+                </TouchableNativeFeedback>
+                <TouchableNativeFeedback
+                    accessible={true}
+                    disabled={locals.disabled}
+                    ref="input"
+                    background={background}
+                    onPress={()=> {
+                        dateTimeAfterClick(locals,formattedDateValue);
+                    }}
+                >
+                    <View style={{flex:1,justifyContent:"center"}}>
+                        <Text style={dateValueStyle}>{formattedTimeValue}</Text>
+                    </View>
+                </TouchableNativeFeedback>
+                <TouchableOpacity
+                    onPress={()=>{
+                        locals.isMaybe && locals.value ?
+                            locals.onChange(null) : dateTimeFontClick(locals,formattedDateValue);
+                    }}
+                    style={{width:50,justifyContent:"center",alignItems:"center"}}>
+                    {locals.isMaybe && locals.value ?
+                        <Image style={{height:24,width:24}} source={require("../../icon/delete.png")}/>
+                        :
+                        <Image style={{height: 24, width: 24}} source={require("../../icon/time.png")}/>
+                    }
+                </TouchableOpacity>
             </View>
-          <TouchableNativeFeedback
-            accessible={true}
-            disabled={locals.disabled}
-            ref="input"
-            background={background}
-            onPress={()=> {
-                dateTimeFontClick(locals,formattedDateValue);
-            }}
-          >
-            <View style={{flex:1,backgroundColor:"#fff",justifyContent:"center"}}>
-              <Text style={dateValueStyle}>{formattedDateValue}</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            accessible={true}
-            disabled={locals.disabled}
-            ref="input"
-            background={background}
-            onPress={()=> {
-                dateTimeAfterClick(locals,formattedDateValue);
-            }}
-          >
-            <View style={{flex:1,backgroundColor:"#fff",justifyContent:"center"}}>
-              <Text style={dateValueStyle}>{formattedTimeValue}</Text>
-            </View>
-          </TouchableNativeFeedback>
-            <TouchableOpacity
-                onPress={()=>{
-                    locals.isMaybe && locals.value ?
-                        locals.onChange(null) : dateTimeFontClick(locals,formattedDateValue);
-                }}
-                style={{backgroundColor:"#fff",width:50,justifyContent:"center",alignItems:"center"}}>
-                {locals.isMaybe && locals.value ?
-                    <Image style={{height:24,width:24}} source={require("../../icon/delete.png")}/>
-                    :
-                    <Image style={{height: 24, width: 24}} source={require("../../icon/time.png")}/>
-                }
-            </TouchableOpacity>
+            {error}
         </View>
       ) : (
-          <View style={{flexDirection:"row",justifyContent:"flex-start"}}>
-              <TouchableNativeFeedback
-                  accessible={true}
-                  disabled={locals.disabled}
-                  ref="input"
-                  background={background}
-                  onPress={()=> {
-                      dateClick(locals);
-                  }}
-              >
-                  <View style={{flexDirection:"row",flex:1}}>
-                      <View style={{width:120,height:45,flexDirection:"row",justifyContent:"flex-end",alignItems:"center",backgroundColor:"#fff"}}>
-                          {label}
-                      </View>
-                      <View style={{flex:1,backgroundColor:"#fff",justifyContent:"center"}}>
+          <View style={{flex:1,flexDirection:"column",borderBottomWidth:1,borderColor:"#999"}}>
+              <View style={{flex:1,flexDirection:"row"}}>
+                  <View style={{width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
+                      {label}
+                  </View>
+                  <TouchableNativeFeedback
+                      accessible={true}
+                      disabled={locals.disabled}
+                      ref="input"
+                      background={background}
+                      onPress={()=> {
+                          dateClick(locals);
+                      }}>
+                      <View style={{flex:1,justifyContent:"center"}}>
                           {value}
                       </View>
-                  </View>
-              </TouchableNativeFeedback>
-              <TouchableOpacity
-                  onPress={()=>{
-                      locals.isMaybe && locals.value ?
-                      locals.onChange(null) : dateClick(locals)
-                  }}
-                  style={{backgroundColor:"#fff",width:50,justifyContent:"center",alignItems:"center"}}>
-                  {locals.isMaybe && locals.value ?
-                      <Image style={{height:24,width:24}} source={require("../../icon/delete.png")}/>
-                      :
-                      <Image style={{height:24,width:24}} source={require("../../icon/date.png")}/>
-                  }
-              </TouchableOpacity>
+                  </TouchableNativeFeedback>
+                  <TouchableOpacity
+                      onPress={()=>{
+                          locals.isMaybe && locals.value ?
+                              locals.onChange(null) : dateClick(locals)
+                      }}
+                      style={{width:50,justifyContent:"center",alignItems:"center"}}>
+                      {locals.isMaybe && locals.value ?
+                          <Image style={{height:24,width:24}} source={require("../../icon/delete.png")}/>
+                          :
+                          <Image style={{height:24,width:24}} source={require("../../icon/date.png")}/>
+                      }
+                  </TouchableOpacity>
+              </View>
+              {error}
           </View>
       )}
-      {error}
     </View>
   );
 }

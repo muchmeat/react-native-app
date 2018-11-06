@@ -171,3 +171,16 @@ export function isSg (v) {
     // let b = v.split(".")[1] ? v.split(".")[1] : "0";
     // return (2 <= a.length && a.length <= 3) && (0 <= b.length && b.length <=2) && (/^[0-9]*[1-9][0-9]*$/.test(a)) && v[v.length - 1] != ".";
 }
+
+export function formatSize(b) {
+    //大于1M
+    if(b>=1000000){
+        return (b/1000000).toFixed(2) + "M";
+    //大于1K
+    }else if(b>=1000){
+        return (b/1000).toFixed(2) + "K";
+    //大于1B
+    }else {
+        return b + "B";
+    }
+}

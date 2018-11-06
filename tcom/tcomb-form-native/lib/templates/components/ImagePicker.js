@@ -4,12 +4,11 @@
  */
 import React, {Component} from "react";
 import {
-    StyleSheet,
-    Image,
     View,
     TouchableHighlight,
 } from "react-native";
 import imagePicker from "react-native-image-picker";
+import Svg from "react-native-svg";
 
 
 export default class ImagePicker extends Component {
@@ -56,10 +55,10 @@ export default class ImagePicker extends Component {
                         //     this.props.onCameraRender(response);
                         // }
                     } else if (response.data) {
-                        let source = {uri: response.data, isStatic: true};
+                        // let source = {uri: response.data, isStatic: true};
                         if (this.props.afterPick) {
                             this.timeout = setTimeout(()=> {//设置延时解决版本更新后出现 “拍照”操作影响按钮展示的问题
-                                this.props.afterPick(source.uri);//调用父级的方法
+                                this.props.afterPick(response);//调用父级的方法
                             }, 100);
                         }
                     }
@@ -69,30 +68,20 @@ export default class ImagePicker extends Component {
     }
 
     render() {
+        let _this = this;
+        const {style,beforePick,svgWidth,svgHeight,svgBtm} = _this.props;
         return (
             <TouchableHighlight
                 underlayColor='#fff'
                 activeOpacity={0.5}
-                style={this.props.style}
+                style={style}
                 onPress={()=>{
-                    let isLimited = this.props.beforePick();
-                    this._selectPhotoTapped(isLimited);
+                    _this._selectPhotoTapped(beforePick());
                 }}>
-                <Image source={this.props.source}/>
-                {/*<View style={this.props.svgStyle}>*/}
-                    {/*{this.props.svgBtn}*/}
-                {/*</View>*/}
+                <View>
+                    <Svg height={svgWidth} width={svgHeight} viewBox="0 0 1024 1024">{svgBtm}</Svg>
+                </View>
             </TouchableHighlight>
         );
     }
 }
-
-const styles=StyleSheet.create({
-    container:{
-        marginRight: 0,
-        height: 140,
-        width: 85,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-});

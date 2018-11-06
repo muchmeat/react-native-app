@@ -1,62 +1,67 @@
-var React = require("react");
-var { View, Text, Switch } = require("react-native");
+import Svg from 'react-native-svg'
+import IconLib from '../../../../../assets/svg/IconLib'
+import formStyle from '../../stylesheets/formStyle'
+import themeStyle from "../../../../../src/style/ThemeStyle"
+let React = require("react");
+let { View, Text, Switch } = require("react-native");
 
 function checkbox(locals) {
-  if (locals.hidden) {
-    return null;
-  }
 
-  var stylesheet = locals.stylesheet;
-  var isMaybe = locals.isMaybe;
-  var formGroupStyle = stylesheet.formGroup.normal;
-  var controlLabelStyle = stylesheet.controlLabel.normal;
-  var checkboxStyle = stylesheet.checkbox.normal;
-  var helpBlockStyle = stylesheet.helpBlock.normal;
-  var errorBlockStyle = stylesheet.errorBlock;
+    if (locals.hidden) {
+        return null;
+    }
 
-  if (locals.hasError) {
-      formGroupStyle = stylesheet.formGroup.normal;
-      controlLabelStyle = stylesheet.controlLabel.normal;
-    checkboxStyle = stylesheet.checkbox.error;
-    helpBlockStyle = stylesheet.helpBlock.error;
-  }
+    let isMaybe = locals.isMaybe;
+    let formGroupStyle = formStyle.formGroup.normal;
+    let controlLabelStyle = formStyle.label.normal;
+    let checkboxStyle = formStyle.checkbox.checkbox;
+    let errorBlockStyle = formStyle.errorBlock;
 
-    var notNull = isMaybe ? null: (
-        <Text style={{color:"red"}}>*</Text>
+    let notNull = isMaybe ? null: (
+        <Text style={formStyle.notNull}>*  </Text>
     );
 
-  var label = locals.label ? (
-    <Text style={[controlLabelStyle,{paddingHorizontal:5}]}>{locals.label}{notNull}</Text>
-  ) : null;
-
-  var error =
-    locals.hasError && locals.error ? (
-      <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
-        {locals.error}
-      </Text>
+    let label = locals.label ? (
+        <Text style={controlLabelStyle}>{notNull}{locals.label}</Text>
     ) : null;
 
-  return (
-    <View style={formGroupStyle}>
-        <View style={{flexDirection:"row"}}>
-            <View style={{width:120,height:45,flexDirection:"row",justifyContent:"flex-end",alignItems:"center",borderColor:"#999",backgroundColor:"#fff"}}>
-                {label}
+    let error =
+        locals.hasError ? (
+            <View style={formStyle.error}>
+                <Svg height="14" width="14" viewBox="0 0 1024 1024">
+                    {IconLib.FORM_ERROR}
+                </Svg>
+                <View style={formStyle.errorView}>
+                    <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
+                        {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
+                    </Text>
+                </View>
             </View>
-            <Switch
-                accessibilityLabel={locals.label}
-                ref="input"
-                disabled={locals.disabled}
-                onTintColor={locals.onTintColor}
-                thumbTintColor={locals.thumbTintColor}
-                tintColor={locals.tintColor}
-                style={[checkboxStyle,{flex:1,backgroundColor:"#fff"}]}
-                onValueChange={value => locals.onChange(value)}
-                value={locals.value}
-            />
+        ) : null;
+
+    return (
+        <View style={formGroupStyle}>
+            <View style={formStyle.checkbox.view}>
+                <View style={formStyle.checkbox.label}>
+                    {label}
+                </View>
+                <View style={formStyle.checkbox.textView}>
+                    <Text style={formStyle.checkbox.text}>{locals.value?"是":"否"}</Text>
+                </View>
+                <Switch
+                    accessibilityLabel={locals.label}
+                    ref="input"
+                    disabled={locals.disabled}
+                    onTintColor={themeStyle.color.theme}
+                    thumbTintColor={themeStyle.color.theme}
+                    style={checkboxStyle}
+                    onValueChange={value => locals.onChange(value)}
+                    value={locals.value}
+                />
+            </View>
+            {error}
         </View>
-        {error}
-    </View>
-  );
+    );
 }
 
 module.exports = checkbox;

@@ -55,6 +55,18 @@ const default_themes = Object.freeze({
     tabBarItem: {
         height: 56,
     },
+    form:{
+        LABEL_COLOR : "#9C9C9C",
+        INPUT_COLOR : "#9C9C9C",
+        ERROR_COLOR : "#a94442",
+        HELP_COLOR : "#999999",
+        BORDER_COLOR : "#ddd",
+        DISABLED_COLOR : "#777777",
+        DISABLED_BACKGROUND_COLOR : "#eeeeee",
+        FONT_SIZE : 16,
+        ERROR_SIZE : 14,
+        FONT_WEIGHT : "normal",
+    }
 });
 
 module.exports = default_themes;

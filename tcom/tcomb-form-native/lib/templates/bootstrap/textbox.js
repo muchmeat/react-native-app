@@ -1,7 +1,8 @@
-var React = require("react");
-// import { UIManager} from 'NativeModules';
-var { View, Text, TextInput,PixelRatio,Dimensions,ScrollView,NativeModules } = require("react-native");
-const width  = Dimensions.get("window").width;
+let React = require("react");
+let { View, Text, TextInput,TouchableHighlight } = require("react-native");
+import Svg from 'react-native-svg'
+import IconLib from '../../../../../assets/svg/IconLib'
+import formStyle from '../../stylesheets/formStyle'
 
 function textbox(locals) {
 
@@ -9,53 +10,47 @@ function textbox(locals) {
     return null;
   }
 
-  var mode = locals.mode;
-  var isMaybe = locals.isMaybe;
-  var maxLength = locals.maxLength;
-  var stylesheet = locals.stylesheet;
-  var formGroupStyle = stylesheet.formGroup.normal;
-  var controlLabelStyle = stylesheet.controlLabel.normal;
-  var textboxStyle = stylesheet.textbox.normal;
-  var textboxViewStyle = stylesheet.textboxView.normal;
-  var helpBlockStyle = stylesheet.helpBlock.normal;
-  var errorBlockStyle = stylesheet.errorBlock;
-
-  if (locals.hasError) {
-    formGroupStyle = stylesheet.formGroup.normal;
-    controlLabelStyle = stylesheet.controlLabel.normal;
-    textboxStyle = stylesheet.textbox.error;
-  }
+  let mode = locals.mode;
+  let isMaybe = locals.isMaybe;
+  let maxLength = locals.maxLength;
+  let formGroupStyle = formStyle.formGroup.normal;
+  let controlLabelStyle = formStyle.label.normal;
+  let textboxStyle = formStyle.textBox.textFont;
+  let errorBlockStyle = formStyle.errorBlock;
 
   if (locals.editable === false) {
-    textboxStyle = stylesheet.textbox.notEditable;
-    textboxViewStyle = stylesheet.textboxView.notEditable;
+    textboxStyle = formStyle.notEditable;
   }
 
-
-  var notNull = isMaybe ? null: (
-      <Text style={{color:"red"}}>*</Text>
+  let notNull = isMaybe ? <Text/>: (
+      <Text style={formStyle.notNull}>*  </Text>
   );
 
-  var label = locals.label ? (
-    <Text style={[controlLabelStyle]}>{locals.label}{notNull}</Text>
+  let label = locals.label ? (
+    <Text style={controlLabelStyle}>{notNull}{locals.label}</Text>
   ) : null;
 
-  var error =
+  let error =
     locals.hasError ? (
-        <View style={{flex:1,flexDirection:"row",justifyContent:"flex-end"}}>
-            <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
-                {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
-            </Text>
+        <View style={formStyle.error}>
+            <Svg height="14" width="14" viewBox="0 0 1024 1024">
+                {IconLib.FORM_ERROR}
+            </Svg>
+            <View style={formStyle.errorView}>
+                <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>
+                    {locals.error ? locals.error : (locals.label ? locals.label.replace("*","") + "不能为空" : "不能为空")}
+                </Text>
+            </View>
         </View>
-    ) : null;
+    ) : <View/>;
 
-    if(mode == "textarea"){
+    if(mode === "textarea"){
         return (
             <View style={formGroupStyle}>
-                <View style={{height:45,flexDirection:"row",justifyContent:"flex-start",alignItems:"center",backgroundColor:"#fff"}}>
+                <View style={formStyle.textBox.labelView}>
                     {label}
                 </View>
-                <View style={{height:90,backgroundColor:"#fff",borderColor:"#F8F8F8",borderTopWidth:1,justifyContent:"flex-start"}}>
+                <View style={formStyle.textBox.inputView}>
                     <TextInput
                         accessibilityLabel={locals.label}
                         ref="input"
@@ -66,7 +61,7 @@ function textbox(locals) {
                         editable={locals.editable}
                         keyboardType={locals.keyboardType}
                         maxLength={locals.maxLength}
-                        multiline={locals.multiline}
+                        multiline={true}
                         onBlur={locals.onBlur}
                         onEndEditing={locals.onEndEditing}
                         onFocus={locals.onFocus}
@@ -87,77 +82,84 @@ function textbox(locals) {
                         onKeyPress={locals.onKeyPress}
                         returnKeyType={locals.returnKeyType}
                         selectionState={locals.selectionState}
-                        multiline={true}
                         onChangeText={value => locals.onChange(value)}
                         onChange={locals.onChangeNative}
                         placeholder={locals.placeholder}
-                        numberOfLines={10}
-                        style={[textboxStyle,{height:90,width:width,flexDirection:"column",borderColor:"#F8F8F8",alignItems:"flex-start",paddingBottom:20}]}
+                        style={[textboxStyle,formStyle.textBox.textAreaFont]}
                         value={locals.value ? locals.value.toString() : ""}
                     />
-                    <View style={{position:"absolute",bottom:0,width:width,flexDirection:"row",justifyContent:"flex-end"}}>
-                        <Text style={{paddingRight:5}}>{locals.value ? locals.value.length : 0}/{maxLength}</Text>
+                    <View style={formStyle.textBox.textAreaError}>
+                        {error}
+                        <Text style={formStyle.textBox.textAreaErrorFont}>{locals.value ? locals.value.length : 0}/{maxLength}</Text>
                     </View>
                 </View>
-                {error}
             </View>
         )
     }else {
         return(
             <View style={formGroupStyle}>
-                <View style={{flexDirection:"row"}}>
-                    <View style={{width:120,height:45,flexDirection:"row",justifyContent:"flex-end",alignItems:"center",borderColor:"#999",backgroundColor:"#fff"}}>
+                <View style={formStyle.textBox.textInput}>
+                    <View style={formStyle.textBox.textInputLabel}>
                         {label}
                     </View>
-                    <View style={[textboxViewStyle,{flex:1,backgroundColor:"#fff"}]}>
-                        <TextInput
-                            accessibilityLabel={locals.label}
-                            ref="input"
-                            autoCapitalize={locals.autoCapitalize}
-                            autoCorrect={locals.autoCorrect}
-                            autoFocus={locals.autoFocus}
-                            blurOnSubmit={locals.blurOnSubmit}
-                            editable={locals.editable}
-                            keyboardType={locals.keyboardType}
-                            maxLength={locals.maxLength}
-                            multiline={locals.multiline}
-                            onBlur={locals.onBlur}
-                            onEndEditing={locals.onEndEditing}
-                            onFocus={locals.onFocus}
-                            // onBlur = {
-                            //     // const handle = findNodeHandler(this.refs.input);
-                            //     NativeModules.UIManager.measure(this.refs.input, (x, y, width, height, pageX, pageY) => {
-                            //         console.warn("y:"+y);
-                            //     });
-                            // }
-                            onLayout={locals.onLayout}
-                            onSelectionChange={locals.onSelectionChange}
-                            onSubmitEditing={locals.onSubmitEditing}
-                            onContentSizeChange={locals.onContentSizeChange}
-                            placeholderTextColor={locals.placeholderTextColor}
-                            secureTextEntry={locals.secureTextEntry}
-                            selectTextOnFocus={locals.selectTextOnFocus}
-                            selectionColor={locals.selectionColor}
-                            numberOfLines={locals.numberOfLines}
-                            underlineColorAndroid={locals.underlineColorAndroid}
-                            clearButtonMode={locals.clearButtonMode}
-                            clearTextOnFocus={locals.clearTextOnFocus}
-                            enablesReturnKeyAutomatically={locals.enablesReturnKeyAutomatically}
-                            keyboardAppearance={locals.keyboardAppearance}
-                            onKeyPress={locals.onKeyPress}
-                            returnKeyType={locals.returnKeyType}
-                            selectionState={locals.selectionState}
-                            onChangeText={value => locals.onChange(value)}
-                            onChange={locals.onChangeNative}
-                            placeholder={locals.placeholder}
-                            style={textboxStyle}
-                            value={locals.value ? locals.value.toString() : ""}
-                            // blurOnSubmit = {true}
-                            // onSubmitEditing = {(event)=>{console.warn(JSON.stringify(locals))}}
-                        />
+                    <View style={formStyle.textBox.textInputRight}>
+                        <View style={formStyle.textBox.textInputView}>
+                            <TextInput
+                                accessibilityLabel={locals.label}
+                                ref="input"
+                                autoCapitalize={locals.autoCapitalize}
+                                autoCorrect={locals.autoCorrect}
+                                autoFocus={locals.autoFocus}
+                                blurOnSubmit={locals.blurOnSubmit}
+                                editable={locals.editable}
+                                keyboardType={locals.keyboardType}
+                                maxLength={locals.maxLength}
+                                multiline={locals.multiline}
+                                onBlur={locals.onBlur}
+                                onEndEditing={locals.onEndEditing}
+                                onFocus={locals.onFocus}
+                                // onBlur = {
+                                //     // const handle = findNodeHandler(this.refs.input);
+                                //     NativeModules.UIManager.measure(this.refs.input, (x, y, width, height, pageX, pageY) => {
+                                //         console.warn("y:"+y);
+                                //     });
+                                // }
+                                onLayout={locals.onLayout}
+                                onSelectionChange={locals.onSelectionChange}
+                                onSubmitEditing={locals.onSubmitEditing}
+                                onContentSizeChange={locals.onContentSizeChange}
+                                placeholderTextColor={locals.placeholderTextColor}
+                                secureTextEntry={locals.secureTextEntry}
+                                selectTextOnFocus={locals.selectTextOnFocus}
+                                selectionColor={locals.selectionColor}
+                                numberOfLines={locals.numberOfLines}
+                                underlineColorAndroid={locals.underlineColorAndroid}
+                                clearButtonMode={locals.clearButtonMode}
+                                clearTextOnFocus={locals.clearTextOnFocus}
+                                enablesReturnKeyAutomatically={locals.enablesReturnKeyAutomatically}
+                                keyboardAppearance={locals.keyboardAppearance}
+                                onKeyPress={locals.onKeyPress}
+                                returnKeyType={locals.returnKeyType}
+                                selectionState={locals.selectionState}
+                                onChangeText={value => locals.onChange(value)}
+                                onChange={locals.onChangeNative}
+                                placeholder={locals.placeholder}
+                                style={textboxStyle}
+                                value={locals.value ? locals.value.toString() : ""}
+                            />
+                            {locals.value ?
+                            <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={()=>{
+                                locals.onChange("");
+                            }}>
+                                <View style={formStyle.textBox.clear}>
+                                    <Svg height="20" width="20" viewBox="0 0 1024 1024">{IconLib.IC_CLEAR}</Svg>
+                                </View>
+                            </TouchableHighlight>
+                                :null}
+                        </View>
+                        {error}
                     </View>
                 </View>
-                {error}
             </View>
          )
     }

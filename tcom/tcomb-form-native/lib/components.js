@@ -588,7 +588,7 @@ function toSameLength(value, keys, uidGenerator) {
   return ret;
 }
 
-export class List extends Component {
+class List extends Component {
   constructor(props) {
      super(props);
      this.first = true;
@@ -649,18 +649,24 @@ export class List extends Component {
   }
 
   onChange(value, keys, path, kind, index) {
-      if(value.base64){
-          if(kind === "remove"){
-              this.oldRemoveId.push(value.id);
-              this.old.splice(index,1);
-              this.oldImages.splice(index,1);
-          }
+      // if(value.data){
+      //     if(kind === "remove"){
+      //         this.oldRemoveId.push(value.id);
+      //         this.old.splice(index,1);
+      //         this.oldImages.splice(index,1);
+      //     }
+      // }else {
+      //     if(kind === "remove"){
+      //         this.addImages.splice(index - this.oldImages.length,1);
+      //     }else {
+      //       // console.warn(1)
+      //         this.addImages.push(value);
+      //     }
+      // }
+      if(kind==="remove"){
+          this.addImages.splice(index - this.oldImages.length,1);
       }else {
-          if(kind === "remove"){
-              this.addImages.splice(index - this.oldImages.length,1);
-          }else {
-              this.addImages.push(value);
-          }
+          this.addImages.push(value);
       }
       this.setState({ value:this.old.concat(this.addImages), keys: this.props.ctx.uidGenerator.next(), isPristine: false, kind:kind, index:index });
   }
@@ -832,6 +838,7 @@ export class List extends Component {
       if(this.props.options.limit){
           locals.limit =  this.props.options.limit;
       }
+      locals.mode = this.props.options.mode;
       this.setImages(locals);
       locals.items = this.oldImages.concat(this.addImages);
       if(locals.value && locals.value.length != locals.items.length)

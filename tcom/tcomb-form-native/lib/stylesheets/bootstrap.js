@@ -6,17 +6,7 @@
 "use strict";
 
 import { Platform,PixelRatio } from "react-native";
-
-var LABEL_COLOR = "#9C9C9C";
-var INPUT_COLOR = "#9C9C9C";
-var ERROR_COLOR = "#a94442";
-var HELP_COLOR = "#999999";
-var BORDER_COLOR = "#ddd";
-var DISABLED_COLOR = "#777777";
-var DISABLED_BACKGROUND_COLOR = "#eeeeee";
-var FONT_SIZE = 16;
-var ERROR_SIZE = 14;
-var FONT_WEIGHT = "400";
+import themeStyle from "../../../../src/style/ThemeStyle"
 
 var stylesheet = Object.freeze({
   fieldset: {},
@@ -33,36 +23,34 @@ var stylesheet = Object.freeze({
   controlLabel: {
     normal: {
       flex:1,
-      color: LABEL_COLOR,
-      fontSize: FONT_SIZE,
-      fontWeight: FONT_WEIGHT
+      color: themeStyle.form.LABEL_COLOR,
+      fontSize: themeStyle.form.FONT_SIZE,
+      fontWeight: themeStyle.form.FONT_WEIGHT
     },
     // the style applied when a validation error occours
     error: {
       flex:1,
-      color: ERROR_COLOR,
+      color: themeStyle.form.ERROR_COLOR,
       paddingLeft:10,
-      fontSize: FONT_SIZE,
-      fontWeight: FONT_WEIGHT
+      fontSize: themeStyle.form.FONT_SIZE,
+      fontWeight: themeStyle.form.FONT_WEIGHT
     }
   },
   helpBlock: {
     normal: {
-      color: HELP_COLOR,
-      fontSize: FONT_SIZE,
+      fontSize: themeStyle.form.FONT_SIZE,
       marginBottom: 2
     },
     // the style applied when a validation error occours
     error: {
-      color: HELP_COLOR,
-      fontSize: FONT_SIZE,
+      fontSize: themeStyle.form.FONT_SIZE,
       marginBottom: 2
     }
   },
   errorBlock: {
     marginRight:5,
-    fontSize: ERROR_SIZE,
-    color: ERROR_COLOR
+    fontSize: themeStyle.form.ERROR_SIZE,
+    color: themeStyle.form.ERROR_COLOR
   },
   textboxView: {
     normal: {},
@@ -75,8 +63,8 @@ var stylesheet = Object.freeze({
   textbox: {
     normal: {
       flex:1,
-      color: INPUT_COLOR,
-      fontSize: FONT_SIZE,
+      color: themeStyle.form.INPUT_COLOR,
+      fontSize: themeStyle.form.FONT_SIZE,
       height: 55,
       paddingVertical: Platform.OS === "ios" ? 7 : 0,
       paddingHorizontal: 7,
@@ -84,26 +72,26 @@ var stylesheet = Object.freeze({
     },
     // the style applied when a validation error occours
     error: {
-      color: INPUT_COLOR,
-      fontSize: FONT_SIZE,
+      color: themeStyle.form.INPUT_COLOR,
+      fontSize: themeStyle.form.FONT_SIZE,
       height: 55,
       paddingVertical: Platform.OS === "ios" ? 7 : 0,
       paddingHorizontal: 7,
       // borderWidth:1,
       fontWeight:"normal",
-      // borderColor: ERROR_COLOR,
+      // borderColor: themeStyle.ERROR_COLOR,
     },
     // the style applied when the textbox is not editable
     notEditable: {
-      fontSize: FONT_SIZE,
+      fontSize: themeStyle.form.FONT_SIZE,
       height: 36,
       paddingVertical: Platform.OS === "ios" ? 7 : 0,
       paddingHorizontal: 7,
       borderRadius: 4,
-      // borderColor: BORDER_COLOR,
+      // borderColor: themeStyle.BORDER_COLOR,
       // borderWidth: 1,
       // marginBottom: 5,
-      color: DISABLED_COLOR,
+      color: themeStyle.form.DISABLED_COLOR,
       // backgroundColor: DISABLED_BACKGROUND_COLOR
     }
   },
@@ -120,13 +108,13 @@ var stylesheet = Object.freeze({
     normal: {
       marginBottom: 1,
       borderRadius: 4,
-      borderColor: BORDER_COLOR,
+      borderColor: themeStyle.form.BORDER_COLOR,
       borderWidth: 1/PixelRatio.get()
     },
     error: {
       marginBottom: 4,
       borderRadius: 4,
-      borderColor: ERROR_COLOR,
+      borderColor: themeStyle.form.ERROR_COLOR,
       borderWidth: 1
     },
     open: {
@@ -139,7 +127,7 @@ var stylesheet = Object.freeze({
         flex:1,
         height:55,
         paddingLeft: 7,
-        color: INPUT_COLOR
+        color: themeStyle.form.INPUT_COLOR
       },
       ios: {}
     }),
@@ -149,7 +137,7 @@ var stylesheet = Object.freeze({
         flex:1,
         height:55,
         paddingLeft: 7,
-        color: ERROR_COLOR
+        color: themeStyle.form.ERROR_COLOR
       },
       ios: {}
     })
@@ -167,16 +155,16 @@ var stylesheet = Object.freeze({
     },
     active: {
       borderBottomWidth: 1,
-      borderColor: BORDER_COLOR
+      borderColor: themeStyle.form.BORDER_COLOR
     }
   },
   pickerValue: {
     normal: {
-      fontSize: FONT_SIZE,
+      fontSize: themeStyle.form.FONT_SIZE,
       paddingLeft: 7
     },
     error: {
-      fontSize: FONT_SIZE,
+      fontSize: themeStyle.form.FONT_SIZE,
       paddingLeft: 7
     }
   },
@@ -195,13 +183,13 @@ var stylesheet = Object.freeze({
   },
   dateValue: {
     normal: {
-      color: INPUT_COLOR,
-      fontSize: FONT_SIZE,
+      color: themeStyle.form.INPUT_COLOR,
+      fontSize: themeStyle.form.FONT_SIZE,
       paddingLeft: 7,
     },
     error: {
-      color: ERROR_COLOR,
-      fontSize: FONT_SIZE,
+      color: themeStyle.form.ERROR_COLOR,
+      fontSize: themeStyle.form.FONT_SIZE,
       padding: 7,
       marginBottom: 5
     }
@@ -210,16 +198,6 @@ var stylesheet = Object.freeze({
     fontSize: 18,
     color: "white",
     alignSelf: "center"
-  },
-  button: {
-    height: 36,
-    backgroundColor: "#48BBEC",
-    borderColor: "#48BBEC",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: "stretch",
-    justifyContent: "center"
   }
 });
 
