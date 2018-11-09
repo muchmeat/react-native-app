@@ -10,12 +10,13 @@ import {
   StyleSheet,
   ScrollView,
   Text,
-  View,
+  View,AsyncStorage
 } from 'react-native'
 // import { Font } from 'expo'
 import { Input, Button } from 'react-native-elements'
 import ThemeStyle from '../../style/ThemeStyle';
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
+import {StackActions, NavigationActions} from 'react-navigation';
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -265,7 +266,17 @@ export default class LoginScreen2 extends Component {
               containerStyle={{ flex: -1 }}
               buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}
               underlayColor="transparent"
-              onPress={() => Alert.alert('🔥', 'You can login here')}
+              onPress={() => {
+                AsyncStorage.setItem("token", "");
+                const {dispatch}=this.props.navigation; //解构赋值
+                const resetAction = StackActions.reset({
+                  index: 0,
+                  actions: [
+                    NavigationActions.navigate({routeName: 'screen1'})
+                  ]
+                });
+                dispatch(resetAction);
+              }}
             />
           </View>
         </ScrollView>

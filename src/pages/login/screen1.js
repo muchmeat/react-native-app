@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, ImageBackground, Dimensions, Alert} from 'react-native';
+import {StyleSheet, Text, View, ImageBackground, Dimensions, Alert,AsyncStorage} from 'react-native';
 import { Input, Button } from 'react-native-elements'
 import ThemeStyle from '../../style/ThemeStyle'
+import FetchUtil from "../../../utils/FetchUtil";
+import {StackActions, NavigationActions} from 'react-navigation';
 
 // import { Font } from 'expo';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -49,15 +51,34 @@ export default class LoginScreen1 extends Component {
 
     submitLoginCredentials() {
         const { showLoading } = this.state;
-
         this.setState({
             showLoading: !showLoading
+        },()=>{
+            let json={
+                username: 'plat', password: '111',loginType:'APP'
+            };
+            FetchUtil.postJsonEntity("http://172.28.1.20:8082/plat/loginVali?username=plat&password=111&loginType=Account&sjly=APP",json,(res)=>{
+                if(res&&res.success) {
+                    AsyncStorage.setItem("token", res.data);
+                    const {dispatch}=this.props.navigation; //解构赋值
+                    const resetAction = StackActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({routeName: 'tabs'})
+                        ]
+                    });
+                    dispatch(resetAction);
+                }
+            },(error)=>{
+                alert(JSON.stringify(error));
+            },()=>{
+
+            });
         });
     }
 
     render() {
         const { email, password, email_valid, showLoading } = this.state;
-
         return (
             <View style={styles.container}>
                 <ImageBackground

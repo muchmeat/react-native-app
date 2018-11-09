@@ -12,7 +12,7 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
-    PixelRatio
+    PixelRatio, AsyncStorage
 } from 'react-native';
 import {connect} from 'react-redux'; // 引入connect函数
 import {Header, Button, Card, ListItem} from 'react-native-elements';
@@ -21,7 +21,8 @@ import mainPageStyle from '../../style/MainPageStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconLib from '../../../assets/svg/IconLib';
 import Svg from 'react-native-svg';
-
+import {StackActions, NavigationActions} from 'react-navigation';
+import FetchUtil from "../../../utils/FetchUtil";
 const users = [
     {
         name: '待办工作',
@@ -65,6 +66,13 @@ const cellWH = (width - 2 * vMargin - 15) / cols;
 
 
 class MainPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data:users
+        };
+        this.getMenu();
+    }
     static navigationOptions = {
         header: () => {
             return <Header
@@ -79,15 +87,30 @@ class MainPage extends Component {
         }
     };
 
+    getMenu=()=>{
+        let json={
+            type: 'menu', parentCode: 'app'
+        };
+        FetchUtil.postJsonEntity("http://172.28.1.20:8082/plat/resource/getUserResource?type=menu&parentCode=app",json,(res)=>{
+            alert(JSON.stringify(res));
+        },(error)=>{
+            alert(JSON.stringify(error));
+        },()=>{
+
+        });
+    };
+
     _renderItem = ({item, index}) => {
         return (
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity activeOpacity={0.5} onPress={()=> {
+
+            }}>
                 <View style={{
                     width: cellWH,
                     alignItems: 'center',
                     height: cellWH - 10,
-                    marginLeft:5,
-                    marginBottom:10,
+                    marginLeft: 5,
+                    marginBottom: 10,
                 }}>
                     <View style={{
                         width: cellWH - 35,
@@ -118,7 +141,7 @@ class MainPage extends Component {
                 </ImageBackground>
                 <View style={{marginTop: 10}}>
                     <FlatList
-                        data={users}
+                        data={this.state.data}
                         renderItem={this._renderItem}
                         keyExtractor={this._keyExtractor}
                         showsVerticalScrollIndicator={false}

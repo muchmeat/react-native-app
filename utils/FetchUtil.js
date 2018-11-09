@@ -60,6 +60,7 @@ export default class FetchUtil extends Component {
         let _this = this;
         _this.timeoutPromise(this.DEFALT_DEADLINE, fetch(url, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json; charset=UTF-8'
