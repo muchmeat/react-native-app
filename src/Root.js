@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {SafeAreaView, StatusBar} from "react-native";
 import {Provider} from 'react-redux';
-import configureStore from './store/ConfigureStore';
+import configureStore from './example/store/ConfigureStore';
 
-import styles from './style/ThemeStyle';
-import App from './container/Router';
+import styles from './example/style/ThemeStyle';
+import App from './example/container/Router';
 
 const store = configureStore();
 
