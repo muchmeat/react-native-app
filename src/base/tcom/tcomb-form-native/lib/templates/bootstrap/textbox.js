@@ -95,7 +95,71 @@ function textbox(locals) {
                 </View>
             </View>
         )
-    }else {
+    }else if(mode === "number"){
+        return(
+            <View style={formGroupStyle}>
+                <View style={formStyle.textBox.textInput}>
+                    <View style={formStyle.textBox.textInputLabel}>
+                        {label}
+                    </View>
+                    <View style={formStyle.textBox.textInputRight}>
+                        <View style={formStyle.textBox.textInputView}>
+                            <TextInput
+                                accessibilityLabel={locals.label}
+                                ref="input"
+                                autoCapitalize={locals.autoCapitalize}
+                                autoCorrect={locals.autoCorrect}
+                                autoFocus={locals.autoFocus}
+                                blurOnSubmit={locals.blurOnSubmit}
+                                editable={locals.editable}
+                                keyboardType={"numeric"}
+                                maxLength={locals.maxLength}
+                                multiline={locals.multiline}
+                                onBlur={locals.onBlur}
+                                onEndEditing={locals.onEndEditing}
+                                onFocus={locals.onFocus}
+                                onLayout={locals.onLayout}
+                                onSelectionChange={locals.onSelectionChange}
+                                onSubmitEditing={locals.onSubmitEditing}
+                                onContentSizeChange={locals.onContentSizeChange}
+                                placeholderTextColor={locals.placeholderTextColor}
+                                secureTextEntry={locals.secureTextEntry}
+                                selectTextOnFocus={locals.selectTextOnFocus}
+                                selectionColor={locals.selectionColor}
+                                numberOfLines={locals.numberOfLines}
+                                underlineColorAndroid={locals.underlineColorAndroid}
+                                clearButtonMode={locals.clearButtonMode}
+                                clearTextOnFocus={locals.clearTextOnFocus}
+                                enablesReturnKeyAutomatically={locals.enablesReturnKeyAutomatically}
+                                keyboardAppearance={locals.keyboardAppearance}
+                                onKeyPress={locals.onKeyPress}
+                                returnKeyType={locals.returnKeyType}
+                                selectionState={locals.selectionState}
+                                onChangeText={value => {
+                                    const newText = value.replace(/[^\d]+/, '');
+                                    locals.onChange(newText)
+                                }}
+                                onChange={locals.onChangeNative}
+                                placeholder={locals.placeholder}
+                                style={textboxStyle}
+                                value={locals.value ? locals.value.toString() : ""}
+                            />
+                            {locals.value ?
+                                <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={()=>{
+                                    locals.onChange("");
+                                }}>
+                                    <View style={formStyle.textBox.clear}>
+                                        <Svg height="20" width="20" viewBox="0 0 1024 1024">{IconLib.IC_CLEAR}</Svg>
+                                    </View>
+                                </TouchableHighlight>
+                                :null}
+                        </View>
+                        {error}
+                    </View>
+                </View>
+            </View>
+        )
+    }else{
         return(
             <View style={formGroupStyle}>
                 <View style={formStyle.textBox.textInput}>
@@ -148,20 +212,20 @@ function textbox(locals) {
                                 value={locals.value ? locals.value.toString() : ""}
                             />
                             {locals.value ?
-                            <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={()=>{
-                                locals.onChange("");
-                            }}>
-                                <View style={formStyle.textBox.clear}>
-                                    <Svg height="20" width="20" viewBox="0 0 1024 1024">{IconLib.IC_CLEAR}</Svg>
-                                </View>
-                            </TouchableHighlight>
+                                <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={()=>{
+                                    locals.onChange("");
+                                }}>
+                                    <View style={formStyle.textBox.clear}>
+                                        <Svg height="20" width="20" viewBox="0 0 1024 1024">{IconLib.IC_CLEAR}</Svg>
+                                    </View>
+                                </TouchableHighlight>
                                 :null}
                         </View>
                         {error}
                     </View>
                 </View>
             </View>
-         )
+        )
     }
 }
 

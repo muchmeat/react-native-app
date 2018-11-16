@@ -14,6 +14,7 @@ import screen3 from '../pages/login/screen3'
 import form from '../pages/form/Form'
 import Detail from '../pages/form/Detail'
 import Detail2 from '../pages/form/Detail2'
+import DynamicsForm from '../pages/form/DynamicsForm'
 
 
 const Tabs = createMaterialTopTabNavigator({
@@ -105,6 +106,7 @@ export default function configAppNavigator(isLoggedIn) {
         screen3: {screen: screen3},
         main: {screen: MainPage},
         form: {screen: form},
+        dynamicsForm: {screen: DynamicsForm},
         List1: {screen: List1},
         List3: {screen: List3},
         Detail: {screen: Detail},
@@ -112,8 +114,8 @@ export default function configAppNavigator(isLoggedIn) {
         MainPage: {screen: MainPage},
         MainPage2: {screen: MainPage2},
     }, {
-        // initialRouteName:  isLoggedIn ? 'tabs':'screen1', // 默认显示界面
-        initialRouteName:  "form", // 默认显示界面
+        initialRouteName:  isLoggedIn ? 'tabs':'screen1', // 默认显示界面
+        // initialRouteName:  "form", // 默认显示界面
         headerMode: 'float',       //header的显示模式，值为none时不显示
         mode: 'card',              //使用默认风格
         navigationOptions: {       //此处设置的navigationOptions属性为所有页面使用，页面可以设置static navigationOptions，将此属性覆盖

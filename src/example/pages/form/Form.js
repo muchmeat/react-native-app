@@ -12,27 +12,29 @@ import DefualtBtn from '../../../base/components/DefualtBtn';
 class form1 extends Component {
 
     static navigationOptions = {
-        title: '表单',
+        title: '静态表单',
     };
 
-    // static navigationOptions={
-    //     header:()=>{
-    //         return <Header
-    //             placement="left"
-    //             leftComponent={{ icon: 'menu', color: '#fff'}}
-    //             centerComponent={{ text: '表单示例', style: { color: '#fff'} }}
-    //             containerStyle={{
-    //                 paddingTop:5,
-    //                 height:60,
-    //                 backgroundColor:styles.color.theme
-    //                 // justifyContent:"center",
-    //                 // alignItems:"center"
-    //             }}
-    //         />
-    //     }
-    // };
 
     componentWillMount() {
+        let _this = this;
+        let {setResult} = _this.props;
+    }
+
+    _commit(){
+        let _this = this;
+        let val = _this.refs.RxForm._commit();
+    }
+
+    componentDidMount() {
+
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
+    }
+
+    render() {
         let _this = this;
         let pgjg = t.enums({
             "1":"良好",
@@ -80,7 +82,6 @@ class form1 extends Component {
             fields: {
                 zp:{
                     label:"现场照片",
-                    navigation:_this.props.navigation,
                     mode:"imagePicker",
                     limit:4,
                 },
@@ -132,8 +133,8 @@ class form1 extends Component {
                 },
                 fj:{
                     label:"文档",
-                    navigation:_this.props.navigation,
                     mode:"filePicker",
+                    fileType:"image",
                     limit:4,
                 },
                 pynr:{
@@ -147,24 +148,7 @@ class form1 extends Component {
         };
         _this.values = {
 
-        }
-    }
-
-    _commit(){
-        let _this = this;
-        let val = _this.refs.RxForm._commit();
-    }
-
-    componentDidMount() {
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
-
-    render() {
-        let _this = this;
+        };
         return (
             <View style={styles.container}>
                 <RxForm ref="RxForm" rows={_this.rows} options={_this.options} values={_this.values}/>
@@ -180,6 +164,8 @@ class form1 extends Component {
 }
 
 export default connect(
-    (state) => ({}),
-    (dispatch) => ({})
+    (state) => ({
+    }),
+    (dispatch) => ({
+    })
 )(form1)

@@ -80,6 +80,7 @@ function parseArray(arr) {
     return result;
 }
 
+
 /**
  * 根据数据库对附件的分组配置，实现分组上传的配置
  * @param fileOptions

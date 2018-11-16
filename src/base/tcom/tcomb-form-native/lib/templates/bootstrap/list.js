@@ -8,7 +8,7 @@ import themeStyle from "../../../../../../../src/example/style/ThemeStyle";
 import formStyle from "../../stylesheets/formStyle";
 import {Avatar} from "react-native-elements";
 
-let { View,Text, TouchableHighlight,NativeModules} = require("react-native");
+let { View,Text, TouchableHighlight,NativeModules,ToastAndroid} = require("react-native");
 
 function renderRow(locals) {
     if(locals.value && locals.value.length && locals.items){
@@ -19,21 +19,21 @@ function renderRow(locals) {
                 let icon;
                 //类型
                 if("BMP,JPG,JPEG,PNG,GIF".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-image"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-image"} size={20} color={themeStyle.color.theme}/>;
                 }else if("DOCX".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-word"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-word"} size={20} color={themeStyle.color.theme}/>;
                 }else if("XLSX".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-excel"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-excel"} size={20} color={themeStyle.color.theme}/>;
                 }else if("PDF".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-pdf"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-pdf"} size={20} color={themeStyle.color.theme}/>;
                 }else if("PDF".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-pdf"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-pdf"} size={20} color={themeStyle.color.theme}/>;
                 }else if("PDF".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-video"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-video"} size={20} color={themeStyle.color.theme}/>;
                 }else if("AVI,WMV,MPEG,MP4,MKV,FLV,RMVB".indexOf(item.type.toUpperCase()) !== -1){
-                    icon = <Icon5 name={"file-video"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file-video"} size={20} color={themeStyle.color.theme}/>;
                 }else {
-                    icon = <Icon5 name={"file"} size={24} color={themeStyle.color.theme}/>;
+                    icon = <Icon5 name={"file"} size={20} color={themeStyle.color.theme}/>;
                 }
                 rows.push(<View key={guid()} style={formStyle.list.fileRow}>
                     <View style={{flex: 1}}>
@@ -139,7 +139,24 @@ function list(locals) {
             </View>
         </View>);
     }else {
-
+        let fileType = "*/*";
+        switch (locals.fileType){
+            case "images":
+                fileType = "image/*";
+                break;
+            case "videos":
+                fileType = "video/*";
+                break;
+            case "audios":
+                fileType = "audio/*";
+                break;
+            case "doc":
+                fileType = "application/msword;application/vnd.ms-excel;text/plain;application/vnd.ms-powerpoint;application/pdf;text/plain";
+                break;
+            case "compress":
+                fileType = "application/x-gzip;*/rar;*/7z;*/gz;*/arj;*/z";
+                break;
+        }
         return (<View style={formGroupStyle}>
             <View style={list.contain}>
                 <View style={{flexDirection:"row"}}>
@@ -147,6 +164,10 @@ function list(locals) {
                         {label}
                     </View>
                     <TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent' onPress={()=>{
+                        if(locals.value.length >= locals.limit){
+                            ToastAndroid.show("已超出附件数量限制",ToastAndroid.SHORT);
+                            return;
+                        }
                         NativeModules.DocPickerModule.openFilePicker({
                             width: 300,
                             height: 300,
@@ -156,10 +177,14 @@ function list(locals) {
                             compressImageMaxHeight: 640,
                             compressImageQuality: 0.5,
                             compressVideoPreset: 'MediumQuality'
-                        }).then((data)=>{
+                        },fileType).then((data)=>{
                             let _data = {fileSize:data.fileSize,fileName:data.name + "." + data.extension,path:data.path,type:data.extension};
                             locals.onChange(_data, new Date().toDateString(), locals.path, "add");
-                        }).catch(e=>console.warn(e));
+                        }).catch(e=>{
+                            if(!e.code.indexOf("CANCEL") > -1 && !e.code.indexOf("cancel") > -1){
+                                ToastAndroid.show("不支持的文件类型",ToastAndroid.SHORT);
+                            }
+                        });
                     }}>
                         <Icon size={24} color={themeStyle.color.theme} name={"folder-open"}/>
                     </TouchableHighlight>

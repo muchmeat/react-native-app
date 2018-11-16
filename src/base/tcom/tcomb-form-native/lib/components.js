@@ -649,20 +649,6 @@ class List extends Component {
   }
 
   onChange(value, keys, path, kind, index) {
-      // if(value.data){
-      //     if(kind === "remove"){
-      //         this.oldRemoveId.push(value.id);
-      //         this.old.splice(index,1);
-      //         this.oldImages.splice(index,1);
-      //     }
-      // }else {
-      //     if(kind === "remove"){
-      //         this.addImages.splice(index - this.oldImages.length,1);
-      //     }else {
-      //       // console.warn(1)
-      //         this.addImages.push(value);
-      //     }
-      // }
       if(kind==="remove"){
           this.addImages.splice(index - this.oldImages.length,1);
       }else {
@@ -671,44 +657,6 @@ class List extends Component {
       this.setState({ value:this.old.concat(this.addImages), keys: this.props.ctx.uidGenerator.next(), isPristine: false, kind:kind, index:index });
   }
 
-  // onItemChange(itemIndex, itemValue, path, kind) {
-  //     
-  //   let value = this.state.value.slice();
-  //   value[itemIndex] = itemValue;
-  //   this.onChange(value, this.state.keys, path, kind);
-  // }
-  //
-  // removeItem(i) {
-  //   
-  //   let value = this.state.value.slice();
-  //   value.splice(i, 1);
-  //   let keys = this.state.keys.slice();
-  //   keys.splice(i, 1);
-  //   this.onChange(value, keys, this.props.ctx.path.concat(i), "remove");
-  // }
-
-  // moveUpItem(i) {
-  //   if (i > 0) {
-  //     this.onChange(
-  //       move(this.state.value.slice(), i, i - 1),
-  //       move(this.state.keys.slice(), i, i - 1),
-  //       this.props.ctx.path.concat(i),
-  //       "moveUp"
-  //     );
-  //   }
-  // }
-
-  // moveDownItem(i) {
-  //   if (i < this.state.value.length - 1) {
-  //     this.onChange(
-  //       move(this.state.value.slice(), i, i + 1),
-  //       move(this.state.keys.slice(), i, i + 1),
-  //       this.props.ctx.path.concat(i),
-  //       "moveDown"
-  //     );
-  //   }
-  // }
-
   getTemplates() {
     return merge(this.props.ctx.templates, this.props.options.templates);
   }
@@ -716,94 +664,6 @@ class List extends Component {
   getTemplate() {
     return this.props.options.template || this.getTemplates().list;
   }
-
-  // getItems() {
-  //   let { options, ctx } = this.props;
-  //   let auto = this.getAuto();
-  //   let i18n = this.getI18n();
-  //   let config = this.getConfig();
-  //   let stylesheet = this.getStylesheet();
-  //   let templates = this.getTemplates();
-  //   let value = this.state.value;
-  //   return value.map((itemValue, i) => {
-  //     let type = this.typeInfo.innerType.meta.type;
-  //     let itemType = getTypeFromUnion(type, itemValue);
-  //     let itemOptions = getComponentOptions(
-  //       options.item,
-  //       noobj,
-  //       itemValue,
-  //       type
-  //     );
-  //     let ItemComponent = getFormComponent(itemType, itemOptions);
-  //     let buttons = [];
-  //     if (!options.disableRemove) {
-  //       buttons.push({
-  //         type: "remove",
-  //         label: i18n.remove,
-  //         click: this.removeItem.bind(this, i)
-  //       });
-  //     }
-  //     if (!options.disableOrder) {
-  //       buttons.push(
-  //         {
-  //           type: "move-up",
-  //           label: i18n.up,
-  //           click: this.moveUpItem.bind(this, i)
-  //         },
-  //         {
-  //           type: "move-down",
-  //           label: i18n.down,
-  //           click: this.moveDownItem.bind(this, i)
-  //         }
-  //       );
-  //     }
-  //     return {
-  //       input: React.createElement(ItemComponent, {
-  //         ref: i,
-  //         type: itemType,
-  //         options: itemOptions,
-  //         value: itemValue,
-  //         onChange: this.onItemChange.bind(this, i),
-  //         ctx: {
-  //           context: ctx.context,
-  //           uidGenerator: ctx.uidGenerator,
-  //           auto,
-  //           config,
-  //           label: ctx.label ? `${ctx.label}[${i + 1}]` : String(i + 1),
-  //           i18n,
-  //           stylesheet,
-  //           templates,
-  //           path: ctx.path.concat(i)
-  //         }
-  //       }),
-  //       key: this.state.keys[i],
-  //       buttons: buttons
-  //     };
-  //   });
-  // }
-  //
-  // getLocalsBefore(){
-  //   
-  //     return new Promise (()=>{
-  //         let options = this.props.options;
-  //         let i18n = this.getI18n();
-  //         let locals = super.getLocals();
-  //         locals.add = options.disableAdd ? null
-  //             : {
-  //                 type: "add",
-  //                 label: i18n.add,
-  //                 click: this.addItem.bind(this)
-  //             };
-  //         if(this.props.options.navigation){
-  //             locals.navigation =  this.props.options.navigation;
-  //         }
-  //         if(this.props.options.limit){
-  //             locals.limit =  this.props.options.limit;
-  //         }
-  //         locals.className = options.className;
-  //         this.images = this.images ? this.images : [];
-  //     })
-  // }
 
   setImages(locals){
       //编辑页面，初始化时带入的数据
@@ -839,6 +699,7 @@ class List extends Component {
           locals.limit =  this.props.options.limit;
       }
       locals.mode = this.props.options.mode;
+      locals.fileType = this.props.options.fileType;
       this.setImages(locals);
       locals.items = this.oldImages.concat(this.addImages);
       if(locals.value && locals.value.length != locals.items.length)

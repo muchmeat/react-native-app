@@ -63,7 +63,17 @@ const lists = [
             svg: IconLib.IC_MAIN_XXTX
         }]
     },
-    {name: "表单", icon: "line-style", type: "material", page: "form"},
+    {
+        name: "表单", icon: "line-style", type: "material", second: [{
+            name: '静态表单',
+            page: "form",
+            svg: IconLib.IC_MAIN_XXTX
+        }, {
+            name: '动态表单',
+            page: "dynamicsForm",
+            svg: IconLib.IC_MAIN_XXTX
+        }]
+    },
     {
         name: "详情", icon: "assignment", type: "material", second: [{
             name: '详情-1',

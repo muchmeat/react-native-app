@@ -56,9 +56,9 @@ export default class LoginScreen1 extends Component {
             let json={
                 username: 'plat', password: '111',loginType:'APP'
             };
-            FetchUtil.postJsonEntity("http://172.28.1.20:8082/plat/loginVali?username=plat&password=111&loginType=Account&sjly=APP",json,(res)=>{
-                if(res&&res.success) {
-                    AsyncStorage.setItem("token", res.data);
+            FetchUtil.postJsonEntity("http://10.125.6.237:8080/plat/loginVali?username=plat&password=111&loginType=Account&sjly=APP",json,(res)=>{
+                // if(res&&res.success) {
+                //     AsyncStorage.setItem("token", JSON.stringify(res.data));
                     const {dispatch}=this.props.navigation; //解构赋值
                     const resetAction = StackActions.reset({
                         index: 0,
@@ -67,7 +67,7 @@ export default class LoginScreen1 extends Component {
                         ]
                     });
                     dispatch(resetAction);
-                }
+                // }
             },(error)=>{
                 alert(JSON.stringify(error));
             },()=>{

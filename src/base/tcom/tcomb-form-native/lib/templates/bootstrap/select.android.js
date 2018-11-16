@@ -1,6 +1,7 @@
 import IconLib from "../../../../../../../assets/svg/IconLib";
 import Svg from 'react-native-svg'
 import formStyle from '../../stylesheets/formStyle'
+import themeStyle from "../../../../../../example/style/ThemeStyle";
 let React = require("react");
 let { View, Text, Picker } = require("react-native");
 
@@ -13,7 +14,7 @@ function select(locals) {
   let formGroupStyle = formStyle.formGroup.normal;
   let controlLabelStyle = formStyle.label.normal;
   let selectStyle = Object.assign(
-    {},
+    {color: themeStyle.form.LABEL_COLOR},
     formStyle.picker.normal,
     formStyle.picker.pickerContainer.normal
   );
@@ -54,13 +55,13 @@ function select(locals) {
                 <Picker
                     accessibilityLabel={locals.label}
                     ref="input"
-                    style={[selectStyle]}
+                    style={{color:"rgba(0,0,0,0.54)"}}
                     selectedValue={locals.value}
                     onValueChange={locals.onChange}
                     enabled={locals.enabled}
                     mode={locals.mode}
                     prompt={locals.prompt}
-                    itemStyle={[locals.itemStyle]}
+                    itemStyle={locals.itemStyle}
                 >
                     {options}
                 </Picker>

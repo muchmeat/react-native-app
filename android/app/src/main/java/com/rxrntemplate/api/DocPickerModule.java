@@ -205,7 +205,7 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
     }
 
     @ReactMethod
-    public void openFilePicker(final ReadableMap options, final Promise promise) {
+    public void openFilePicker(final ReadableMap options,final String mode, final Promise promise) {
         final Activity activity = getCurrentActivity();
 
         if (activity == null) {
@@ -219,19 +219,19 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
         permissionsCheck(activity, promise, Collections.singletonList(Manifest.permission.WRITE_EXTERNAL_STORAGE), new Callable<Void>() {
             @Override
             public Void call() {
-                initiateFilePicker(promise);
+                initiateFilePicker(promise,mode);
                 return null;
             }
         });
     }
 
     @ReactMethod
-    private void initiateFilePicker(final Promise promise) {
+    private void initiateFilePicker(final Promise promise,final String mode) {
         try {
             final Activity activity = getCurrentActivity();
             final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 
-            galleryIntent.setType("*/*");
+            galleryIntent.setType(mode);
 
             galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
 

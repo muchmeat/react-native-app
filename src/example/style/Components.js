@@ -26,6 +26,7 @@ const components = Object.freeze({
             width:defualt_themes.screen.width,
             backgroundColor:defualt_themes.color.backgroundColor,
             alignItems:"center",
+            marginBottom:0,
             justifyContent:"center"
         },
         touch:{

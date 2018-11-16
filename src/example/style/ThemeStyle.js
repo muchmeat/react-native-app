@@ -56,8 +56,8 @@ const default_themes = Object.freeze({
         height: 56,
     },
     form:{
-        LABEL_COLOR : "#9C9C9C",
-        INPUT_COLOR : "#9C9C9C",
+        LABEL_COLOR : "rgba(0,0,0,0.87)",
+        INPUT_COLOR : "rgba(0,0,0,0.54)",
         ERROR_COLOR : "#a94442",
         HELP_COLOR : "#999999",
         BORDER_COLOR_TINT : "#ddd",

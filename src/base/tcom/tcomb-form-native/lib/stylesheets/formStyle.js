@@ -12,8 +12,7 @@ const formStyle = Object.freeze({
     label:{
         normal: {
             flex:1,
-            // color: themeStyle.form.LABEL_COLOR,
-            color: themeStyle.color.fontGray,
+            color: themeStyle.form.LABEL_COLOR,
             fontSize: themeStyle.form.FONT_SIZE,
             fontWeight: themeStyle.form.FONT_WEIGHT
         }
@@ -112,7 +111,7 @@ const formStyle = Object.freeze({
             paddingLeft:10,alignItems:"center",justifyContent:"center"
         },
         text:{
-            fontSize:16,color:"#9C9C9C"
+            fontSize:16,color:themeStyle.form.INPUT_COLOR
         },
         checkbox: {
             flex:1,
@@ -142,7 +141,7 @@ const formStyle = Object.freeze({
             normal: {
                 marginBottom: 1,
                 borderRadius: 4,
-                borderColor: themeStyle.form.BORDER_COLOR_TINT,
+                borderColor: themeStyle.form.BORDER_COLOR_GRAY,
                 borderWidth: 1/PixelRatio.get()
             },
             error: {

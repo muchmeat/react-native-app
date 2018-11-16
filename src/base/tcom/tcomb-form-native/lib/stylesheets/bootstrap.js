@@ -23,8 +23,7 @@ let stylesheet = Object.freeze({
   controlLabel: {
     normal: {
         flex:1,
-        // color: themeStyle.form.LABEL_COLOR,
-        color: themeStyle.color.fontGray,
+        color: themeStyle.form.LABEL_COLOR,
         fontSize: themeStyle.form.FONT_SIZE,
         fontWeight: themeStyle.form.FONT_WEIGHT
     },
