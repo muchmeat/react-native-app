@@ -12,7 +12,7 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
-    PixelRatio, AsyncStorage
+    PixelRatio, AsyncStorage,ActivityIndicator
 } from 'react-native';
 import {connect} from 'react-redux'; // 引入connect函数
 import {Header, Button, Card, ListItem} from 'react-native-elements';
@@ -23,41 +23,7 @@ import IconLib from '../../../assets/svg/IconLib';
 import Svg from 'react-native-svg';
 import {StackActions, NavigationActions} from 'react-navigation';
 import FetchUtil from "../../../utils/FetchUtil";
-const users = [
-    {
-        name: '待办工作',
-        svg: IconLib.IC_MAIN_DBGZ,
-        bgColor: "#20C6DC"
-    }, {
-        name: '数据统计',
-        svg: IconLib.IC_MAIN_SJTJ,
-        bgColor: "#27B4FC"
-    }, {
-        name: '地图定位',
-        svg: IconLib.IC_MAIN_DTDW,
-        bgColor: "#4A94FF"
-    }, {
-        name: '视频监控',
-        svg: IconLib.IC_MAIN_SPJK,
-        bgColor: "#4A94FF"
-    }, {
-        name: '施工日志',
-        svg: IconLib.IC_MAIN_SGRZ,
-        bgColor: "#27B4FC"
-    }, {
-        name: '岗前培训',
-        svg: IconLib.IC_MAIN_VIDOE,
-        bgColor: "#20C6DC"
-    }, {
-        name: '个人中心',
-        svg: IconLib.IC_MAIN_GRZX,
-        bgColor: "#20C6DC"
-    }, {
-        name: '任务管理',
-        svg: IconLib.IC_MAIN_RWGL,
-        bgColor: "#20C6DC"
-    }
-]
+import Global from "../../../utils/Global";
 
 const {width} = Dimensions.get('window')
 const cols = 4;
@@ -69,10 +35,11 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:users
+            data: []
         };
         this.getMenu();
     }
+
     static navigationOptions = {
         header: () => {
             return <Header
@@ -87,20 +54,53 @@ class MainPage extends Component {
         }
     };
 
-    getMenu=()=>{
-        let json={
-            type: 'menu', parentCode: 'app'
+    getMenu = ()=> {
+        let json = {
+            param: {
+                type: 'menu',
+                parentCode: 'app'
+            }
         };
-        FetchUtil.postJsonEntity("http://172.28.1.20:8082/plat/resource/getUserResource?type=menu&parentCode=app",json,(res)=>{
-            alert(JSON.stringify(res));
-        },(error)=>{
-            alert(JSON.stringify(error));
-        },()=>{
-
+        FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/data/getUserResource?type=menu&parentCode=app", json, (res)=> {
+            if (res && res.success) {
+                this.setState({
+                    data: res.data
+                })
+            }
+        }, (error)=> {
+            alert("哎呀出错了，错误原因：" + error);
+        }, ()=> {
+            alert("超时了");
         });
     };
 
     _renderItem = ({item, index}) => {
+        let o = {};
+        if (item.name == "待办工作") {
+            o.svg = IconLib.IC_MAIN_DBGZ;
+            o.bgColor = "#20C6DC";
+        } else if (item.name == "数据统计") {
+            o.svg = IconLib.IC_MAIN_SJTJ;
+            o.bgColor = "#27B4FC";
+        } else if (item.name == "地图定位") {
+            o.svg = IconLib.IC_MAIN_DTDW;
+            o.bgColor = "#4A94FF";
+        } else if (item.name == "视频监控") {
+            o.svg = IconLib.IC_MAIN_SPJK;
+            o.bgColor = "#4A94FF";
+        } else if (item.name == "施工日志") {
+            o.svg = IconLib.IC_MAIN_SGRZ;
+            o.bgColor = "#27B4FC";
+        } else if (item.name == "岗前培训") {
+            o.svg = IconLib.IC_MAIN_VIDOE;
+            o.bgColor = "#20C6DC";
+        } else if (item.name == "个人中心") {
+            o.svg = IconLib.IC_MAIN_GRZX;
+            o.bgColor = "#20C6DC";
+        } else if (item.name == "任务管理") {
+            o.svg = IconLib.IC_MAIN_RWGL;
+            o.bgColor = "#20C6DC";
+        }
         return (
             <TouchableOpacity activeOpacity={0.5} onPress={()=> {
 
@@ -117,11 +117,11 @@ class MainPage extends Component {
                         height: cellWH - 35,
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: item.bgColor,
+                        backgroundColor: o.bgColor,
                         borderRadius: (cellWH - 35) / 2
                     }}>
                         <Svg height="24" width="24" viewBox="0 0 1024 1024">
-                            {item.svg}
+                            {o.svg}
                         </Svg>
                     </View>
                     <Text style={mainPageStyle.touchText}
@@ -140,7 +140,7 @@ class MainPage extends Component {
                                  source={require('../../../assets/images/main_title.png')}>
                 </ImageBackground>
                 <View style={{marginTop: 10}}>
-                    <FlatList
+                    {this.state.data && this.state.data.length > 0 ? <FlatList
                         data={this.state.data}
                         renderItem={this._renderItem}
                         keyExtractor={this._keyExtractor}
@@ -150,7 +150,9 @@ class MainPage extends Component {
                         horizontal={false}
                         contentContainerStyle={mainPageStyle.contentContainerStyle}
                     />
-                </View>
+                        : <View style={{width: styles.screen.width, height: cellWH - 10}}>
+                        <ActivityIndicator size={14}/>
+                    </View>}</View>
                 <ListItem
                     subtitle={"岗前培训"}
                     subtitleStyle={{fontSize: 15, color: "#222"}}

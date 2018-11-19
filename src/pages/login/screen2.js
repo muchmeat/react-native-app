@@ -17,6 +17,7 @@ import { Input, Button } from 'react-native-elements'
 import ThemeStyle from '../../style/ThemeStyle';
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import {StackActions, NavigationActions} from 'react-navigation';
+import FetchUtil from "../../../utils/FetchUtil";
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -267,15 +268,16 @@ export default class LoginScreen2 extends Component {
               buttonStyle={{ backgroundColor: 'transparent',elevation:0 }}
               underlayColor="transparent"
               onPress={() => {
-                AsyncStorage.setItem("token", "");
-                const {dispatch}=this.props.navigation; //解构赋值
-                const resetAction = StackActions.reset({
-                  index: 0,
-                  actions: [
-                    NavigationActions.navigate({routeName: 'screen1'})
-                  ]
-                });
-                dispatch(resetAction);
+                 let json={
+                     lx:"loginVali",
+                     param:{
+                         username:'plat',password:'111'
+                     }
+                 }
+                 FetchUtil.postJsonStr("http://172.28.1.20:8082/plat/data/query",json,
+                     (res)=>{
+                         alert(JSON.stringify(res));
+                 })
               }}
             />
           </View>

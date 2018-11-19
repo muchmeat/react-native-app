@@ -7,6 +7,7 @@ import {
     View, AsyncStorage
 } from 'react-native';
 import FetchUtil from "../../utils/FetchUtil";
+import Global from "../../utils/Global";
 import configAppNavigator from './App';
 
 class Router extends Component {
@@ -15,21 +16,12 @@ class Router extends Component {
     };
 
     componentDidMount() {
-        // refreshToken()
-        //     .then(() => self.setState({ checkedLogin: true, isLoggedIn: true }))
-        //     .catch(err => {
-        //         console.log(err);
-        //         self.setState({
-        //             checkedLogin: true,
-        //             isLoggedIn: false
-        //         });
-        //     });
         AsyncStorage.getItem("token", (error, user) => {
                 let json = {
-                    username: 'plat', password: '111', loginType: 'APP'
+                    token:user
                 };
-                FetchUtil.postJsonEntity("http://172.28.1.20:8082/plat/tokenVali?token=" + user, json, (res)=> {
-                    if (res && res == "SUCCESS") {
+                FetchUtil.postJsonStr1(Global.REQUEST_BASE_URL+"/tokenVali", json, (res)=> {
+                    if (res && res.success) {
                         this.setState({checkedLogin: true, isLoggedIn: true})
                     } else {
                         this.setState({

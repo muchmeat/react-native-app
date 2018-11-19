@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, ImageBackground, Dimensions, Alert,AsyncStorage}
 import { Input, Button } from 'react-native-elements'
 import ThemeStyle from '../../style/ThemeStyle'
 import FetchUtil from "../../../utils/FetchUtil";
+import Global from "../../../utils/Global";
 import {StackActions, NavigationActions} from 'react-navigation';
 
 // import { Font } from 'expo';
@@ -50,31 +51,37 @@ export default class LoginScreen1 extends Component {
     }
 
     submitLoginCredentials() {
-        const { showLoading } = this.state;
-        this.setState({
-            showLoading: !showLoading
-        },()=>{
-            let json={
-                username: 'plat', password: '111',loginType:'APP'
-            };
-            FetchUtil.postJsonEntity("http://172.28.1.20:8082/plat/loginVali?username=plat&password=111&loginType=Account&sjly=APP",json,(res)=>{
-                if(res&&res.success) {
-                    AsyncStorage.setItem("token", res.data);
-                    const {dispatch}=this.props.navigation; //解构赋值
-                    const resetAction = StackActions.reset({
-                        index: 0,
-                        actions: [
-                            NavigationActions.navigate({routeName: 'tabs'})
-                        ]
-                    });
-                    dispatch(resetAction);
-                }
-            },(error)=>{
-                alert(JSON.stringify(error));
-            },()=>{
+        const { showLoading,password,email } = this.state;
+        if(password&&email) {
+            this.setState({
+                showLoading: !showLoading
+            }, ()=> {
+                let json = {
+                    param: {
+                        username: email, password: password, loginType: "Account"
+                    }
+                };
+                FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/loginValiApp", json, (res)=> {
+                    if (res && res.success) {
+                        AsyncStorage.setItem("token", res.data);
+                        const {dispatch}=this.props.navigation; //解构赋值
+                        const resetAction = StackActions.reset({
+                            index: 0,
+                            actions: [
+                                NavigationActions.navigate({routeName: 'tabs'})
+                            ]
+                        });
+                        dispatch(resetAction);
+                    }
+                }, (error)=> {
+                    alert(JSON.stringify(error));
+                }, ()=> {
 
+                });
             });
-        });
+        }else{
+            alert("用户名密码为空");
+        }
     }
 
     render() {
