@@ -152,6 +152,19 @@ dependencies {
     compile project(':react-native-svg')
     compile project(':react-native-image-picker')
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    // 在 API < 14 上的机器支持 WebP 时，需要添加
+    compile 'com.facebook.fresco:animated-base-support:1.2.0'
+
+    // 支持 GIF 动图，需要添加
+    compile 'com.facebook.fresco:animated-gif:1.2.0'
+
+    // 支持 WebP （静态图+动图），需要添加
+    compile 'com.facebook.fresco:animated-webp:1.2.0'
+    compile 'com.facebook.fresco:webpsupport:1.2.0'
+
+    // 仅支持 WebP 静态图，需要添加
+    compile 'com.facebook.fresco:webpsupport:1.2.0'
+
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 }
