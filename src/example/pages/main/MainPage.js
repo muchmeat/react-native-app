@@ -19,11 +19,11 @@ import {Header, Button, Card, ListItem} from 'react-native-elements';
 import styles from '../../style/ThemeStyle';
 import mainPageStyle from '../../style/MainPageStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IconLib from '../../../assets/svg/IconLib';
+import IconLib from '../../../../assets/svg/IconLib';
 import Svg from 'react-native-svg';
 import {StackActions, NavigationActions} from 'react-navigation';
-import FetchUtil from "../../../utils/FetchUtil";
-import Global from "../../../utils/Global";
+import FetchUtil from "../../../../utils/FetchUtil";
+import Global from "../../../../utils/Global";
 
 const {width} = Dimensions.get('window')
 const cols = 4;
@@ -137,7 +137,7 @@ class MainPage extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground style={{width: styles.screen.width, height: styles.screen.height / 3 - 40}}
-                                 source={require('../../../assets/images/main_title.png')}>
+                                 source={require('../../../../assets/images/main_title.png')}>
                 </ImageBackground>
                 <View style={{marginTop: 10}}>
                     {this.state.data && this.state.data.length > 0 ? <FlatList

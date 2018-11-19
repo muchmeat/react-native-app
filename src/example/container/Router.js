@@ -6,9 +6,9 @@ import {
     StyleSheet,
     View, AsyncStorage
 } from 'react-native';
-import FetchUtil from "../../utils/FetchUtil";
-import Global from "../../utils/Global";
-import configAppNavigator from './App';
+import FetchUtil from "../../../utils/FetchUtil";
+import Global from "../../../utils/Global";
+import configAppNavigator from './Container';
 
 class Router extends Component {
     state = {
@@ -20,7 +20,7 @@ class Router extends Component {
                 let json = {
                     token:user
                 };
-                FetchUtil.postJsonStr1(Global.REQUEST_BASE_URL+"/tokenVali", json, (res)=> {
+                FetchUtil.postJsonStr(Global.REQUEST_BASE_URL+"/tokenVali", json, (res)=> {
                     if (res && res.success) {
                         this.setState({checkedLogin: true, isLoggedIn: true})
                     } else {

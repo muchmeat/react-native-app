@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, ImageBackground, Dimensions, Alert,AsyncStorage} from 'react-native';
 import { Input, Button } from 'react-native-elements'
 import ThemeStyle from '../../style/ThemeStyle'
-import FetchUtil from "../../../utils/FetchUtil";
-import Global from "../../../utils/Global";
+import FetchUtil from "../../../../utils/FetchUtil";
+import Global from "../../../../utils/Global";
 import {StackActions, NavigationActions} from 'react-navigation';
 
 // import { Font } from 'expo';
@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-const BG_IMAGE = require('../../../assets/images/bg_screen1.jpg');
+const BG_IMAGE = require('../../../../assets/images/bg_screen1.jpg');
 
 export default class LoginScreen1 extends Component {
 

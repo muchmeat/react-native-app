@@ -16,7 +16,7 @@ import {
 import { Input, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import {StackActions, NavigationActions} from 'react-navigation';
-import FetchUtil from "../../../utils/FetchUtil";
+import FetchUtil from "../../../../utils/FetchUtil";
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
