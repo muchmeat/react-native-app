@@ -1,4 +1,4 @@
-package com.rxrntemplate.api;
+package com.api;
 
 import android.util.Log;
 

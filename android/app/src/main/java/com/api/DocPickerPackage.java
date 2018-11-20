@@ -1,4 +1,4 @@
-package com.rxrntemplate.api;
+package com.api;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
