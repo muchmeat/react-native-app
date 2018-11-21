@@ -126,3 +126,42 @@ move "%file%"_tmp.gradle "%file%"
 
 echo ************************************************* 修改包名 **************************************************
 ren %~dp0android\app\src\main\java\com\rxrntemplate %all%
+
+
+echo ************************************************* 修改 build.gradle 版本 **************************************************
+
+set replaced=3.2.1
+
+set file=%~dp0android\build.gradle
+set "file=%file:"=%"
+for %%i in ("%file%") do set file=%%~fi
+
+set /p all='change build.gradle version 3.2.1 to':
+if '%all%'=='' (
+echo ************************************************** 不修改 **************************************************
+) else (
+    for /f "delims=" %%i in ('type "%file%"') do (
+      set str=%%i
+      set "str=!str:%replaced%=%all%!"
+      echo !str!>>"%file%"_tmp.txt
+    )
+    move "%file%"_tmp.txt "%file%"
+)
+
+echo ************************************************* 修改 gradle-wrapper 版本 **************************************************
+
+set replaced=gradle-4.6-all.zip
+set file=%~dp0android\gradle\wrapper\gradle-wrapper.properties
+set /p all='change gradle-wrapper.properties version gradle-4.6-all.zip to':
+if '%all%'=='' (
+echo ************************************************** 不修改 **************************************************
+) else (
+    set "file=%file:"=%"
+    for %%i in ("%file%") do set file=%%~fi
+    for /f "delims=" %%i in ('type "%file%"') do (
+      set str=%%i
+      set "str=!str:%replaced%=%all%!"
+      echo !str!>>"%file%"_tmp.txt
+    )
+    move "%file%"_tmp.txt "%file%"
+)
