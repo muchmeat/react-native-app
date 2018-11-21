@@ -4,6 +4,7 @@ import {
     ScrollView, findNodeHandle, UIManager
 } from "react-native";
 import t from 'tcomb-form-native';
+import {parseJson} from '../../../utils/common';
 import defualt_themes from "../../example/style/ThemeStyle";
 
 const Form = t.form.Form;
@@ -11,7 +12,15 @@ const Form = t.form.Form;
 export default class RxForm extends Component {
 
     _commit(){
-        const result = this.refs.form.validate();
+        let _this = this;
+        let result = _this.refs.form.validate();
+        let fields = _this.props.options.fields;
+        let fj = {};
+        for(let field in fields){
+            if(fields[field].mode && (fields[field].mode === "imagePicker" || fields[field].mode === "filePicker")){
+                fj[field] = _this._getValue(field);
+            }
+        }
         if(result.errors && result.errors.length){
             const handle = findNodeHandle(this.refs.form.getComponent(result.errors[0].path[0]));
             try {
@@ -30,6 +39,11 @@ export default class RxForm extends Component {
                 this.refs.scroll.scrollTo({ y :toY - 55,animated: true});
             });
         }
+        result = parseJson(result);
+        result.value = {
+            ...result.value,
+            ...fj
+        };
         return result;
     }
 

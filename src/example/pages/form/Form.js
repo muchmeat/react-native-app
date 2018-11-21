@@ -18,24 +18,6 @@ class form1 extends Component {
 
     componentWillMount() {
         let _this = this;
-        let {setResult} = _this.props;
-    }
-
-    _commit(){
-        let _this = this;
-        let val = _this.refs.RxForm._commit();
-    }
-
-    componentDidMount() {
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
-
-    render() {
-        let _this = this;
         let pgjg = t.enums({
             "1":"良好",
             "2":"不配合"
@@ -149,6 +131,24 @@ class form1 extends Component {
         _this.values = {
 
         };
+    }
+
+    _commit(){
+        let _this = this;
+        let val = _this.refs.RxForm._commit();
+        console.warn(val.value)
+    }
+
+    componentDidMount() {
+
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
+    }
+
+    render() {
+        let _this = this;
         return (
             <View style={styles.container}>
                 <RxForm ref="RxForm" rows={_this.rows} options={_this.options} values={_this.values}/>

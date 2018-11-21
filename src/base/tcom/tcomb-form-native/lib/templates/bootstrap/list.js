@@ -181,7 +181,7 @@ function list(locals) {
                             let _data = {fileSize:data.fileSize,fileName:data.name + "." + data.extension,path:data.path,type:data.extension};
                             locals.onChange(_data, new Date().toDateString(), locals.path, "add");
                         }).catch(e=>{
-                            if(!e.code.indexOf("CANCEL") > -1 && !e.code.indexOf("cancel") > -1){
+                            if(!e.code.indexOf("CANCEL") > -1 || !e.code.indexOf("cancel") > -1){
                                 ToastAndroid.show("不支持的文件类型",ToastAndroid.SHORT);
                             }
                         });
