@@ -1,14 +1,12 @@
 ﻿@echo off 
 setlocal enabledelayedexpansion 
 
-echo ***** 原名称 replaced与小写replaced2 *****
+echo ***** 原名称 replaced ||与小写replaced2 *****
 set replaced=rxRnTemplate
 set replaced2=rxrntemplate
 
 echo ***** 新名称 all *****
-for /f "delims=" %%a in (%cd%\projectName.js) do (
-    set all=%%a
-)
+set /p all='please entry project name':
 
 echo ************************************************* 修改 package.json **************************************************
 set file=%cd%\package.json
