@@ -61,7 +61,7 @@ class MainPage extends Component {
                 parentCode: 'app'
             }
         };
-        FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/data/getUserResource?type=menu&parentCode=app", json, (res)=> {
+        FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/resource/getUserResource?type=menu&parentCode=app", json, (res)=> {
             if (res && res.success) {
                 this.setState({
                     data: res.data

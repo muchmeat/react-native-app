@@ -19,12 +19,16 @@ export default class FetchUtil extends Component {
     static postJsonStr(url, json, responseHandler, errorHandler, rejectHandler) {
         AsyncStorage.getItem("token", (error, user) => {
             let formData = new FormData();
+            let headers="";
             if(user){
-                json.token = user;
+                headers = user;
             }
             formData.append('data', JSON.stringify(json));
             this.timeoutPromise(this.DEFALT_DEADLINE, fetch(url, {
                 method: 'POST',
+                headers: {
+                    "Authorization":headers
+                },
                 body: formData
             }), responseHandler, errorHandler, rejectHandler);
         })
