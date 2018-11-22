@@ -115,8 +115,8 @@ export default function configAppNavigator(isLoggedIn) {
         MainPage2: {screen: MainPage2},
     }, {
         // initialRouteName:  isLoggedIn ? 'tabs':'screen1', // 默认显示界面
-        // initialRouteName:  'tabs', // 默认显示界面
-        initialRouteName:  "form", // 默认显示界面
+        initialRouteName:  'tabs', // 默认显示界面
+        // initialRouteName:  "form", // 默认显示界面
         headerMode: 'float',       //header的显示模式，值为none时不显示
         mode: 'card',              //使用默认风格
         navigationOptions: {       //此处设置的navigationOptions属性为所有页面使用，页面可以设置static navigationOptions，将此属性覆盖

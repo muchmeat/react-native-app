@@ -6,5 +6,5 @@ import React, {Component} from 'react';
 
 export default class Global extends Component {
 
-    static REQUEST_BASE_URL = 'http://172.28.1.20:8082/plat/'; //测试地址
+    static REQUEST_BASE_URL = 'http://192.168.0.125:8087/plat'; //测试地址
 }

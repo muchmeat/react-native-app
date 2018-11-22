@@ -1,33 +1,33 @@
-@echo off 
-setlocal enabledelayedexpansion 
+@echo off
+setlocal enabledelayedexpansion
 
-echo ***** Ô­Ãû³Æ replaced ||ÓëÐ¡Ð´replaced2 *****
+echo ***** åŽŸåç§° replaced ||ä¸Žå°å†™replaced2 *****
 set replaced=rxRnTemplate
 set replaced2=rxrntemplate
 
-echo ***** ÐÂÃû³Æ all *****
+echo ***** æ–°åç§° all *****
 set /p all='please entry project name':
 
-echo ************************************************* ÐÞ¸Ä package.json **************************************************
+echo ************************************************* ä¿®æ”¹ package.json **************************************************
 set file=%cd%\package.json
-set "file=%file:"=%" 
+set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
-for /f "delims=" %%i in ('type "%file%"') do ( 
-  set str=%%i 
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
+for /f "delims=" %%i in ('type "%file%"') do (
+  set str=%%i
   set "str=!str:%replaced%=%all%!"
-  echo !str!>>"%file%"_tmp.txt 
+  echo !str!>>"%file%"_tmp.txt
 )
 move "%file%"_tmp.txt "%file%"
 
 
-echo ************************************************* ÐÞ¸Ä app.json **************************************************
+echo ************************************************* ä¿®æ”¹ app.json **************************************************
 set file=%cd%\app.json
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced%=%all%!"
@@ -37,12 +37,12 @@ move "%file%"_tmp.txt "%file%"
 
 
 
-echo ************************************************* ÐÞ¸Ä AndroidManifest.xml **************************************************
+echo ************************************************* ä¿®æ”¹ AndroidManifest.xml **************************************************
 set file=%~dp0android\app\src\main\AndroidManifest.xml
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced2%=%all%!"
@@ -52,12 +52,12 @@ move "%file%"_tmp.txt "%file%"
 
 
 
-echo ************************************************* ÐÞ¸Ä strings.xml **************************************************
+echo ************************************************* ä¿®æ”¹ strings.xml **************************************************
 set file=%~dp0android\app\src\main\res\values\strings.xml
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced%=%all%!"
@@ -66,12 +66,12 @@ for /f "delims=" %%i in ('type "%file%"') do (
 move "%file%"_tmp.xml "%file%"
 
 
-echo ************************************************* ÐÞ¸Ä MainApplication.java **************************************************
+echo ************************************************* ä¿®æ”¹ MainApplication.java **************************************************
 set file=%~dp0android\app\src\main\java\com\rxrntemplate\MainApplication.java
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced2%=%all%!"
@@ -80,12 +80,12 @@ for /f "delims=" %%i in ('type "%file%"') do (
 move "%file%"_tmp.java "%file%"
 
 
-echo ************************************************* ÐÞ¸Ä MainActivity.java **************************************************
+echo ************************************************* ä¿®æ”¹ MainActivity.java **************************************************
 set file=%~dp0android\app\src\main\java\com\rxrntemplate\MainActivity.java
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced2%=%all%!"
@@ -95,12 +95,12 @@ for /f "delims=" %%i in ('type "%file%"') do (
 move "%file%"_tmp.java "%file%"
 
 
-echo ************************************************* ÐÞ¸Ä settings.gradle **************************************************
+echo ************************************************* ä¿®æ”¹ settings.gradle **************************************************
 set file=%~dp0android\settings.gradle
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced%=%all%!"
@@ -109,12 +109,12 @@ for /f "delims=" %%i in ('type "%file%"') do (
 move "%file%"_tmp.gradle "%file%"
 
 
-echo ************************************************* ÐÞ¸Ä build.gradle **************************************************
+echo ************************************************* ä¿®æ”¹ build.gradle **************************************************
 set file=%~dp0android\app\build.gradle
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-echo ***** ±éÀú£¬Ìæ»» *****
+echo ***** éåŽ†ï¼Œæ›¿æ¢ *****
 for /f "delims=" %%i in ('type "%file%"') do (
   set str=%%i
   set "str=!str:%replaced2%=%all%!"
@@ -124,11 +124,11 @@ move "%file%"_tmp.gradle "%file%"
 
 
 
-echo ************************************************* ÐÞ¸Ä°üÃû **************************************************
+echo ************************************************* ä¿®æ”¹åŒ…å **************************************************
 ren %~dp0android\app\src\main\java\com\rxrntemplate %all%
 
 
-echo ************************************************* ÐÞ¸Ä build.gradle °æ±¾ **************************************************
+echo ************************************************* ä¿®æ”¹ build.gradle ç‰ˆæœ¬ **************************************************
 
 set replaced=3.2.1
 
@@ -136,31 +136,31 @@ set file=%~dp0android\build.gradle
 set "file=%file:"=%"
 for %%i in ("%file%") do set file=%%~fi
 
-set /p all='change build.gradle version 3.2.1 to':
-if '%all%'=='' (
-echo ************************************************** ²»ÐÞ¸Ä **************************************************
+set /p all1='change build.gradle version 3.2.1 to':
+if '%all1%'=='' (
+echo ************************************************** ä¸ä¿®æ”¹ **************************************************
 ) else (
     for /f "delims=" %%i in ('type "%file%"') do (
       set str=%%i
-      set "str=!str:%replaced%=%all%!"
+      set "str=!str:%replaced%=%all1%!"
       echo !str!>>"%file%"_tmp.txt
     )
     move "%file%"_tmp.txt "%file%"
 )
 
-echo ************************************************* ÐÞ¸Ä gradle-wrapper °æ±¾ **************************************************
+echo ************************************************* ä¿®æ”¹ gradle-wrapper ç‰ˆæœ¬ **************************************************
 
 set replaced=gradle-4.6-all.zip
 set file=%~dp0android\gradle\wrapper\gradle-wrapper.properties
-set /p all='change gradle-wrapper.properties version gradle-4.6-all.zip to':
-if '%all%'=='' (
-echo ************************************************** ²»ÐÞ¸Ä **************************************************
+set /p all2='change gradle-wrapper.properties version gradle-4.6-all.zip to':
+if '%all2%'=='' (
+echo ************************************************** ä¸ä¿®æ”¹ **************************************************
 ) else (
     set "file=%file:"=%"
     for %%i in ("%file%") do set file=%%~fi
     for /f "delims=" %%i in ('type "%file%"') do (
       set str=%%i
-      set "str=!str:%replaced%=%all%!"
+      set "str=!str:%replaced%=%all2%!"
       echo !str!>>"%file%"_tmp.txt
     )
     move "%file%"_tmp.txt "%file%"
