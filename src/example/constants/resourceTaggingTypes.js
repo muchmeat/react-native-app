@@ -1,0 +1,1 @@
+export const SETRWDLIST = 'setRwdList';

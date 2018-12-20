@@ -15,6 +15,15 @@ import form from '../pages/form/Form'
 import Detail from '../pages/form/Detail'
 import Detail2 from '../pages/form/Detail2'
 import DynamicsForm from '../pages/form/DynamicsForm'
+import DynamicsDetail from '../pages/form/DynamicsDetail'
+import VideoForm from '../../project/VideoForm'
+import VideoScreen from '../../base/components/VideoScreen'
+import VideoPlay from '../../base/components/VideoPlay'
+import InitiateCollection from "../../project/InitiateCollection";
+import InitiateCollection2 from "../../project/InitiateCollection2";
+import ProcessAcquisition from "../../project/ProcessAcquisition";
+import ResourceTagging from "../../project/ResourceTagging";
+import CollectionTask from "../../project/CollectionTask";
 
 
 const Tabs = createMaterialTopTabNavigator({
@@ -29,10 +38,10 @@ const Tabs = createMaterialTopTabNavigator({
         }
     },
     'B': {
-        screen: createStackNavigator({P: PageList},{
+        screen: createStackNavigator({P: PageList}, {
             headerMode: 'float',       //header的显示模式，值为none时不显示
             mode: 'card',              //使用默认风格
-            navigationOptions:{
+            navigationOptions: {
                 headerStyle: {
                     backgroundColor: ThemeStyle.color.theme
                 },
@@ -63,7 +72,7 @@ const Tabs = createMaterialTopTabNavigator({
     }
 }, {
     initialRouteName: 'A',
-    swipeEnabled:false,
+    swipeEnabled: false,
     tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: ThemeStyle.color.theme,
@@ -113,9 +122,21 @@ export default function configAppNavigator(isLoggedIn) {
         Detail2: {screen: Detail2},
         MainPage: {screen: MainPage},
         MainPage2: {screen: MainPage2},
+        VideoForm: {screen: VideoForm},
+        VideoScreen: {screen: VideoScreen},
+        VideoPlay: {screen: VideoPlay},
+        InitiateCollection: {screen: InitiateCollection},
+        InitiateCollection2: {screen: InitiateCollection2},
+        ProcessAcquisition: {screen: ProcessAcquisition},
+        ResourceTagging: {screen: ResourceTagging},
+        CollectionTask: {screen: CollectionTask},
+        DynamicsDetail: {screen: DynamicsDetail}
     }, {
+        // initialRouteName:  'VideoForm', // 默认显示界面
         // initialRouteName:  isLoggedIn ? 'tabs':'screen1', // 默认显示界面
-        initialRouteName:  'tabs', // 默认显示界面
+        // initialRouteName: isLoggedIn ? 'ProcessAcquisition':'screen1', // 默认显示界面
+        initialRouteName:  'ResourceTagging', // 默认显示界面
+        // initialRouteName:  'tabs', // 默认显示界面
         // initialRouteName:  "form", // 默认显示界面
         headerMode: 'float',       //header的显示模式，值为none时不显示
         mode: 'card',              //使用默认风格

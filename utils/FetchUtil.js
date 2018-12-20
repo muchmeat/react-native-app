@@ -4,6 +4,8 @@
  */
 import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
+import RNFetchBlob from "react-native-fetch-blob";
+import MIMEEnums from "@utils/enums/MIMEEnums";
 
 export default class FetchUtil extends Component {
     static DEFALT_DEADLINE = 15000; //默认请求最大时限为15秒
@@ -19,15 +21,15 @@ export default class FetchUtil extends Component {
     static postJsonStr(url, json, responseHandler, errorHandler, rejectHandler) {
         AsyncStorage.getItem("token", (error, user) => {
             let formData = new FormData();
-            let headers="";
-            if(user){
+            let headers = "";
+            if (user) {
                 headers = user;
             }
             formData.append('data', JSON.stringify(json));
             this.timeoutPromise(this.DEFALT_DEADLINE, fetch(url, {
                 method: 'POST',
                 headers: {
-                    "Authorization":headers
+                    "Authorization": headers
                 },
                 body: formData
             }), responseHandler, errorHandler, rejectHandler);
@@ -73,6 +75,103 @@ export default class FetchUtil extends Component {
             method: 'POST',
             body: formData
         }), responseHandler, errorHandler, rejectHandler);
+    }
+
+    /**
+     * 包含文件的表单数据处理为array
+     * @param url
+     * @param json
+     * @param responseHandler
+     * @param errorHandler
+     * @param rejectHandler
+     */
+    static postForm(url, json, responseHandler, errorHandler, rejectHandler) {
+        let requestData = [];
+        for (let key in json) {
+            if ("formData" === key) {
+                let formData = json[key];
+                for (let fk in formData) {
+                    if (Array.isArray(formData[fk])) {
+                        let fileJson = formData[fk];
+                        for (let file of fileJson) {
+                            let item = {
+                                name: fk,
+                                filename: file.fileName,
+                                type: MIMEEnums.getCode(file.type),
+                                // data: RNFetchBlob.wrap(RNFetchBlob.fs.asset(file.path)),
+                                data: RNFetchBlob.wrap(file.path)
+                            };
+                            requestData.push(item);
+                        }
+                    } else {
+                        let item = {
+                            name: fk,
+                            data: formData[fk]
+                        };
+                        requestData.push(item);
+                    }
+                }
+            } else {
+                let item = {
+                    name: key,
+                    data: json[key]
+                };
+                requestData.push(item);
+            }
+        }
+        this.timeoutPromise(this.DEFALT_DEADLINE, RNFetchBlob.fetch('POST', url, {
+            // Authorization : "Bearer access-token",
+            // otherHeader : "foo",
+            'Content-Type': 'multipart/form-data',
+        }, requestData), responseHandler, errorHandler, rejectHandler);
+    }
+
+    static postFormRNFetch(url, json, responseHandler, errorHandler) {
+        let requestData = [];
+        for (let key in json) {
+            if ("formData" === key) {
+                let formData = json[key];
+                for (let fk in formData) {
+                    if (Array.isArray(formData[fk])) {
+                        let fileJson = formData[fk];
+                        for (let file of fileJson) {
+                            let item = {
+                                name: fk,
+                                filename: file.fileName,
+                                type: MIMEEnums.getCode(file.type),
+                                // data: RNFetchBlob.wrap(RNFetchBlob.fs.asset(file.path)),
+                                data: RNFetchBlob.wrap(file.path)
+                            };
+                            requestData.push(item);
+                        }
+                    } else {
+                        let item = {
+                            name: fk,
+                            data: formData[fk]
+                        };
+                        requestData.push(item);
+                    }
+                }
+            } else {
+                let item = {
+                    name: key,
+                    data: json[key]
+                };
+                requestData.push(item);
+            }
+        }
+        RNFetchBlob.fetch('POST', url, {
+            'Content-Type': 'multipart/form-data',
+        }, requestData).uploadProgress((written, total) => {
+            console.warn('uploaded', written / total);
+        }).then((resp) => {
+            responseHandler(resp);
+            // alert(JSON.stringify(resp));
+        }).catch((err) => {
+            // errorHandler(err);
+            alert("err");
+            alert(err);
+        })
     }
 
     /**
@@ -126,10 +225,10 @@ export default class FetchUtil extends Component {
                     console.warn(new Error("promise timeout"));
                 }
             }, ms);
-            promise.then((response)=> { //返回结果处理为JSON对象
+            promise.then((response) => { //返回结果处理为JSON对象
                 clearTimeout(timeoutId);
                 return response.json();
-            }).then((responseData)=> {
+            }).then((responseData) => {
                 responseHandler(responseData);
             }).catch((error) => {
                 clearTimeout(timeoutId);

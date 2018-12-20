@@ -16,7 +16,7 @@ export default class DefualtBtn extends Component {
                         {/*<Text style={components.defaultBtn.text}>{this.props.text}</Text>*/}
                     {/*</View>*/}
                 {/*</TouchableHighlight>*/}
-                <Button  title='保  存'
+                <Button  title={this.props.text}
                          buttonStyle={components.defaultBtn.touch}
                          titleStyle={components.defaultBtn.text}
                          // loading

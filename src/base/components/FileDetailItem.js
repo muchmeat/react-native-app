@@ -1,29 +1,61 @@
 /**
- * Created by zk on 2018/3/22.
+ * edited by czq on 2018/12/20.
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-    Text,
-    View,
-    TouchableHighlight,
-    Dimensions,
+    View
 } from 'react-native';
-import IconLib from "../../../assets/svg/IconLib";
-import ThemeStyle from "../../example/style/ThemeStyle";
-import Svg from "react-native-svg";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesomeEnums from "../../../utils/enums/FontAwesomeEnums";
+import Global from "../../../utils/Global";
+import {NavigationActions} from "react-navigation";
+
 
 export default class FileDetailItem extends Component {
 
-    render(){
-        const {name,type} = this.props;
+    /**
+     * 打开附件
+     * @param type
+     * @param id 附件id
+     * @param 路由
+     */
+    openAttachment(type, id, navigation) {
+        console.warn(type);
+        console.warn(this);
+        type = FontAwesomeEnums.getName(type);
+        if ("mp4" === type) {
+            console.warn(this);
+            navigation.dispatch(
+                NavigationActions.navigate({
+                    routeName: "VideoPlay",
+                    params: {uri: Global.FILE_BYTE_URL + id}
+                })
+            )
+        }
+    }
+
+    render() {
+        const {name, type, id, navigation} = this.props;
 
         return (
-            <View style={{height:40,backgroundColor:"#FFF",paddingLeft:15,flexDirection:"row",justifyContent:"flex-start",alignItems:"center"}}>
+            <View style={{
+                height: 40,
+                backgroundColor: "#FFF",
+                paddingLeft: 15,
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center"
+            }}>
                 {/*<Svg height={28} width={28} viewBox="0 0 1024 1024">{type}</Svg>*/}
-                <FontAwesome name={type} size={22} color={ThemeStyle.color.theme}/>
-                <Text style={{fontSize:16,paddingLeft:10}}>{name}</Text>
+                {/*<FontAwesome name={type} size={22} color={ThemeStyle.color.theme} onPress={()=>{console.warn("onPress")}}/>*/}
+                {/*<Text style={{fontSize:16,paddingLeft:10}}>{name}</Text>*/}
+                <FontAwesome.Button name={type} backgroundColor={"#FFF"} color={"#3E3A39"} onPress={() => {
+                    this.openAttachment(type, id, navigation)
+                }}>
+                    {name}
+                </FontAwesome.Button>
             </View>
-            );
+        );
     }
+
 }

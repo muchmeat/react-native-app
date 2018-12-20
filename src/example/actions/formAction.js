@@ -10,21 +10,48 @@ import Global from "../../../utils/Global";
  * @returns {function(*)}
  */
 
-export function getFormSetting(id,setResult) {
-        setResult(types.GET_ON);
-    FetchUtil.postJsonParams(Global.REQUEST_BASE_URL+"form/getFormDef",{id:id},(response)=>{
-        setResult(types.GET_SECCUSE,response.data);
-    },(error)=>{
+export function getFormSetting(id, setResult) {
+    setResult(types.GET_ON);
+    FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/form/getFormDef", {id: id}, (response) => {
+        setResult(types.GET_SUCCESS, response.data);
+    }, (error) => {
         setResult(types.GET_ERROR);
-    },()=>{
+    }, () => {
+        setResult(types.GET_OUTOFTIME);
+    })
+}
+
+/**
+ * 依据主键获取动态表单值与配置
+ * @param id
+ * @param formId
+ * @param needFile
+ * @param setResult
+ */
+export function getFormData(id, formId, setResult) {
+    setResult(types.GET_ON);
+    FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/dynamicForm/getAppDynamicFormData", {
+        id: id,
+        formId: formId
+    }, (response) => {
+        console.warn(response.data);
+        if (response.data.X) {
+            setResult(types.GET_LOCATION, response.data);
+        } else {
+            setResult(types.GET_SUCCESS, response.data);
+        }
+    }, (error) => {
+        setResult(types.GET_ERROR);
+    }, () => {
         setResult(types.GET_OUTOFTIME);
     })
 }
 
 export function setResult(type, data) {
+    console.warn("data:" + data);
     return dispatch => dispatch({
-        type:types.GET_FORM,
-        formGetStatus:type,
-        formData:data
+        type: types.GET_FORM,
+        formGetStatus: type,
+        formData: data
     })
 }

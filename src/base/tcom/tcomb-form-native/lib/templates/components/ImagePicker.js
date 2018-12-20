@@ -4,14 +4,16 @@
  */
 import React, {Component} from "react";
 import {
+    Dimensions,
+    Image,
     View,
-    TouchableHighlight,
-    Dimensions
+    TouchableOpacity
 } from "react-native";
-import imagePicker from "react-native-image-picker";
 import Svg from "react-native-svg";
+import imagePicker from "react-native-image-picker";
 let WIDTH = Dimensions.get("window").width;
-import {Avatar} from "react-native-elements";
+import themeStyle from "../../../../../../example/style/ThemeStyle";
+import IconLib from "../../../../../../../assets/svg/IconLib";
 
 export default class ImagePicker extends Component {
     constructor(props) {
@@ -73,13 +75,20 @@ export default class ImagePicker extends Component {
         let _this = this;
         const {beforePick} = _this.props;
         return (
-            <Avatar
-                size={(WIDTH-15)/4 - 10}
-                title="+"
-                titleStyle={{color:"#FFF"}}
-                onPress={() => _this._selectPhotoTapped(beforePick())}
-                activeOpacity={0.4}
-            />
+            <TouchableOpacity activeOpacity={0.5} onPress={()=> {
+                _this._selectPhotoTapped(beforePick())
+                }}>
+                <View style={{height:(WIDTH-15)/4 - 10,
+                                width:(WIDTH-15)/4 - 10,
+                                borderRadius:5,
+                                justifyContent:"center",
+                                alignItems:"center",
+                                borderColor: themeStyle.lineDp.color,
+                                borderWidth:themeStyle.lineDp.width}}>
+                    {/*<Image style={{width:((WIDTH-15)/4 - 10)/3,height:((WIDTH-15)/4 - 10)/3}} source={require("../../icon/addPic.png")}/>*/}
+                    <Svg width={((WIDTH-15)/4 - 10)/3} height={((WIDTH-15)/4 - 10)/3} viewBox={"0 0 1024 1024"}>{IconLib.IC_ADD}</Svg>
+                </View>
+            </TouchableOpacity>
         );
     }
 }

@@ -2,14 +2,15 @@ import React from "react";
 import {
     View,
     Text,
-    Image,
     DatePickerAndroid,
     TimePickerAndroid,
     TouchableOpacity,
-    TouchableNativeFeedback,
+    TouchableNativeFeedback, PixelRatio,
 } from "react-native";
 import IconLib from "../../../../../../../assets/svg/IconLib";
 import Svg from 'react-native-svg'
+import formStyle from "../../stylesheets/formStyle";
+import themeStyle from "../../../../../../example/style/ThemeStyle";
 
 function dateTimeFontClick(locals) {
     let config = {
@@ -151,7 +152,7 @@ function datepicker(locals) {
   let stylesheet = locals.stylesheet;
   let isMaybe = locals.isMaybe;
   let formGroupStyle = stylesheet.formGroup.normal;
-  let controlLabelStyle = stylesheet.controlLabel.normal;
+  let controlLabelStyle = formStyle.label.normal;
   let errorBlockStyle = stylesheet.errorBlock;
   let dateValueStyle = stylesheet.dateValue.normal;
 
@@ -174,44 +175,26 @@ function datepicker(locals) {
    * `locals.config.dateFormat`: Date only format
    * `locals.config.timeFormat`: Time only format
    */
-  // let formattedValue = String(locals.value);
   let background = TouchableNativeFeedback.SelectableBackground(); // eslint-disable-line new-cap
-  // let formattedDateValue = locals.value ? locals.value.toDateString() : null;
-  // let formattedTimeValue = locals.value ? locals.value.toTimeString() : null;
-  // if (locals.config) {
-  //   if (locals.config.format) {
-  //     formattedValue = locals.config.format(locals.value);
-  //   }
-  //   if (locals.config.background) {
-  //     background = locals.config.background;
-  //   }
-  //   if (locals.config.dialogMode) {
-  //     dialogMode = locals.config.dialogMode;
-  //   }
-  //   if (locals.config.dateFormat) {
-  //     formattedDateValue = locals.config.dateFormat(locals.value);
-  //   }
-  //   if (locals.config.timeFormat) {
-  //     formattedTimeValue = locals.config.timeFormat(locals.value);
-  //   }
-  // }
 
   let formattedValue;
   let formattedTimeValue;
   let formattedDateValue;
-  if(datePickerMode == "datetime"){
+  if(datePickerMode === "datetime"){
       formattedDateValue = formatDateTime(locals.value,"date");
       formattedTimeValue = formatDateTime(locals.value,"time");
   }else {
       formattedValue = formatDateTime(locals.value,datePickerMode);
   }
 
-    let notNull = isMaybe ? null: (
-        <Text style={{color:"red"}}>*  </Text>
-    );
+    let notNull = isMaybe ? <View style={{width:10}}/>:<View style={{width:10}}><Text style={formStyle.notNull}>*</Text></View>;
+
+    if(locals.value){
+        controlLabelStyle = formStyle.label.hasValue;
+    }
 
     let label = locals.label ? (
-        <Text style={[controlLabelStyle]}>{notNull}{locals.label}</Text>
+        <View style={{flexDirection:"row"}}>{notNull}<Text style={[controlLabelStyle]}>{locals.label}</Text></View>
     ) : null;
 
     let error =
@@ -232,11 +215,18 @@ function datepicker(locals) {
     <Text style={dateValueStyle}>{formattedValue}</Text>
   ) : null;
 
-
+  let icon;
+  if(datePickerMode === "datetime"){
+      icon = <Svg height="22" width="22" viewBox="0 0 1024 1024">{IconLib.IC_TIME}</Svg>;
+  }else if(datePickerMode === "date"){
+      icon = <Svg height="22" width="22" viewBox="0 0 1024 1024">{IconLib.IC_DATE}</Svg>;
+  }else if(datePickerMode === "time"){
+      icon = <Svg height="22" width="22" viewBox="0 0 1024 1024">{IconLib.IC_TIME}</Svg>;
+  }
   return (
     <View style={formGroupStyle}>
       {datePickerMode === "datetime" ? (
-        <View style={{flex:1,flexDirection:"column",borderBottomWidth:1,borderColor:"#999"}}>
+        <View style={{flex:1,flexDirection:"column",borderBottomWidth:1,borderColor:themeStyle.form.BORDER_COLOR_GRAY}}>
             <View style={{flex:1,flexDirection:"row"}}>
                 <View style={{width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
                     {label}
@@ -272,18 +262,20 @@ function datepicker(locals) {
                         locals.isMaybe && locals.value ?
                             locals.onChange(null) : dateTimeFontClick(locals,formattedDateValue);
                     }}
-                    style={{width:50,justifyContent:"center",alignItems:"center"}}>
-                    {locals.isMaybe && locals.value ?
-                        <Image style={{height:24,width:24}} source={require("../../icon/delete.png")}/>
-                        :
-                        <Image style={{height: 24, width: 24}} source={require("../../icon/time.png")}/>
-                    }
+                    style={{width:40,justifyContent:"center",alignItems:"center"}}>
+                    <View style={{paddingRight:5}}>
+                        {locals.isMaybe && locals.value ?
+                            <Svg height="20" width="20" viewBox="0 0 1024 1024">{IconLib.IC_CLEAR}</Svg>
+                            :
+                            icon
+                        }
+                    </View>
                 </TouchableOpacity>
             </View>
             {error}
         </View>
       ) : (
-          <View style={{flex:1,flexDirection:"column",borderBottomWidth:1,borderColor:"#999"}}>
+          <View style={{flex:1,flexDirection:"column",borderBottomWidth:1,borderColor:themeStyle.form.BORDER_COLOR_GRAY}}>
               <View style={{flex:1,flexDirection:"row"}}>
                   <View style={{width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
                       {label}
@@ -305,12 +297,14 @@ function datepicker(locals) {
                           locals.isMaybe && locals.value ?
                               locals.onChange(null) : dateClick(locals)
                       }}
-                      style={{width:50,justifyContent:"center",alignItems:"center"}}>
-                      {locals.isMaybe && locals.value ?
-                          <Image style={{height:24,width:24}} source={require("../../icon/delete.png")}/>
-                          :
-                          <Image style={{height:24,width:24}} source={require("../../icon/date.png")}/>
-                      }
+                      style={{width:40,justifyContent:"center",alignItems:"center"}}>
+                      <View style={{paddingRight:5}}>
+                          {locals.isMaybe && locals.value ?
+                              <Svg height="20" width="20" viewBox="0 0 1024 1024">{IconLib.IC_CLEAR}</Svg>
+                              :
+                              icon
+                          }
+                      </View>
                   </TouchableOpacity>
               </View>
               {error}

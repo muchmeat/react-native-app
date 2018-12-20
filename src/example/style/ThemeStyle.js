@@ -67,6 +67,69 @@ const default_themes = Object.freeze({
         FONT_SIZE : 16,
         ERROR_SIZE : 14,
         FONT_WEIGHT : "normal",
+    },
+
+    screen:{
+        height:Dimensions.get("window").height,
+        width:Dimensions.get("window").width
+    },
+    color:{
+        theme:"#008EFE",
+        iconGray:"#bbb",
+        theme_a:"rgba(0,127,250,0.5)",
+        // theme_a:"red",
+        defaultBg:"#F5F5F9",
+        backgroundColor:"#FFF",
+        fontWhite:"#FFF",
+        fontBlack:"#333",
+        fontGray:"#999",
+        clickLine:"#008FFD",
+    },
+    font:{
+        sizeXL:20,
+        size_L:18,
+        size_M:16,
+        size_S:14
+    },
+    linePx:{
+        width:1/PixelRatio.get(),
+        color:"#ededed"
+    },
+    lineDp:{
+        width:1,
+        color:"#ededed"
+    },
+    container:{
+        flex:1,
+        backgroundColor:"#F5F5F9",
+    },
+    tabBarImage: {
+        marginTop: 8,
+        height:24
+    },
+    tabBarIcon: {
+        height: 32,
+    },
+    tabBarLabel: {
+        fontSize: 10,
+        marginBottom: 4,
+        marginTop: 4,
+    },
+    tabBarItem: {
+        height: 48,
+    },
+    form:{
+        LABEL_COLOR :"#999",
+        INPUT_COLOR : "#333",
+        ERROR_COLOR : "#a94442",
+        HELP_COLOR : "#BBB",
+        BORDER_COLOR_TINT : "#ddd",
+        BORDER_COLOR_GRAY : "#ebebeb",
+        DISABLED_COLOR : "#777777",
+        DISABLED_BACKGROUND_COLOR : "#eeeeee",
+        FONT_SIZE : 16,
+        ERROR_SIZE : 14,
+        FONT_WEIGHT : "normal",
     }
 });
 

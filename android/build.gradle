@@ -12,6 +12,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
+        //3.1.4支持27.0.3
+//        classpath 'com.android.tools.build:gradle:3.1.4'
     }
 }
 allprojects {

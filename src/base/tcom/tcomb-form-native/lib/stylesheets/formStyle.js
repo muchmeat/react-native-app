@@ -1,25 +1,35 @@
 "use strict";
 
-import { Platform,PixelRatio } from "react-native";
+import {PixelRatio, Platform} from "react-native";
 import themeStyle from "../../../../../example/style/ThemeStyle"
 
 let formBack = "#FFF";
 
 const formStyle = Object.freeze({
+    helpColor:{
+      color:themeStyle.form.HELP_COLOR,
+    },
     notNull:{
-        color:"red"
+        color:"red",
+        paddingTop:3
     },
     label:{
         normal: {
             flex:1,
+            color: themeStyle.form.INPUT_COLOR,
+            fontSize: themeStyle.form.FONT_SIZE,
+        },
+        hasValue:{
+            flex:1,
             color: themeStyle.form.LABEL_COLOR,
             fontSize: themeStyle.form.FONT_SIZE,
-            fontWeight: themeStyle.form.FONT_WEIGHT
         }
     },
     formGroup: {
         normal: {
             backgroundColor:formBack,
+            borderBottomColor:themeStyle.lineDp.color,
+            borderBottomWidth:themeStyle.lineDp.width
         },
         error: {
             backgroundColor:formBack,
@@ -27,7 +37,7 @@ const formStyle = Object.freeze({
         }
     },
     error:{
-        flex:1,
+        // flex:1,
         flexDirection:"row",
         justifyContent:"flex-start",
         alignItems:"center",
@@ -35,7 +45,7 @@ const formStyle = Object.freeze({
         paddingLeft:5
     },
     errorView:{
-        flex:1,
+        // flex:1,
         paddingLeft:5
     },
     errorText:{
@@ -64,7 +74,12 @@ const formStyle = Object.freeze({
             alignItems:"center"
         },
         inputView:{
-            height:90,backgroundColor:"#fff",borderTopColor:themeStyle.form.BORDER_COLOR_GRAY,borderTopWidth:1,borderBottomColor:themeStyle.form.BORDER_COLOR_GRAY,borderBottomWidth:1,justifyContent:"flex-start"
+            height:90,
+            backgroundColor:"#fff",
+            borderTopWidth:themeStyle.linePx.width,
+            borderColor:themeStyle.lineDp.color,
+            borderBottomWidth:themeStyle.lineDp.width,
+            justifyContent:"flex-start"
         },
         textFont:{
             flex:1,
@@ -72,67 +87,89 @@ const formStyle = Object.freeze({
             fontSize: themeStyle.form.FONT_SIZE,
             height: 55,
             paddingVertical: Platform.OS === "ios" ? 7 : 0,
-            paddingHorizontal: 7,
-            fontWeight: themeStyle.form.FONT_WEIGHT
+            paddingHorizontal: 5,
+            // fontWeight: themeStyle.form.FONT_WEIGHT
+        },
+        textFontLocate:{
+            display:"none",
         },
         textAreaFont:{
-            height:90,width:themeStyle.screen.width,flexDirection:"column",alignItems:"flex-start",paddingBottom:20
+            height:90,width:themeStyle.screen.width,flexDirection:"column",alignItems:"flex-start",paddingBottom:20,paddingRight:20
         },
         textAreaError:{
-            position:"absolute",bottom:0,width:themeStyle.screen.width,flexDirection:"row",justifyContent:"space-between"
+            position:"absolute",bottom:0,width:themeStyle.screen.width,flexDirection:"row",justifyContent:"space-between",paddingLeft:120
         },
         textAreaErrorFont:{
-            paddingRight:15
+            paddingRight:20,
+            color:themeStyle.form.HELP_COLOR
         },
         textInput:{
-            flexDirection:"row",borderBottomWidth:1,borderColor:themeStyle.form.BORDER_COLOR_GRAY
+            flexDirection:"row",
+            backgroundColor:formBack,
+            borderBottomColor:themeStyle.lineDp.color,
+            borderBottomWidth:themeStyle.lineDp.width
         },
         textInputLabel:{
-            backgroundColor:formBack,width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"
+            width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"
         },
         textInputRight:{
-            flex:1,backgroundColor:"#fff",flexDirection:"column"
+            flex:1,flexDirection:"column"
         },
         textInputView:{
             flex:1,flexDirection:"row"
         },
         clear:{
-            height:55,width:40,justifyContent:"center",alignItems:"center"
+            height:55,width:45,justifyContent:"center",alignItems:"center"
+        },
+        locateButton:{
+            // flex:1,
+            height:40,
+            width:150,
+            backgroundColor:'#18B4FF',
+            justifyContent:'center',
+            alignItems:'center',
+            borderRadius:30
+        },
+        locateText:{
+            fontSize:16,
+            color:'#fff'
         }
     },
     checkbox:{
         view:{
-            flexDirection:"row",borderBottomWidth:1,borderColor:themeStyle.form.BORDER_COLOR_GRAY
+            flexDirection:"row",
+            borderColor:themeStyle.form.BORDER_COLOR_GRAY
         },
         label:{
-            backgroundColor:formBack,width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"
+            width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"
         },
         textView:{
-            paddingLeft:10,alignItems:"center",justifyContent:"center"
+            paddingLeft:5,alignItems:"center",justifyContent:"center"
         },
         text:{
             fontSize:16,color:themeStyle.form.INPUT_COLOR
         },
         checkbox: {
             flex:1,
-            marginBottom: 0
         }
     },
     picker:{
         view:{
-            flexDirection:"row",borderBottomWidth:1,borderColor:themeStyle.form.BORDER_COLOR_GRAY
+            flexDirection:"row",
+            borderColor:themeStyle.form.BORDER_COLOR_GRAY
         },
         label:{
             width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"
         },
         pickerView:{
-            flex:1,flexDirection:"column",paddingLeft:7
+            flex:1,flexDirection:"column",
+            paddingLeft:5
         },
         normal: Platform.select({
             android: {
                 flex:1,
                 height:55,
-                paddingLeft: 7,
+                // paddingLeft: 7,
                 color: themeStyle.form.INPUT_COLOR,
             },
             ios: {}
@@ -141,14 +178,14 @@ const formStyle = Object.freeze({
             normal: {
                 marginBottom: 1,
                 borderRadius: 4,
-                borderColor: themeStyle.form.BORDER_COLOR_GRAY,
-                borderWidth: 1/PixelRatio.get()
+                borderBottomColor:themeStyle.linePx.color,
+                borderBottomWidth:themeStyle.linePx.width
             },
             error: {
                 marginBottom: 4,
                 borderRadius: 4,
                 borderColor: themeStyle.form.ERROR_COLOR,
-                borderWidth: 1
+                borderWidth:themeStyle.lineDp.width
             },
             open: {
                 // Alter styles when select container is open
@@ -157,11 +194,13 @@ const formStyle = Object.freeze({
     },
     list: {
         contain:{
-            flexDirection:"column",borderBottomWidth:1,borderColor:themeStyle.form.BORDER_COLOR_GRAY
+            flexDirection:"column",
+            borderColor:themeStyle.form.BORDER_COLOR_GRAY
         },
         imageView: {
             flex: 1,
             height: 40,
+            paddingLeft:15,
             width: themeStyle.screen.width * 0.8,
             flexDirection: "row",
             justifyContent: "flex-start",
@@ -175,7 +214,7 @@ const formStyle = Object.freeze({
             fontSize:themeStyle.font.size_M
         },
         imageClear:{
-            marginRight: 10, height: 40, justifyContent: "center", alignItems: "center"
+            marginRight: 12, height: 40, justifyContent: "center", alignItems: "center"
         },
         imagePicker:{
             marginVertical: 10,
@@ -187,13 +226,13 @@ const formStyle = Object.freeze({
                 color: themeStyle.form.LABEL_COLOR,
                 // fontSize: themeStyle.from.ERROR_SIZE,
                 fontSize: 14,
-                fontWeight: themeStyle.form.FONT_WEIGHT
+                // fontWeight: themeStyle.form.FONT_WEIGHT
             },
             max:{
                 color: themeStyle.form.ERROR_COLOR,
                 // fontSize: themeStyle.from.ERROR_SIZE,
-                fontSize: 14,
-                fontWeight: themeStyle.form.FONT_WEIGHT,
+                // fontSize: 14,
+                // fontWeight: themeStyle.form.FONT_WEIGHT,
             }
         },
         error:{
@@ -220,8 +259,12 @@ const formStyle = Object.freeze({
         },
         fileRow:{
             flexDirection: "row",
-            borderBottomWidth: 1 / PixelRatio.get(),
-            borderColor: themeStyle.form.BORDER_COLOR_GRAY
+            borderBottomColor:themeStyle.linePx.color,
+            borderBottomWidth:themeStyle.linePx.width
+        },
+        fileBottomLine:{
+            borderTopWidth:themeStyle.linePx.width,
+            borderTopColor:themeStyle.linePx.color,
         }
     }
 });

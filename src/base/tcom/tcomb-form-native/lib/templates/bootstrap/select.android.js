@@ -19,17 +19,19 @@ function select(locals) {
     formStyle.picker.pickerContainer.normal
   );
 
-    let notNull = isMaybe ? null: (
-        <Text style={formStyle.notNull}>*  </Text>
-    );
+    let notNull = isMaybe ? <View style={{width:10}}/>:<View style={{width:10}}><Text style={formStyle.notNull}>*</Text></View>;
+
+    if(locals.value){
+        controlLabelStyle = formStyle.label.hasValue;
+    }
 
     let label = locals.label ? (
-        <Text style={controlLabelStyle}>{notNull}{locals.label}</Text>
+        <View style={{flexDirection:"row"}}>{notNull}<Text style={[controlLabelStyle]}>{locals.label}</Text></View>
     ) : null;
 
     let error =
         locals.hasError ? (
-            <View style={formStyle.error}>
+            <View style={[formStyle.error,{paddingLeft:0}]}>
                 <Svg height="14" width="14" viewBox="0 0 1024 1024">
                     {IconLib.FORM_ERROR}
                 </Svg>
@@ -55,13 +57,13 @@ function select(locals) {
                 <Picker
                     accessibilityLabel={locals.label}
                     ref="input"
-                    style={{color:"rgba(0,0,0,0.54)"}}
+                    style={{color: themeStyle.form.INPUT_COLOR}}
                     selectedValue={locals.value}
                     onValueChange={locals.onChange}
                     enabled={locals.enabled}
                     mode={locals.mode}
                     prompt={locals.prompt}
-                    itemStyle={locals.itemStyle}
+                    itemStyle={{paddingLeft:10}}
                 >
                     {options}
                 </Picker>
