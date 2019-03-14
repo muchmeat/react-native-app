@@ -17,8 +17,6 @@ export default class EnumArray extends Component {
 
     static getCode(name) {
         for (let value of this.get()) {
-            console.warn(name);
-            console.warn(value);
             if (value.name == name) {
                 return value.code;
             }

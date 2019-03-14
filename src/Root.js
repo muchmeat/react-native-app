@@ -31,4 +31,19 @@ export default class Root extends Component {
             </Provider>
         )
     }
+
+    render() {
+        return (
+            <Provider store={store}>
+                <SafeAreaView style={styles.container}>
+                    <StatusBar
+                        backgroundColor={styles.color.theme}
+                    />
+                    <View style={styles.container}>
+                        <AppStack/>
+                    </View>
+                </SafeAreaView>
+            </Provider>
+        )
+    }
 }

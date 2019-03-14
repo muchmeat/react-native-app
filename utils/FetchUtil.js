@@ -3,9 +3,11 @@
  * Created by ruixin on 16/7/12.
  */
 import React, {Component} from 'react';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, ToastAndroid} from 'react-native';
 import RNFetchBlob from "react-native-fetch-blob";
 import MIMEEnums from "@utils/enums/MIMEEnums";
+import {getAccount} from "../utils/account";
+
 
 export default class FetchUtil extends Component {
     static DEFALT_DEADLINE = 15000; //默认请求最大时限为15秒
@@ -20,6 +22,8 @@ export default class FetchUtil extends Component {
      */
     static postJsonStr(url, json, responseHandler, errorHandler, rejectHandler) {
         AsyncStorage.getItem("token", (error, user) => {
+            console.warn(error);
+            console.warn(user);
             let formData = new FormData();
             let headers = "";
             if (user) {
@@ -34,7 +38,6 @@ export default class FetchUtil extends Component {
                 body: formData
             }), responseHandler, errorHandler, rejectHandler);
         })
-
     }
 
     /**
@@ -65,16 +68,25 @@ export default class FetchUtil extends Component {
      * @param rejectHandler 超时处理
      */
     static postJsonParams(url, json, responseHandler, errorHandler, rejectHandler) {
-        let formData = new FormData();
-        for (let key in json) {
-            if (json.hasOwnProperty(key)) {
-                formData.append(key, json[key]);
+        AsyncStorage.getItem("token", (error, user) => {
+            let headers = "";
+            if (user) {
+                headers = user;
             }
-        }
-        this.timeoutPromise(this.DEFALT_DEADLINE, fetch(url, {
-            method: 'POST',
-            body: formData
-        }), responseHandler, errorHandler, rejectHandler);
+            let formData = new FormData();
+            for (let key in json) {
+                if (json.hasOwnProperty(key)) {
+                    formData.append(key, json[key]);
+                }
+            }
+            this.timeoutPromise(this.DEFALT_DEADLINE, fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    "Authorization": headers
+                },
+            }), responseHandler, errorHandler, rejectHandler);
+        })
     }
 
     /**
@@ -127,50 +139,52 @@ export default class FetchUtil extends Component {
     }
 
     static postFormRNFetch(url, json, responseHandler, errorHandler) {
-        let requestData = [];
-        for (let key in json) {
-            if ("formData" === key) {
-                let formData = json[key];
-                for (let fk in formData) {
-                    if (Array.isArray(formData[fk])) {
-                        let fileJson = formData[fk];
-                        for (let file of fileJson) {
+        AsyncStorage.getItem("token", (error, user) => {
+            let headers = "";
+            if (user) {
+                headers = user;
+            }
+            let requestData = [];
+            for (let key in json) {
+                if ("formData" === key) {
+                    let formData = json[key];
+                    for (let fk in formData) {
+                        if (Array.isArray(formData[fk])) {
+                            let fileJson = formData[fk];
+                            for (let file of fileJson) {
+                                let item = {
+                                    name: fk,
+                                    filename: file.fileName,
+                                    type: MIMEEnums.getCode(file.type),
+                                    // data: RNFetchBlob.wrap(RNFetchBlob.fs.asset(file.path)),
+                                    data: RNFetchBlob.wrap(file.path)
+                                };
+                                requestData.push(item);
+                            }
+                        } else {
                             let item = {
                                 name: fk,
-                                filename: file.fileName,
-                                type: MIMEEnums.getCode(file.type),
-                                // data: RNFetchBlob.wrap(RNFetchBlob.fs.asset(file.path)),
-                                data: RNFetchBlob.wrap(file.path)
+                                data: formData[fk]
                             };
                             requestData.push(item);
                         }
-                    } else {
-                        let item = {
-                            name: fk,
-                            data: formData[fk]
-                        };
-                        requestData.push(item);
                     }
+                } else {
+                    let item = {
+                        name: key,
+                        data: json[key]
+                    };
+                    requestData.push(item);
                 }
-            } else {
-                let item = {
-                    name: key,
-                    data: json[key]
-                };
-                requestData.push(item);
             }
-        }
-        RNFetchBlob.fetch('POST', url, {
-            'Content-Type': 'multipart/form-data',
-        }, requestData).uploadProgress((written, total) => {
-            console.warn('uploaded', written / total);
-        }).then((resp) => {
-            responseHandler(resp);
-            // alert(JSON.stringify(resp));
-        }).catch((err) => {
-            // errorHandler(err);
-            alert("err");
-            alert(err);
+            RNFetchBlob.fetch('POST', url, {
+                'Content-Type': 'multipart/form-data',
+                Authorization: headers,
+            }, requestData).then((resp) => {
+                responseHandler(resp);
+            }).catch((err) => {
+                errorHandler(err);
+            })
         })
     }
 
@@ -220,6 +234,7 @@ export default class FetchUtil extends Component {
         return new Promise((resolve, reject) => {
             const timeoutId = setTimeout(() => {//超过限定时间处理(超时处理)
                 if (rejectHandler) {
+                    console.warn("rejectHandler");
                     rejectHandler();
                 } else {
                     console.warn(new Error("promise timeout"));

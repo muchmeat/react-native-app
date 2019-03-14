@@ -10,6 +10,12 @@ export default function resourceTaggingReducer(state={}, action) {
               isMax:action.isMax
           };
           break
+      case types.SETRWDLISTTOTAL:
+          return {
+              ...state,
+              rwdList:action.rwdList
+          };
+          break
     default:
       return state;
   }

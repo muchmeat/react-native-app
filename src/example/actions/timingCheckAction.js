@@ -73,23 +73,6 @@ export function setPics(zxjg,list) {
     }
 }
 
-
-export function saveXdjc(entity, setSaveResult) {
-    FetchUtil.postJsonEntity(Global.REQUEST_BASE_URL + "/xdjc/saveXdjc",entity,(data)=>{
-        if(data.zxjg){
-            setSaveResult("1",data.newXdjc);
-        } else if(data.result.sfzddr === "1"){  //支队导入
-            setSaveResult("4",data.result);
-        } else{  //该时间段已经存在录入记录
-            setSaveResult("5");
-        }
-    },(error)=>{
-        setSaveResult("2");
-    },()=>{
-        setSaveResult("3");
-    })
-}
-
 export function setSaveResult(zxjg,entity) {
     return dispatch=>dispatch({
         type: types.SETSAVERESULT,

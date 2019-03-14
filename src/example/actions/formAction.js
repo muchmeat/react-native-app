@@ -12,7 +12,11 @@ import Global from "../../../utils/Global";
 
 export function getFormSetting(id, setResult) {
     setResult(types.GET_ON);
-    FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/form/getFormDef", {id: id}, (response) => {
+    // FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/form/getFormDef", {id: id}, (response) => {
+    FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/dynamicForm/getAppDynamicFormData", {
+        id: "",
+        formId: id
+    }, (response) => {
         setResult(types.GET_SUCCESS, response.data);
     }, (error) => {
         setResult(types.GET_ERROR);
@@ -34,12 +38,7 @@ export function getFormData(id, formId, setResult) {
         id: id,
         formId: formId
     }, (response) => {
-        console.warn(response.data);
-        if (response.data.X) {
-            setResult(types.GET_LOCATION, response.data);
-        } else {
-            setResult(types.GET_SUCCESS, response.data);
-        }
+        setResult(types.GET_SUCCESS_DATA, response.data);
     }, (error) => {
         setResult(types.GET_ERROR);
     }, () => {
@@ -47,11 +46,11 @@ export function getFormData(id, formId, setResult) {
     })
 }
 
-export function setResult(type, data) {
-    console.warn("data:" + data);
+export function setResult(getStatus, data) {
+    // alert(new Date().getMilliseconds() + ","+data+ "," + status);
     return dispatch => dispatch({
         type: types.GET_FORM,
-        formGetStatus: type,
+        formStatus: getStatus,
         formData: data
     })
 }

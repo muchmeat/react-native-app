@@ -6,6 +6,8 @@ import formReducer from './formReducer';
 import timingCheck from './timingCheckReducer';
 import resourceTagging from './resourceTaggingReducer';
 import collectionTask from './collectionTaskReducer';
+import accountReducer from './accountReducer';
+import userListReducer from './userListReducer';
 
 
 /**
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
     formReducer: formReducer,
     timingCheck: timingCheck,
     resourceTagging: resourceTagging,
-    collectionTask: collectionTask
+    collectionTask: collectionTask,
+    accountReducer: accountReducer,
+    userListReducer: userListReducer
 });
 
 export default rootReducer;

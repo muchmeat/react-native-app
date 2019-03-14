@@ -63,6 +63,15 @@ var TypeFormatter = {
       });
       return ['ol', listStyle].concat(enums);
     }
+    if (x.meta.kind === 'enumsMulti') {
+        var enums = Object.keys(x.meta.map).map(function (e) {
+            return ['li', listItemStyle,
+                ['span', propStyle, e + ': '],
+                ['object', { object: x.meta.map[e] }]
+            ];
+        });
+        return ['ol', listStyle].concat(enums);
+    }
     if (x.meta.kind === 'union' || x.meta.kind === 'tuple' || x.meta.kind === 'intersection') {
       var types = x.meta.types.map(function (type) {
         return ['li', listItemStyle,

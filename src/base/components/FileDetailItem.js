@@ -20,11 +20,8 @@ export default class FileDetailItem extends Component {
      * @param 路由
      */
     openAttachment(type, id, navigation) {
-        console.warn(type);
-        console.warn(this);
         type = FontAwesomeEnums.getName(type);
-        if ("mp4" === type) {
-            console.warn(this);
+        if ("AVI,WMV,MPEG,MP4,MKV,FLV,RMVB".indexOf(type.toUpperCase()) !== -1) {
             navigation.dispatch(
                 NavigationActions.navigate({
                     routeName: "VideoPlay",

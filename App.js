@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import Root from './src/Root';
+import Root from './src/Root2';
 
 /**
  * store有四个方法。

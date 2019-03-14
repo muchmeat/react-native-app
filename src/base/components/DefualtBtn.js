@@ -18,9 +18,8 @@ export default class DefualtBtn extends Component {
                 {/*</TouchableHighlight>*/}
                 <Button  title={this.props.text}
                          buttonStyle={components.defaultBtn.touch}
-                         titleStyle={components.defaultBtn.text}
-                         // loading
-                         // loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
+                         loading = {this.props.loading}
+                         loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
                          onPress={this.props.click}/>
             </View>
             )

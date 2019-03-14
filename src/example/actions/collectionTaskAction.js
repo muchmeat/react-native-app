@@ -9,14 +9,16 @@ import {dispatch} from "../../base/tcom/tcomb";
 /**
  * 分页查询动态表单采集任务
  */
-export function getDynamicFormList(option, list, setDynamicFormList) {
+export function getDynamicFormList(option, list, setDynamicFormList, callBack) {
     FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/dynamicForm/getAppDynamicFormListPage", option, (result) => {
-        // FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/rwd/getAppRwdListPage",option,(result)=>{
         let dynamicFormList = list.concat(result.data.rows);
-        setDynamicFormList(dynamicFormList, result.data.rows.length != option.pageSize);
+        setDynamicFormList(dynamicFormList, result.data.total == dynamicFormList.length);
+        if (callBack) {
+            callBack();
+        }
     }, (error) => {
-        alert(JSON.stringify(error));
-        // alert("error:" + JSON.stringify(error));
+        alert("请求出错");
+        console.log(JSON.stringify(error));
     }, () => {
     });
 }
@@ -37,7 +39,7 @@ export function deleteDynamicForm(id, formId, list, index, setDynamicFormList, i
     }, (result) => {
         list.splice(index, 1);
         let newArr = [];
-        for(let a of list){
+        for (let a of list) {
             newArr.push(a)
         }
         setDynamicFormList(newArr, isMax);

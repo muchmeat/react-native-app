@@ -6,7 +6,7 @@ export default function formReducer(state={}, action) {
       case types.GET_FORM:
           return {
               ...state,
-              formGetStatus: action.formGetStatus,
+              formStatus: action.formStatus,
               formData:action.formData
           };
           break

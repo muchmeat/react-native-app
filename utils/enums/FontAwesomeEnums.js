@@ -6,11 +6,11 @@ import EnumArray from './EnumArray';
 
 export default class FontAwesomeEnums extends EnumArray {
     static get() {
-        return FontAwesome;
+        return MyFontAwesome;
     }
 }
 
-const FontAwesome=[
+const MyFontAwesome=[
     {name:"mp4",code:"file-video-o"},
     {name:"aac",code:"file-audio-o"},
     {name:"jpg",code:"file-image-o"},

@@ -2,6 +2,8 @@ import IconLib from "../../../../../../../assets/svg/IconLib";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 import Svg from "react-native-svg";
+import RNImagePicker from 'react-native-image-picker';
+
 
 let React = require("react");
 import OpenFile from 'react-native-doc-viewer';
@@ -11,13 +13,12 @@ import formStyle from "../../stylesheets/formStyle";
 import {Avatar} from "react-native-elements";
 import {NavigationActions} from "react-navigation";
 import Global from "../../../../../../../utils/Global";
+import {Platform} from "react-native";
 
 let {View, Text, TouchableHighlight, NativeModules, ToastAndroid} = require("react-native");
 
 function renderRow(locals) {
     if (locals.value && locals.value.length && locals.items) {
-        console.warn("locals");
-        console.warn(locals);
         let rows = [];
         for (let i = 0; i < locals.value.length; i++) {
             let item = locals.value[i];
@@ -47,15 +48,17 @@ function renderRow(locals) {
                                 style={[formStyle.list.fileRow, i === 0 ? formStyle.list.fileBottomLine : null]}>
                     <View style={{flex: 1}}>
                         <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={() => {
-                            //没有id表示附件未保存，保存则有id，图片使用base64处理，
+                            {/*没有id表示附件未保存，保存则有id，图片使用base64处理*/}
                             if (null == item.id) {
                                 OpenFile.openDoc([{
+                                    // url: item.path, // Local "file://" + filepath
                                     url: item.path, // Local "file://" + filepath
                                     fileName: item.fileName,
                                     cache: false,
                                     fileType: item.type
                                 }], (error, url) => {
                                     if (error) {
+                                        console.warn(error);
                                         ToastAndroid.show("打开文件失败", ToastAndroid.SHORT)
                                     }
                                 })
@@ -132,7 +135,6 @@ function renderRow(locals) {
 }
 
 function list(locals) {
-
     if (locals.hidden) {
         return null;
     }
@@ -228,6 +230,7 @@ function list(locals) {
                     <View style={list.fileLab}>
                         {label}
                     </View>
+                    <View style={list.fileSelect}>
                     <TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent'
                                         onPress={() => {
                                             if (locals.value.length >= locals.limit) {
@@ -257,8 +260,59 @@ function list(locals) {
                                                 }
                                             });
                                         }}>
-                        <Svg height={22} width={22} viewBox={"0 0 1024 1024"}>{IconLib.FILE_SELECT}</Svg>
+                            <Svg height={22} width={22} viewBox={"0 0 1024 1024"}>{IconLib.FILE_SELECT}</Svg>
                     </TouchableHighlight>
+                    {/*<TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent'*/}
+                                        {/*onPress={() => {*/}
+                                            {/*if (locals.value.length >= locals.limit) {*/}
+                                                {/*ToastAndroid.show("已超出附件数量限制", ToastAndroid.SHORT);*/}
+                                                {/*return;*/}
+                                            {/*}*/}
+                                            {/*let photoOptions = {*/}
+                                                {/*//底部弹出框选项*/}
+                                                {/*title: '请选择',*/}
+                                                {/*cancelButtonTitle: '取消',*/}
+                                                {/*takePhotoButtonTitle: '录像',*/}
+                                                {/*chooseFromLibraryButtonTitle: '选择相册',*/}
+                                                {/*mediaType: "video",*/}
+                                                {/*quality: 1,*/}
+                                                {/*videoQuality: "high",*/}
+                                                {/*durationLimit: 10,*/}
+                                                {/*allowsEditing: true,*/}
+                                                {/*noData: false,*/}
+                                                {/*storageOptions: {*/}
+                                                    {/*path:'images'*/}
+                                                {/*},*/}
+                                                {/*permissionDenied: {*/}
+                                                    {/*title: "需要相机权限才能拍摄"*/}
+                                                {/*}*/}
+                                            {/*};*/}
+                                            {/*RNImagePicker.launchCamera(photoOptions, (response) => {*/}
+                                                {/*// Same code as in above section!*/}
+                                                {/*console.warn(response);*/}
+                                                {/*debugger*/}
+                                                {/*let source = {uri: response.uri};*/}
+                                                {/*if (Platform.OS === 'android') {*/}
+                                                    {/*source = {uri: response.uri, isStatic: true}*/}
+                                                {/*} else {*/}
+                                                    {/*source = {uri: response.uri.replace('file://', ''), isStatic: true}*/}
+                                                {/*}*/}
+                                                {/*console.warn(source);*/}
+                                                {/*if (response.didCancel) {*/}
+                                                    {/*return*/}
+                                                {/*}*/}
+                                                {/*let _data = {*/}
+                                                    {/*fileSize: response.fileSize,*/}
+                                                    {/*fileName: response.fileName?response.fileName:response.path.substring(response.path.lastIndexOf("/")+1),*/}
+                                                    {/*path: response.path,*/}
+                                                    {/*type: response.type?response.type:'mp4'*/}
+                                                {/*};*/}
+                                                {/*locals.onChange(_data, new Date().toDateString(), locals.path, "add");*/}
+                                            {/*});*/}
+                                        {/*}}>*/}
+                        {/*<Svg height={24} width={24} viewBox={"0 0 1024 1024"}>{IconLib.IC_TAKE_PICTURE}</Svg>*/}
+                    {/*</TouchableHighlight>*/}
+                    </View>
                 </View>
                 {error}
                 {rows ? rows : null}

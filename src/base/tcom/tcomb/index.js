@@ -43,6 +43,7 @@ t.Str = t.String;
 t.dict = require('./lib/dict');
 t.declare = require('./lib/declare');
 t.enums = require('./lib/enums');
+t.enumsMulti = require('./lib/enumsMulti');
 t.irreducible = require('./lib/irreducible');
 t.list = require('./lib/list');
 t.maybe = require('./lib/maybe');

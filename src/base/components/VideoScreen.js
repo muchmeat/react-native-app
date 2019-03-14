@@ -136,7 +136,6 @@ export default class VideoScreen extends Component {
     render() {
         const flexCompleted = this.getCurrentTimePercentage() * 100;
         const flexRemaining = (1 - this.getCurrentTimePercentage()) * 100;
-        debugger
         return (
             <View style={styles.container}>
                 <TouchableOpacity

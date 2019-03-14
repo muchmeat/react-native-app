@@ -1,17 +1,7 @@
 import React, {Component} from 'react';
 import {
     View,
-    Text,
-    ScrollView,
-    TouchableHighlight,
-    RefreshControl,
-    Alert,
-    NativeModules,
-    ImageBackground,
     FlatList,
-    Image,
-    Dimensions,
-    TouchableOpacity,
     BackHandler
 } from 'react-native';
 import {connect} from 'react-redux'; // 引入connect函数

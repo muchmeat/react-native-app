@@ -8,9 +8,6 @@ let init = {
 export default function collectionTaskReducer(state=init, action) {
   switch (action.type) {
       case types.SETDYNAMICFORMLIST:
-          console.warn("start");
-          console.warn(action.dynamicFormList.length);
-          console.warn("end");
           return {
               ...state,
               dynamicFormList:action.dynamicFormList,

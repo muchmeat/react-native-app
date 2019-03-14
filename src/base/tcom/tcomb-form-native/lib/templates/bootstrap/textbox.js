@@ -1,4 +1,4 @@
-import {Alert} from "react-native";
+import {Alert,PermissionsAndroid} from "react-native";
 
 let React = require("react");
 let {View, Text, TextInput, TouchableHighlight, NativeModules, Button, TouchableOpacity} = require("react-native");
@@ -182,7 +182,7 @@ function textbox(locals) {
                                 autoFocus={locals.autoFocus}
                                 blurOnSubmit={locals.blurOnSubmit}
                                 editable={false}
-                                keyboardType={"numeric"}
+                                keyboardType={locals.keyboardType}
                                 maxLength={locals.maxLength}
                                 multiline={locals.multiline}
                                 onBlur={locals.onBlur}
@@ -217,8 +217,10 @@ function textbox(locals) {
                             <TouchableOpacity onPress={() => {
                                 NativeModules.Location.startLocation((location) => {
                                     if ("" !== location) {
-                                        if (location === "locateFailed" || "nogps" === location) {
+                                        if (location === "locateFailed") {
                                             Alert.alert("温馨提示", "请检查GPS状态");
+                                        } else if (location === "noGPS") {
+                                            requestGPSPermission();
                                         } else if (location === "close") {
                                             Alert.alert("温馨提示", "GPS已关闭");
                                         } else {
@@ -243,7 +245,6 @@ function textbox(locals) {
         )
     } else {
         return (
-
             <View style={formStyle.textBox.textInput}>
                 <View style={formStyle.textBox.textInputLabel}>
                     {label}
@@ -301,6 +302,32 @@ function textbox(locals) {
                 </View>
             </View>
         )
+    }
+}
+
+/**
+ * 获取位置权限
+ * @returns {Promise<void>}
+ */
+async function requestGPSPermission() {
+    try {
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+                title: '申请位置权限',
+                message: '开启位置服务，获取精准定位',
+                buttonNeutral: '等会再问我',
+                buttonNegative: '不行',
+                buttonPositive: '好吧',
+            },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('现在你获得GPS权限了');
+        } else {
+            console.log('用户并不同意');
+        }
+    } catch (err) {
+        console.warn(err);
     }
 }
 

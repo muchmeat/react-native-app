@@ -15,9 +15,6 @@ import {
 
 export default
 class Wait extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     static navigationOptions = {
         header:null

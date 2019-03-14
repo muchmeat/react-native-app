@@ -1,24 +1,34 @@
 import React, {Component} from 'react';
 import {
-    View, Alert, NativeModules
+    View, Alert, ToastAndroid, BackHandler
 } from 'react-native';
 import {connect} from 'react-redux';
 import styles from '../../style/ThemeStyle';
 import RxForm from '../../../base/components/RxForm';
 import t from "tcomb-form-native";
-import DefualtBtn from '../../../base/components/DefualtBtn';
 import * as formAction from '../../actions/formAction';
 import * as formUtil from '../../../base/tcom/formUtil';
-import Loading from "../../../base/components/Loading";
+import * as types from '../../constants/formTypes';
+import LoadingView from '../../../base/components/LoadingView';
+import LoadingPage from '../../../base/components/LoadingPage';
 import FetchUtil from "../../../../utils/FetchUtil";
 import Global from "../../../../utils/Global";
 
 class DynamicsForm extends Component {
 
-    static navigationOptions = {
-        title: '表单',
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalVisible: false,
+            loadingText: "验证中"
+        }
+    }
 
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: navigation.getParam("title", '采集')
+        };
+    };
 
     componentWillMount() {
         let _this = this;
@@ -33,13 +43,91 @@ class DynamicsForm extends Component {
         }
     }
 
+    /**
+     * 控制loading遮罩层的显隐
+     * @param visible
+     */
+    setModalLoading(visible, text) {
+        this.setState({modalVisible: visible, loadingText: text});
+    }
+
+    /**
+     * 验证名称是否重复，重复提示 否则保存
+     * @param RxForm
+     */
+    validateAppDynamicFormMC(RxForm) {
+        let _this = this;
+        FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/dynamicForm/validateAppDynamicFormMC", {
+            mc: RxForm.value.MC,
+            id: _this.props.navigation.getParam("id", ""),
+            formId: _this.props.navigation.getParam("formId", null)
+        }, (result) => {
+            //遮罩层弹出
+            console.disableYellowBox = true;
+            _this.setModalLoading(true, "保存中···");
+            if (result.success) {
+                let formData = RxForm.value;
+                let id = _this.props.navigation.getParam("id", null);
+                let rwId = _this.props.navigation.getParam("rwId", null);
+                formData["ID"] = id;
+                formData["RWID"] = rwId;
+                let params = {
+                    formId: _this.props.navigation.getParam("formId", null),
+                    formData: formData
+                };
+                FetchUtil.postFormRNFetch(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm", params, (fetchBlobResponse) => {
+                    let ar = JSON.parse(fetchBlobResponse.data);
+                    if (ar.success) {
+                        _this.props.navigation.state.params.callBack();
+                        _this.props.navigation.goBack();
+                        Alert.alert("温馨提示", "采集成功");
+                    } else {
+                        Alert.alert("温馨提示", "保存失败，请联系管理员");
+                    }
+                    _this.setModalLoading(false);
+                }, (error) => {
+                    _this.setModalLoading(false);
+                    let arr = Object.keys(error);
+                    if (arr.length == 0) {
+                        Alert.alert("温馨提示", "网络不给力，请检查网络设置");
+                    } else {
+                        Alert.alert("温馨提示", "保存失败，请联系管理员");
+                    }
+                });
+            } else {
+                Alert.alert("温馨提示", "采集名称已存在");
+            }
+        }, (error) => {
+            Alert.alert("温馨提示", "请求出错，请联系管理员");
+        }, () => {
+            Alert.alert("温馨提示", "请求超时，请检查网络状态");
+        });
+    }
+
+    _submit2() {
+        let _this = this;
+        let RxForm = _this.refs.RxForm._submit();
+        if (RxForm.errors.length > 0) {
+            return false
+        }
+        _this.validateAppDynamicFormMC(RxForm);
+    }
+
+
+    /**
+     * 表单提交,没有名称重复验证
+     * @returns {boolean}
+     * @private
+     */
     _submit() {
         let _this = this;
         let RxForm = _this.refs.RxForm._submit();
-        console.log(RxForm);
         if (RxForm.errors.length > 0) {
-            return
+            return false
         }
+        //遮罩层弹出
+        console.disableYellowBox = true;
+        _this.setModalLoading(true, "保存中···");
         let formData = RxForm.value;
         let id = _this.props.navigation.getParam("id", null);
         let rwId = _this.props.navigation.getParam("rwId", null);
@@ -49,103 +137,25 @@ class DynamicsForm extends Component {
             formId: _this.props.navigation.getParam("formId", null),
             formData: formData
         };
-        // FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm", params, (ar) => {
-        //     if (ar.success) {
-        //         Alert.alert("温馨提示", "采集成功");
-        //         _this.props.navigation.state.params.callBack();
-        //         _this.props.navigation.goBack();
-        //     } else {
-        //         Alert.alert("温馨提示", "保存失败，请联系管理员");
-        //     }
-        // }, (error) => {
-        //     alert(JSON.stringify(error));
-        // }, () => {
-        // });
-        // FetchUtil.postForm(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm",params, (ar) => {
-        //     if (ar.success) {
-        //         Alert.alert("温馨提示", "采集成功");
-        //         _this.props.navigation.state.params.callBack();
-        //         _this.props.navigation.goBack();
-        //     } else {
-        //         Alert.alert("温馨提示", "保存失败，请联系管理员");
-        //     }
-        // }, (error) => {
-        //     console.warn("error");
-        //     alert(JSON.stringify(error));
-        // }, () => {
-        // });
-        console.warn(formData);
         FetchUtil.postFormRNFetch(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm", params, (fetchBlobResponse) => {
-            console.log(fetchBlobResponse);
             let ar = JSON.parse(fetchBlobResponse.data);
             if (ar.success) {
-                Alert.alert("温馨提示", "采集成功");
                 _this.props.navigation.state.params.callBack();
                 _this.props.navigation.goBack();
+                Alert.alert("温馨提示", "采集成功");
             } else {
                 Alert.alert("温馨提示", "保存失败，请联系管理员");
             }
+            _this.setModalLoading(false);
         }, (error) => {
-            alert(JSON.stringify(error));
+            _this.setModalLoading(false);
+            let arr = Object.keys(error);
+            if (arr.length == 0) {
+                Alert.alert("温馨提示", "网络不给力，请检查网络设置");
+            } else {
+                Alert.alert("温馨提示", "保存失败，请联系管理员");
+            }
         });
-        // NativeModules.Location.startLocation((location) => {
-        //     if (location !== "") {
-        //         if (location === "locateFailed" || "nogps" === location) {
-        //             Alert.alert("温馨提示", "请检查GPS状态");
-        //         } else if (location === "close") {
-        //             Alert.alert("温馨提示", "GPS已关闭");
-        //         } else {
-        //             let formData = RxForm.value;
-        //             let id = _this.props.navigation.getParam("id", null);
-        //             let rwId = _this.props.navigation.getParam("rwId", null);
-        //             formData["ID"] = id;
-        //             formData["RWID"] = rwId;
-        //             formData["latitude"] = location.split(",")[0];
-        //             formData["longitude"] = location.split(",")[1];
-        //             let params = {
-        //                 formId: _this.props.navigation.getParam("formId", null),
-        //                 formData: formData
-        //             };
-        //             // FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm", params, (ar) => {
-        //             //     if (ar.success) {
-        //             //         Alert.alert("温馨提示", "采集成功");
-        //             //         _this.props.navigation.state.params.callBack();
-        //             //         _this.props.navigation.goBack();
-        //             //     } else {
-        //             //         Alert.alert("温馨提示", "保存失败，请联系管理员");
-        //             //     }
-        //             // }, (error) => {
-        //             //     alert(JSON.stringify(error));
-        //             // }, () => {
-        //             // });
-        //             // FetchUtil.postForm(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm",params, (ar) => {
-        //             //     if (ar.success) {
-        //             //         Alert.alert("温馨提示", "采集成功");
-        //             //         _this.props.navigation.state.params.callBack();
-        //             //         _this.props.navigation.goBack();
-        //             //     } else {
-        //             //         Alert.alert("温馨提示", "保存失败，请联系管理员");
-        //             //     }
-        //             // }, (error) => {
-        //             //     console.warn("error");
-        //             //     alert(JSON.stringify(error));
-        //             // }, () => {
-        //             // });
-        //             console.warn(formData);
-        //             FetchUtil.postFormRNFetch(Global.REQUEST_BASE_URL + "/dynamicForm/saveDynamicForm", params, (fetchBlobResponse) => {
-        //                 if (fetchBlobResponse.respInfo.status === 200) {
-        //                     Alert.alert("温馨提示", "采集成功");
-        //                     _this.props.navigation.state.params.callBack();
-        //                     _this.props.navigation.goBack();
-        //                 } else {
-        //                     Alert.alert("温馨提示", "保存失败，请联系管理员");
-        //                 }
-        //             }, (error) => {
-        //                 alert(JSON.stringify(error));
-        //             });
-        //         }
-        //     }
-        // })
     }
 
     componentDidMount() {
@@ -160,17 +170,21 @@ class DynamicsForm extends Component {
         let _this = this;
         let {formStatus, formData, navigation} = _this.props;
         let form = {};
-        if ("1" === formStatus || "4" === formStatus) {
+        if (types.GET_SUCCESS === formStatus || types.GET_SUCCESS_DATA === formStatus) {
             form = formUtil.getSetTTings(formData.fields, t, navigation);
         }
         return (
             <View style={styles.container}>
                 {formData ?
-                    <RxForm ref="RxForm" rows={form.rows} options={form.options} values={form.values}
-                            locationTitle={"1" == formStatus ? "定位" : "重定位"} submit={() => {
-                        _this._submit()
-                    }}/>
-                    : <Loading viewStyle={{height: 200}} imageStyle={{width: 42, height: 42}}/>
+                    <View style={styles.container}>
+                        <LoadingView showLoading={_this.state.modalVisible}
+                                     text={_this.state.loadingText}/>
+                        <RxForm ref="RxForm" rows={form.rows} options={form.options} values={form.values}
+                                save={() => {
+                                    _this._submit()
+                                }}/>
+                    </View>
+                    : <LoadingPage text={"加载中···"}/>
                 }
             </View>
         )
@@ -184,7 +198,7 @@ class DynamicsForm extends Component {
 
 export default connect(
     (state) => ({
-            formStatus: state.formReducer.formGetStatus,
+            formStatus: state.formReducer.formStatus,
             formData: state.formReducer.formData
         }
     ), (dispatch) => ({

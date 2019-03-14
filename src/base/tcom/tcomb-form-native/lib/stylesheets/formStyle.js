@@ -125,6 +125,7 @@ const formStyle = Object.freeze({
             // flex:1,
             height:40,
             width:150,
+            marginVertical:5,
             backgroundColor:'#18B4FF',
             justifyContent:'center',
             alignItems:'center',
@@ -174,6 +175,11 @@ const formStyle = Object.freeze({
             },
             ios: {}
         }),
+        pickerText:{
+            color: themeStyle.form.INPUT_COLOR,
+            fontSize: themeStyle.form.FONT_SIZE,
+            paddingRight: 5,
+        },
         pickerContainer: {
             normal: {
                 marginBottom: 1,
@@ -191,6 +197,47 @@ const formStyle = Object.freeze({
                 // Alter styles when select container is open
             }
         },
+        modal:{
+            flex:1,backgroundColor:"rgba(0,0,0,0.6)",justifyContent:"center", alignItems:"center"
+        },
+        modalView:{
+            backgroundColor:"#FFF",
+            width:themeStyle.screen.width - 80,
+            marginVertical:60,
+            justifyContent:"center",
+            alignItems:"flex-start",
+        },
+        tabView:{
+            height:45,width:themeStyle.screen.width,paddingLeft:20,flexDirection:"row",justifyContent:"flex-start",alignItems:"center"
+        },
+        tabText:{
+            fontSize:themeStyle.font.size_M,
+        },
+        defText:{
+            fontSize:themeStyle.font.size_M,
+        },
+        checkColor:themeStyle.color.clickLine,
+        checkNot:themeStyle.color.fontGray,
+        btnView:{
+            height:50,
+            width:themeStyle.screen.width - 80,
+            flexDirection:"row",
+            justifyContent:"flex-start",
+            alignItems:"center",
+            borderTopWidth:themeStyle.linePx.width,
+            borderColor:themeStyle.linePx.color,
+        },
+        btn:{
+            flex:1,justifyContent:"center",alignItems:"center"
+        },
+        cancel:{
+            fontSize:themeStyle.font.size_M,
+            color:themeStyle.color.fontGray
+        },
+        makeSure:{
+            fontSize:themeStyle.font.size_M,
+            color:themeStyle.color.clickLine
+        }
     },
     list: {
         contain:{
@@ -249,13 +296,15 @@ const formStyle = Object.freeze({
         fileLab:{
             width:120,height:55,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"
         },
+        fileSelect:{
+            flex:1,flexDirection:"row",justifyContent:"flex-end", alignItems:"center"
+        },
         imageContain:{flexDirection:"row",flexWrap:'wrap'},
         touch:{
-            flex:1,
             flexDirection:"row",
             justifyContent:"flex-end",
             alignItems:"center",
-            paddingRight:10
+            paddingRight:12
         },
         fileRow:{
             flexDirection: "row",

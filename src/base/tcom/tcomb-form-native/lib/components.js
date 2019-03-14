@@ -10,19 +10,13 @@ import {
     move,
     UIDGenerator,
     getTypeFromUnion,
-    getComponentOptions,
-    convertUTCTimeToLocalTime
+    getComponentOptions
 } from "./util";
-
 import FetchUtil from "../../../../../utils/FetchUtil";
 import Global from "../../../../../utils/Global";
-import * as types from "../../../../example/constants/formTypes";
-
 
 let SOURCE = "tcomb-form-native";
-let nooptions = Object.freeze({});
-let noop = function () {
-};
+let noop = function() {};
 let noobj = Object.freeze({});
 let noarr = Object.freeze([]);
 let Nil = t.Nil;
@@ -37,7 +31,7 @@ function getFormComponent(type, options) {
     let name = t.getTypeName(type);
     switch (type.meta.kind) {
         case "irreducible":
-            return type === t.File ? ImagePicker : type === t.Boolean
+            return type === t.File ?  ImagePicker : type === t.Boolean
                 ? Checkbox
                 : type === t.Date ? DatePicker : Textbox;
         case "struct":
@@ -73,7 +67,7 @@ class Component extends React.Component {
             hasError: false,
             // value: (mode == 'date' || mode == 'datetime') ? null : this.getTransformer().format(props.value)
             value: this.getTransformer().format(props.value),
-            position: {}
+            position:{}
         };
     }
 
@@ -94,18 +88,18 @@ class Component extends React.Component {
         if (props.type !== this.props.type) {
             this.typeInfo = getTypeInfo(props.type);
         }
-        this.setState({value: this.getTransformer().format(props.value)});
+        this.setState({ value: this.getTransformer().format(props.value) });
     }
 
     onChange(value) {
-        this.setState({value}, () => {
+        this.setState({ value }, () =>{
             this.props.onChange(value, this.props.ctx.path);
             this.changeAfter(value);
         });
     }
 
-    changeAfter(newDate) {
-        if (this.props.options.changeAfter)
+    changeAfter(newDate){
+        if(this.props.options.changeAfter)
             this.props.options.changeAfter(newDate);
     }
 
@@ -114,7 +108,7 @@ class Component extends React.Component {
             path: this.props.ctx.path,
             context: t.mixin(
                 t.mixin({}, this.props.context || this.props.ctx.context),
-                {options: this.props.options}
+                { options: this.props.options }
             )
         };
     }
@@ -128,7 +122,7 @@ class Component extends React.Component {
     }
 
     removeErrors() {
-        this.setState({hasError: false});
+        this.setState({ hasError: false });
     }
 
     pureValidate() {
@@ -141,7 +135,7 @@ class Component extends React.Component {
 
     validate() {
         let result = this.pureValidate();
-        this.setState({hasError: !result.isValid()});
+        this.setState({ hasError: !result.isValid() });
         return result;
     }
 
@@ -203,7 +197,7 @@ class Component extends React.Component {
 
     getLocals() {
         return {
-            isMaybe: this.typeInfo.isMaybe,
+            isMaybe:this.typeInfo.isMaybe,
             path: this.props.ctx.path,
             error: this.getError(),
             hasError: this.hasError(),
@@ -257,6 +251,10 @@ class Textbox extends Component {
                 : Textbox.transformer;
     }
 
+    componentWillReceiveProps(props) {
+        //不继承Component，防止页面或值的变化
+    }
+
     getTemplate() {
         return this.props.options.template || this.props.ctx.templates.textbox;
     }
@@ -278,7 +276,7 @@ class Textbox extends Component {
     }
 
     onChange(value) {
-        this.setState({value}, () => {
+        this.setState({ value }, () =>{
             this.props.onChange(value, this.props.ctx.path);
             this.changeAfter(value);
         });
@@ -348,7 +346,7 @@ class Checkbox extends Component {
                 ? locals.label || this.getDefaultLabel()
                 : null;
 
-        ["help", "disabled", "onTintColor", "thumbTintColor", "tintColor"].forEach(
+        ["help", "disabled", "data", "onTintColor", "thumbTintColor", "tintColor"].forEach(
             name => (locals[name] = this.props.options[name])
         );
 
@@ -370,12 +368,16 @@ class Select extends Component {
         return Select.transformer(this.getNullOption());
     }
 
+    componentWillReceiveProps(props) {
+        //不继承Component，防止页面或值的变化
+    }
+
     getTemplate() {
         return this.props.options.template || this.props.ctx.templates.select;
     }
 
     getNullOption() {
-        return this.props.options.nullOption || {value: "", text: "   "};
+        return this.props.options.nullOption || { value: "", text: "请选择" };
     }
 
     getEnum() {
@@ -397,11 +399,58 @@ class Select extends Component {
         return items;
     }
 
+    getValidationOptions() {
+        return {
+            path: this.props.ctx.path,
+            context: t.mixin(
+                t.mixin({}, this.props.context || this.props.ctx.context),
+                { options: this.props.options }
+            )
+        };
+    }
+
+    pureValidate() {
+        return t.validate(
+            this.getValue(),
+            this.props.type,
+            this.getValidationOptions()
+        );
+    }
+
+    getValue() {
+        return this.getTransformer().parse(this.state.value);
+    }
+
+    validate() {
+        let hasError = false;
+        let errors = [];
+        let result = {};
+        // let result = this.pureValidate();
+        // let _value = JSON.parse(JSON.stringify(result))
+        // this.setState({ hasError: !result.isValid() });
+
+        //可为空，并且值为空
+        if (this.typeInfo.isMaybe && this.isValueNully()) {
+            result.value = "";
+            this.removeErrors();
+            return new t.ValidationResult({errors:errors,value:null});
+        }
+        //不可为空，并且值为空
+        if (!this.typeInfo.isMaybe && this.isValueNully()) {
+            hasError = true;
+            errors = [{ message:"not null to " + this.getValidationOptions().path,path:this.getValidationOptions().path}];
+            result.errors = errors[0].message;
+        }
+        this.setState({ hasError: hasError});
+        return new t.ValidationResult({ errors, value:this.getValue()});
+
+    }
+
     getLocals() {
         let locals = super.getLocals();
         locals.options = this.getOptions();
 
-        ["help", "enabled", "mode", "prompt", "itemStyle"].forEach(
+        ["help", "enabled", "mode", "number", "prompt", "itemStyle","navigation","selectorType"].forEach(
             name => (locals[name] = this.props.options[name])
         );
 
@@ -439,14 +488,10 @@ class DatePicker extends Component {
         return locals;
     }
 
-    getValue() {
-        console.warn(convertUTCTimeToLocalTime(this.getTransformer().parse(this.state.value)));
-        return this.getTransformer().parse(this.state.value);
-    }
 }
 
 DatePicker.transformer = {
-    format: value => (Nil.is(value) ? null : value),
+    format: value => (Nil.is(value) ? null: value),
     parse: value => value
 };
 
@@ -456,7 +501,7 @@ class Struct extends Component {
     }
 
     removeErrors() {
-        this.setState({hasError: false});
+        this.setState({ hasError: false });
         Object.keys(this.refs).forEach(ref => this.refs[ref].removeErrors());
     }
 
@@ -476,7 +521,7 @@ class Struct extends Component {
 
         if (this.typeInfo.isMaybe && this.isValueNully()) {
             this.removeErrors();
-            return new t.ValidationResult({errors: [], value: null});
+            return new t.ValidationResult({ errors: [], value: null });
         }
 
         for (let ref in this.refs) {
@@ -501,14 +546,14 @@ class Struct extends Component {
             }
         }
 
-        this.setState({hasError: hasError});
-        return new t.ValidationResult({errors, value});
+        this.setState({ hasError: hasError });
+        return new t.ValidationResult({ errors, value });
     }
 
     onChange(fieldName, fieldValue, path) {
         let value = t.mixin({}, this.state.value);
         value[fieldName] = fieldValue;
-        this.setState({value}, () => {
+        this.setState({ value }, () => {
             this.props.onChange(value, path);
         });
     }
@@ -530,7 +575,7 @@ class Struct extends Component {
     }
 
     getInputs() {
-        let {ctx, options} = this.props;
+        let { ctx, options } = this.props;
         let props = this.getTypeProps();
         let auto = this.getAuto();
         let i18n = this.getI18n();
@@ -612,18 +657,9 @@ class List extends Component {
         this.state.keys = this.state.value.map(() => props.ctx.uidGenerator.next());
     }
 
-    // componentWillReceiveProps(props) {
-    //
-    //     if (props.type !== this.props.type) {
-    //       this.typeInfo = getTypeInfo(props.type);
-    //     }
-    //     let value = this.getTransformer().format(props.value);
-    //     if(value === )
-    //     this.setState({
-    //         value,
-    //         keys: toSameLength(value, this.state.keys, props.ctx.uidGenerator)
-    //     });
-    // }
+    componentWillReceiveProps(props) {
+        //不继承Component，防止页面或值的变化
+    }
 
     isValueNully() {
         let length = this.oldImages.concat(this.addImages).length;
@@ -631,7 +667,7 @@ class List extends Component {
     }
 
     removeErrors() {
-        this.setState({hasError: false});
+        this.setState({ hasError: false });
         Object.keys(this.refs).forEach(ref => this.refs[ref].removeErrors());
     }
 
@@ -648,47 +684,45 @@ class List extends Component {
         //可为空，并且值为空
         if (this.typeInfo.isMaybe && this.isValueNully()) {
             this.removeErrors();
-            return new t.ValidationResult({errors: errors, value: null});
+            return new t.ValidationResult({errors:errors,value:null});
         }
         //不可为空，并且值为空
         if (!this.typeInfo.isMaybe && this.isValueNully()) {
             hasError = true;
-            errors = [{
-                message: "not null to " + this.getValidationOptions().path,
-                path: this.getValidationOptions().path
-            }];
+            errors = [{ message:"not null to " + this.getValidationOptions().path,path:this.getValidationOptions().path}];
         }
-        this.setState({hasError: hasError});
+        this.setState({ hasError: hasError});
         // return new t.ValidationResult({errors:errors,value:this.addImages.concat([this.oldRemoveId.join(",")])});
         // let imgs = [];
         // for(let img of this.addImages){
         //     imgs.push(JSON.stringify(img));
         // }
-        return new t.ValidationResult({errors: errors, value: []});
+        return new t.ValidationResult({errors:errors,value:[]});
     }
 
     onChange(value, keys, path, kind, index) {
-        if (kind === "remove") {
-            console.warn(value);
-            if (value.id) {
-                FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/attachment/delAttachment", {ids: value.id}, (response) => {
-                    console.warn(response.data);
-                }, (error) => {
-                    console.warn(error);
-                }, () => {
-                })
-            }
-            this.addImages.splice(index - this.oldImages.length, 1);
-        } else {
+        if(kind==="remove"){
+            this.deleteAttachment(value);
+            this.addImages.splice(index - this.oldImages.length,1);
+        }else {
             this.addImages.push(value);
         }
-        this.setState({
-            value: this.old.concat(this.addImages),
-            keys: this.props.ctx.uidGenerator.next(),
-            isPristine: false,
-            kind: kind,
-            index: index
-        });
+        this.setState({ value:this.old.concat(this.addImages), keys: this.props.ctx.uidGenerator.next(), isPristine: false, kind:kind, index:index });
+    }
+
+    /**
+     * 删除附件
+     * @param value
+     */
+    deleteAttachment(value) {
+        if (value.id) {
+            FetchUtil.postJsonParams(Global.REQUEST_BASE_URL + "/attachment/delAttachment", {ids: value.id}, (response) => {
+                console.warn(response.data);
+            }, (error) => {
+                console.warn(error);
+            }, () => {
+            })
+        }
     }
 
     getTemplates() {
@@ -699,10 +733,10 @@ class List extends Component {
         return this.props.options.template || this.getTemplates().list;
     }
 
-    setImages(locals) {
+    setImages(locals){
         //编辑页面，初始化时带入的数据
-        if (locals.value && !this.old.length && !this.addImages.length) {
-            for (let i in locals.value) {
+        if(locals.value && !this.old.length && !this.addImages.length){
+            for(let i in locals.value) {
                 if (locals.value[i].base64) {
                     this.old.push(locals.value[i]);
                     this.oldImages.push(locals.value[i].base64);
@@ -710,7 +744,7 @@ class List extends Component {
                     this.addImages.push(locals.value[i]);
                 }
             }
-            if (this.oldLen === 0)
+            if(this.oldLen === 0)
                 this.oldLen = this.old.length;
         }
         // else if(locals.value && this.old.length && !this.addImages.length){
@@ -726,17 +760,17 @@ class List extends Component {
 
     getLocals() {
         let locals = super.getLocals();
-        if (this.props.options.navigation) {
-            locals.navigation = this.props.options.navigation;
+        if(this.props.options.navigation){
+            locals.navigation =  this.props.options.navigation;
         }
-        if (this.props.options.limit) {
-            locals.limit = this.props.options.limit;
+        if(this.props.options.limit){
+            locals.limit =  this.props.options.limit;
         }
         locals.mode = this.props.options.mode;
         locals.fileType = this.props.options.fileType;
         this.setImages(locals);
         locals.items = this.oldImages.concat(this.addImages);
-        if (locals.value && locals.value.length != locals.items.length)
+        if(locals.value && locals.value.length != locals.items.length)
             locals.value = this.old.concat(this.addImages);
         return locals;
     }
@@ -826,7 +860,7 @@ class Form extends React.Component {
         let uidGenerator = this.getUIDGenerator();
 
         let fun = getFormComponent(type, options);
-        let dom = React.createElement(fun, {
+        let dom =  React.createElement(fun, {
             ref: "input",
             type: type,
             options: options,
@@ -842,7 +876,7 @@ class Form extends React.Component {
                 path: []
             }
         });
-        return dom;
+        return  dom;
     }
 
 }

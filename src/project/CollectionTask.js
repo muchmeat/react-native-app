@@ -13,14 +13,24 @@ import {NavigationActions} from 'react-navigation';
 
 import * as collectionTaskAction from "../../src/example/actions/collectionTaskAction";
 import Global from "../../utils/Global";
+import EmptyView from "../../src/base/components/EmptyView";
+import LoadingButtonView from "../../src/base/components/LoadingButtonView";
+import * as resourceTaggingAction from "../example/actions/resourceTaggingAction";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const msg = {more: "正在努力加载...", end: "矮油，到底了！"};
-
+const msg = {more: "正在努力加载...", end: "矮油，到底了！", noData: "没有相关记录"};
+//每页条数
 const pageSize = Math.ceil((SCREEN_HEIGHT - 80) / 75) + 1;
 
 class CollectionTask extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false
+        }
+    }
 
     _key = (item, index) => {
         let key;
@@ -42,7 +52,7 @@ class CollectionTask extends Component {
         let _this = this;
         let formId = _this.props.navigation.getParam('formId', null);
         _this.first = true;
-        _this.searchOption = {pageNum: 1, pageSize: 3, formId: formId, userId: _this.props.userId};
+        _this.searchOption = {pageNum: 1, pageSize: pageSize, formId: formId, userId: _this.props.userId};
         _this._getList();
     }
 
@@ -50,33 +60,44 @@ class CollectionTask extends Component {
         this.props.clearDynamicFormList();
     }
 
-    //刷新
+    /**
+     * 下拉刷新
+     * @private
+     */
     _refreshing() {
         let _this = this;
         let formId = _this.props.navigation.getParam('formId', null);
-        _this.searchOption = {pageNum: 1, pageSize: 3, formId: formId, userId: _this.props.userId};
+        _this.searchOption = {pageNum: 1, pageSize: pageSize, formId: formId, userId: _this.props.userId};
         let {setDynamicFormList} = _this.props;
         collectionTaskAction.getDynamicFormList(_this.searchOption, [], setDynamicFormList);
     }
 
-    //下一页
-    _load() {
+    /**
+     * 下一页 当列表被滚动到距离内容最底部不足onEndReachedThreshold的距离时调用
+     * @private
+     */
+    _onEndReached() {
         this._getList();
     }
 
-    //侧滑菜单渲染
-    getQuickActions = (props) => {
+    /**
+     * 侧滑菜单渲染
+     * @param props
+     * @returns {*}
+     * @private
+     */
+    _getQuickActions = (props) => {
         let _this = this;
-        let {setDynamicFormList, dynamicFormList, isMax} = _this.props;
+        let {setDynamicFormList, dynamicFormList, isMax,rwdList,setRwdListTotal} = _this.props;
         let formId = _this.props.navigation.getParam('formId', null);
-        return <View style={styles.quickAContent}>
+        return <View style={CTStyles.quickAContent}>
             <TouchableHighlight
                 onPress={() => {
                     let formId = _this.props.navigation.getParam('formId', null);
                     _this.props.navigation.dispatch(NavigationActions.navigate({
                         routeName: "dynamicsForm",
                         params: {
-                            formId: formId, id: props.item.ID, callBack: () => {
+                            formId: formId, id: props.item.ID, title: props.item.MC, callBack: () => {
                                 //移除侧滑按钮效果
                                 _this.refs.flatList.setState({openRowKey: props.index})
                                 _this._refreshing();
@@ -85,19 +106,22 @@ class CollectionTask extends Component {
                     }))
                 }}
             >
-                <View style={styles.quickEdit}>
-                    <Text style={styles.delete}>修改</Text>
+                <View style={CTStyles.quickEdit}>
+                    <Text style={CTStyles.delete}>修改</Text>
                 </View>
             </TouchableHighlight>
             <TouchableHighlight
                 onPress={() => {
+                    let rwdIndex = _this.props.navigation.getParam('rwdIndex', null);
+                    rwdList[rwdIndex]["TOTAL"] = rwdList[rwdIndex]["TOTAL"] - 1;
+                    setRwdListTotal(Object.assign([],rwdList));
                     collectionTaskAction.deleteDynamicForm(props.item.ID, formId, dynamicFormList, props.index, setDynamicFormList, isMax);
                     //移除侧滑按钮效果
                     _this.refs.flatList.setState({openRowKey: props.index})
                 }}
             >
-                <View style={styles.quickDelete}>
-                    <Text style={styles.delete}>删除</Text>
+                <View style={CTStyles.quickDelete}>
+                    <Text style={CTStyles.delete}>删除</Text>
                 </View>
             </TouchableHighlight>
         </View>
@@ -109,17 +133,28 @@ class CollectionTask extends Component {
      */
     _getList() {
         let _this = this;
+        _this.setState({loading: true});
         let {setDynamicFormList, isMax, dynamicFormList} = _this.props;
         if (_this.first) {
-            collectionTaskAction.getDynamicFormList(_this.searchOption, [], setDynamicFormList);
+            collectionTaskAction.getDynamicFormList(_this.searchOption, [], setDynamicFormList,() => {
+                _this.setState({loading: false});
+            });
             _this.first = false;
         } else if (!isMax) {
             _this.searchOption.pageNum++;
-            collectionTaskAction.getDynamicFormList(_this.searchOption, dynamicFormList, setDynamicFormList);
+            collectionTaskAction.getDynamicFormList(_this.searchOption, dynamicFormList, setDynamicFormList,() => {
+                _this.setState({loading: false});
+            });
+        }else{
+            _this.setState({loading: false});
         }
     }
 
-    //每行的分隔线
+    /**
+     * 每行的分隔线
+     * @returns {*}
+     * @private
+     */
     _separatorComponent = () => {
         return <View style={{
             width: SCREEN_WIDTH - 20,
@@ -130,13 +165,34 @@ class CollectionTask extends Component {
         }}/>
     };
 
+    /**
+     * 列表为空时渲染
+     * @returns {*}
+     * @private
+     */
+    _ListEmptyComponent = () => {
+        return <EmptyView text={msg.noData}/>
+    };
+
+    /**
+     * listitem的title自定义
+     * @param mc
+     * @returns {*}
+     * @private
+     */
+    _getTitle(mc){
+        return(
+            <Text style={{fontSize: 16, color: "#333", paddingBottom: 4}} numberOfLines={2}>{mc}</Text>
+        )
+    }
+
     _renderItem(props) {
         let _this = this;
         let {navigation} = _this.props;
-        // return <View style={{height:70,backgroundColor:"red"}}/>;
         return <ListItem
             containerStyle={{height: 75}}
-            title={props.item.MC}
+            // title={props.item.MC}
+            title={_this._getTitle(props.item.MC)}
             onPress={() => {
                 let formId = _this.props.navigation.getParam('formId', null);
                 navigation.dispatch(NavigationActions.navigate({
@@ -153,7 +209,7 @@ class CollectionTask extends Component {
             leftElement={
                 <View style={{justifyContent: "center", alignItems: "center", height: 50, width: 50, borderRadius: 25}}>
                     <Image
-                        source={{uri: Global.DTTB_IMAGE_URL + navigation.getParam("tbmc", "案事件") + '.png'}}
+                        source={{uri: Global.REQUEST_BASE_URL + navigation.getParam("tbmc", "/medias/style/plat/image/dttb/asj/11.png") }}
                         style={{width: 50, height: 50}}/>
                 </View>
             }
@@ -163,38 +219,35 @@ class CollectionTask extends Component {
     render() {
         let _this = this;
         let {dynamicFormList, isMax} = _this.props;
-        // console.warn("render");
-        // console.warn(dynamicFormList);
-        // let data = [{},{},{},{}];
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 1}}>
                     <SwipeableFlatList data={dynamicFormList}
                                        ref={"flatList"}
                                        renderItem={(item, index) => _this._renderItem(item, index)}
-                        // onRefresh={() => _this._refreshing()}
+                                       onRefresh={() => _this._refreshing()}
                                        refreshing={false}
-                                       renderQuickActions={(item, index) => this.getQuickActions(item, index)}//创建侧滑菜单
+                                       renderQuickActions={(item, index) => this._getQuickActions(item, index)}//创建侧滑菜单
                                        maxSwipeDistance={120}//可展开（滑动）的距离
                                        bounceFirstRowOnMount={false}//进去的时候不展示侧滑效果
-                                       onEndReachedThreshold={0.5}
-                                       onEndReached={() => _this._load()}
-                        // keyExtractor={this._key}
+                                       onEndReachedThreshold={0.2}
+                                       onEndReached={() => _this._onEndReached()}
+                                       ListEmptyComponent={this._ListEmptyComponent}
+                                       keyExtractor={this._key}
                         // horizontal={false}
                                        ItemSeparatorComponent={this._separatorComponent}
                         // getItemLayout={(data, index) => (
                         //     {length: 75, offset: (75 + 1) * index, index}
                         // )}
                     />
-
-
+                    <LoadingButtonView loading={_this.state.loading} text={msg.more}/>
                 </View>
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
+const CTStyles = StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -212,7 +265,9 @@ const styles = StyleSheet.create({
     text: {
         color: '#444444',
         fontSize: 20,
+        alignItems: 'center'
     },
+    view: {height: SCREEN_HEIGHT, alignItems: 'center', justifyContent: 'center'},
     //侧滑菜单的样式
     quickAContent: {
         flex: 1,
@@ -248,8 +303,10 @@ const styles = StyleSheet.create({
 export default connect((state) => ({
     userId: 123,
     dynamicFormList: state.collectionTask.dynamicFormList,
-    isMax: state.collectionTask.isMax
+    isMax: state.collectionTask.isMax,
+    rwdList: state.resourceTagging.rwdList,
 }), (dispatch) => ({
     setDynamicFormList: (list, bool) => dispatch(collectionTaskAction.setDynamicFormList(list, bool)),
-    clearDynamicFormList: () => dispatch(collectionTaskAction.clearDynamicFormList())
+    clearDynamicFormList: () => dispatch(collectionTaskAction.clearDynamicFormList()),
+    setRwdListTotal: (list) => dispatch(resourceTaggingAction.setRwdListTotal(list))
 }))(CollectionTask)
