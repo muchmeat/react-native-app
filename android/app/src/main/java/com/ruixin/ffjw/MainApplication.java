@@ -7,8 +7,11 @@ import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactlibrary.RNReactNativeDocViewerPackage;
 import com.rnfs.RNFSPackage;
 import com.brentvatne.react.ReactVideoPackage;
+import com.ruixin.ffjw.api.CameraViewPackage;
 import com.ruixin.ffjw.api.DocPickerPackage;
 import com.ruixin.ffjw.api.IntentPackage;
+import com.ruixin.ffjw.api.OpenHTTPFilePackage;
+import com.ruixin.ffjw.location.LocationPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
@@ -46,7 +49,9 @@ public class MainApplication extends Application implements ReactApplication {
                     new DocPickerPackage(),
                     new ImagePickerPackage(),
                     new LocationPackage(),
-                    new IntentPackage()
+                    new IntentPackage(),
+                    new CameraViewPackage(),
+                    new OpenHTTPFilePackage()
             );
         }
 

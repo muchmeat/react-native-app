@@ -96,15 +96,14 @@ class DynamicsForm extends Component {
                 });
             } else {
                 Alert.alert("温馨提示", "采集名称已存在");
+                _this.setModalLoading(false);
             }
         }, (error) => {
             Alert.alert("温馨提示", "请求出错，请联系管理员");
-        }, () => {
-            Alert.alert("温馨提示", "请求超时，请检查网络状态");
         });
     }
 
-    _submit2() {
+    _submit() {
         let _this = this;
         let RxForm = _this.refs.RxForm._submit();
         if (RxForm.errors.length > 0) {
@@ -119,7 +118,7 @@ class DynamicsForm extends Component {
      * @returns {boolean}
      * @private
      */
-    _submit() {
+    _submit3() {
         let _this = this;
         let RxForm = _this.refs.RxForm._submit();
         if (RxForm.errors.length > 0) {

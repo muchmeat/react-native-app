@@ -311,7 +311,7 @@ export function getDetail(fields, navigation) {
                     </View>;
                     let items = [];
                     for (let file of col.value) {
-                        items.push(<FileItem name={file.fileName} data={file.data}
+                        items.push(<FileItem name={file.fileName}
                                              type={file.type} navigation={navigation}
                                              id={file.id}/>)
                     }

@@ -142,6 +142,11 @@ android {
     }
     productFlavors {
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 dependencies {
     compile project(':react-native-splash-screen')
@@ -164,7 +169,7 @@ dependencies {
     implementation 'com.facebook.react:react-native:+'
     // From node_modules
     implementation files('libs/link.sso.sdk_v0.5.jar')
-    implementation files('libs/org.apache.http.legacy.jar')
+//    implementation files('libs/org.apache.http.legacy.jar')
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.56'
 }
 // Run this once to be able to run the application with BUCK

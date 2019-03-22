@@ -65,17 +65,24 @@ export class login extends Component {
                     }
                 };
                 let json2 = {username: email, password: password, loginType: "Account"};
-                console.log(json2);
                 FetchUtil.postJsonStr(Global.REQUEST_BASE_URL + "/loginValiApp", json2, (res) => {
                     if (res && res.success) {
                         setAccount(res.data);
                         storeAccount(res.data).then(() => this.props.navigation.navigate('App'));
                     }
                 }, (error) => {
+                    console.warn("error");
+                    console.warn(error);
                     this.setState({
                         showLoading: false
-                    },()=>{
-                        Alert.alert("温馨提示", "用户名或者密码错误");
+                    }, () => {
+                        let arr = Object.keys(error);
+                        console.warn(arr);
+                        if (arr.length == 0) {
+                            Alert.alert("温馨提示", "服务异常，请联系管理员");
+                        } else {
+                            Alert.alert("温馨提示", "用户名或者密码错误");
+                        }
                     });
                 }, () => {
                 });
@@ -100,7 +107,7 @@ export class login extends Component {
                                 {/*<Text style={styles.plusText}>+</Text>*/}
                             </View>
                             {/*<View style={{marginTop: -10}}>*/}
-                                {/*<Text style={styles.travelText}>合成作战平台</Text>*/}
+                            {/*<Text style={styles.travelText}>合成作战平台</Text>*/}
                             {/*</View>*/}
                         </View>
                         <View style={styles.loginInput}>

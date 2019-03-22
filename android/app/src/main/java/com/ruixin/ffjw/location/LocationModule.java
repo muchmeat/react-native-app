@@ -1,9 +1,11 @@
-package com.ruixin.ffjw;
+package com.ruixin.ffjw.location;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,6 +18,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +97,15 @@ public class LocationModule extends ReactContextBaseJavaModule {
         }
     };
 
+    /**
+     * 经纬度坐标
+     */
     String dz = "";
+
+    /**
+     * 地址
+     */
+    String mfeatureName = "";
 
     public LocationModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -152,8 +163,22 @@ public class LocationModule extends ReactContextBaseJavaModule {
                     //获取经纬度
                     final double newLatitude = currentLocation.getLatitude();
                     final double newLongitude = currentLocation.getLongitude();
+                    Geocoder geocoder = new Geocoder(getCurrentActivity());
+                    List<Address> addList = null;// 解析经纬度
+                    try {
+                        addList = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (addList != null && addList.size() > 0) {
+                        for (int i = 0; i < addList.size(); i++) {
+                            Address add = addList.get(i);
+                            mfeatureName = add.getFeatureName();
+                            Log.i("address", "当前地址是:" + mfeatureName);
+                        }
+                    }
                     dz = String.valueOf(newLatitude) + "," + String.valueOf(newLongitude);
-                    mCallback.invoke(dz);
+                    mCallback.invoke(dz,mfeatureName);
                     Log.i("gps", "当前纬度是:" + newLatitude + "当前经度是：" + newLongitude);
                 } else {
                     dz = "locateFailed";
@@ -161,7 +186,7 @@ public class LocationModule extends ReactContextBaseJavaModule {
                     if (!isGpsAvalible) {
                         dz = "close";
                     }
-                    mCallback.invoke(dz);
+                    mCallback.invoke(dz,mfeatureName);
                 }
             } catch (Exception ex) {
             }
@@ -171,7 +196,7 @@ public class LocationModule extends ReactContextBaseJavaModule {
             if (!isGpsAvalible) {
                 dz = "close";
             }
-            mCallback.invoke(dz);
+            mCallback.invoke(dz,mfeatureName);
         }
     }
 

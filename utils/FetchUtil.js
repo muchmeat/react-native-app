@@ -22,8 +22,6 @@ export default class FetchUtil extends Component {
      */
     static postJsonStr(url, json, responseHandler, errorHandler, rejectHandler) {
         AsyncStorage.getItem("token", (error, user) => {
-            console.warn(error);
-            console.warn(user);
             let formData = new FormData();
             let headers = "";
             if (user) {
@@ -234,7 +232,6 @@ export default class FetchUtil extends Component {
         return new Promise((resolve, reject) => {
             const timeoutId = setTimeout(() => {//超过限定时间处理(超时处理)
                 if (rejectHandler) {
-                    console.warn("rejectHandler");
                     rejectHandler();
                 } else {
                     console.warn(new Error("promise timeout"));

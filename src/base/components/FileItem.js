@@ -3,9 +3,10 @@
  */
 import React, {Component} from 'react';
 import {
-    View, TouchableHighlight, Text,ToastAndroid
+    View, TouchableHighlight, Text, ToastAndroid, NativeModules
 } from 'react-native';
 import Svg from "react-native-svg";
+import Icon5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesomeEnums from "../../../utils/enums/FontAwesomeEnums";
 import MIMEEnums from "../../../utils/enums/MIMEEnums";
 import Global from "../../../utils/Global";
@@ -19,7 +20,7 @@ import themeStyle from "../../example/style/ThemeStyle";
 export default class FileItem extends Component {
 
     render() {
-        const {name, type, id, navigation,data} = this.props;
+        const {name, type, id, navigation, data} = this.props;
         let icon;
         //类型
         if ("BMP,JPG,JPEG,PNG,GIF".indexOf(type.toUpperCase()) !== -1) {
@@ -44,26 +45,27 @@ export default class FileItem extends Component {
         return (<View style={[formStyle.list.fileRow]}>
             <View style={{flex: 1}}>
                 <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={() => {
-                    if ("AVI,WMV,MPEG,MP4,MKV,FLV,RMVB".indexOf(type.toUpperCase()) !== -1) {
-                        navigation.dispatch(
-                            NavigationActions.navigate({
-                                routeName: "VideoPlay",
-                                params: {uri: Global.FILE_BYTE_URL + id}
-                            })
-                        )
-                    } else {
-                        OpenFile.openDocb64([{
-                            base64: data,
-                            fileName: name,
-                            fileType: type,
-                            cache: false /*Use Cache Folder Android*/
-                        }], (error, url) => {
-                            if (error) {
-                                ToastAndroid.show("打开文件失败", ToastAndroid.SHORT)
-                            }
-                        })
-
-                    }
+                    // if ("AVI,WMV,MPEG,MP4,MKV,FLV,RMVB".indexOf(type.toUpperCase()) !== -1) {
+                    //     navigation.dispatch(
+                    //         NavigationActions.navigate({
+                    //             routeName: "VideoPlay",
+                    //             params: {uri: Global.FILE_BYTE_URL + id}
+                    //         })
+                    //     )
+                    // } else {
+                    //     OpenFile.openDocb64([{
+                    //         base64: data,
+                    //         fileName: name,
+                    //         fileType: type,
+                    //         cache: false /*Use Cache Folder Android*/
+                    //     }], (error, url) => {
+                    //         if (error) {
+                    //             ToastAndroid.show("打开文件失败", ToastAndroid.SHORT)
+                    //         }
+                    //     })
+                    //
+                    // }
+                    Global.openFile(id, name, type);
                 }}>
                     <View style={formStyle.list.imageView}>
                         {icon}

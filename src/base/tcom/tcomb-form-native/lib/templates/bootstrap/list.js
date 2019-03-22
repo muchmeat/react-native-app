@@ -48,7 +48,8 @@ function renderRow(locals) {
                                 style={[formStyle.list.fileRow, i === 0 ? formStyle.list.fileBottomLine : null]}>
                     <View style={{flex: 1}}>
                         <TouchableHighlight activeOpacity={0.8} underlayColor='transparent' onPress={() => {
-                            {/*没有id表示附件未保存，保存则有id，图片使用base64处理*/}
+                            {/*没有id表示附件未保存，保存则有id，图片使用base64处理*/
+                            }
                             if (null == item.id) {
                                 OpenFile.openDoc([{
                                     // url: item.path, // Local "file://" + filepath
@@ -63,28 +64,27 @@ function renderRow(locals) {
                                     }
                                 })
                             } else {
-                                if (("AVI,WMV,MPEG,MP4,MKV,FLV,RMVB".indexOf(item.type.toUpperCase()) !== -1)) {
-                                    locals.navigation.dispatch(
-                                        NavigationActions.navigate({
-                                            routeName: "VideoPlay",
-                                            params: {uri: Global.FILE_BYTE_URL +  item.id}
-                                        })
-                                    )
-                                } else {
-                                    OpenFile.openDocb64([{
-                                        // base64: Global.FILE_BASE64_URL + item.id,
-                                        base64: item.data,
-                                        fileName: item.fileName,
-                                        fileType: item.type,
-                                        cache: false /*Use Cache Folder Android*/
-                                    }], (error, url) => {
-                                        if (error) {
-                                            console.warn(error);
-                                            console.warn(url);
-                                            ToastAndroid.show("打开文件失败", ToastAndroid.SHORT)
-                                        }
-                                    })
-                                }
+                                Global.openFile(item.id,item.fileName,item.type);
+                                // if (("AVI,WMV,MPEG,MP4,MKV,FLV,RMVB".indexOf(item.type.toUpperCase()) !== -1)) {
+                                //     locals.navigation.dispatch(
+                                //         NavigationActions.navigate({
+                                //             routeName: "VideoPlay",
+                                //             params: {uri: Global.FILE_BYTE_URL + item.id}
+                                //         })
+                                //     )
+                                // } else {
+                                //     OpenFile.openDocb64([{
+                                //         // base64: Global.FILE_BASE64_URL + item.id,
+                                //         base64: item.data,
+                                //         fileName: item.fileName,
+                                //         fileType: item.type,
+                                //         cache: false /*Use Cache Folder Android*/
+                                //     }], (error, url) => {
+                                //         if (error) {
+                                //             ToastAndroid.show("打开文件失败", ToastAndroid.SHORT)
+                                //         }
+                                //     })
+                                // }
                             }
                         }}>
                             <View style={formStyle.list.imageView}>
@@ -207,21 +207,28 @@ function list(locals) {
         </View>);
     } else {
         let fileType = "*/*";
+        let showCameraView = false;
         switch (locals.fileType) {
             case "images":
                 fileType = "image/*";
+                showCameraView = true;
                 break;
             case "videos":
                 fileType = "video/*";
+                showCameraView = true;
                 break;
             case "audios":
                 fileType = "audio/*";
                 break;
-            case "doc":
+            case "docs":
                 fileType = "application/msword;application/vnd.ms-excel;text/plain;application/vnd.ms-powerpoint;application/pdf;text/plain";
                 break;
             case "compress":
                 fileType = "application/x-gzip;*/rar;*/7z;*/gz;*/arj;*/z";
+                break;
+            default:
+                fileType = "*/*";
+                showCameraView = true;
                 break;
         }
         return (<View style={formGroupStyle}>
@@ -231,87 +238,77 @@ function list(locals) {
                         {label}
                     </View>
                     <View style={list.fileSelect}>
-                    <TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent'
-                                        onPress={() => {
-                                            if (locals.value.length >= locals.limit) {
-                                                ToastAndroid.show("已超出附件数量限制", ToastAndroid.SHORT);
-                                                return;
-                                            }
-                                            NativeModules.DocPickerModule.openFilePicker({
-                                                width: 300,
-                                                height: 300,
-                                                cropping: false,
-                                                cropperCircleOverlay: false,
-                                                compressImageMaxWidth: 480,
-                                                compressImageMaxHeight: 640,
-                                                compressImageQuality: 0.5,
-                                                compressVideoPreset: 'MediumQuality'
-                                            }, fileType).then((data) => {
-                                                let _data = {
-                                                    fileSize: data.fileSize,
-                                                    fileName: data.name + "." + data.extension,
-                                                    path: data.path,
-                                                    type: data.extension
-                                                };
-                                                locals.onChange(_data, new Date().toDateString(), locals.path, "add");
-                                            }).catch(e => {
-                                                if (e.code.indexOf("CANCEL") === -1) {
-                                                    ToastAndroid.show("不支持的文件类型", ToastAndroid.SHORT);
+                        <TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent'
+                                            onPress={() => {
+                                                if (locals.value.length >= locals.limit) {
+                                                    ToastAndroid.show("已超出附件数量限制", ToastAndroid.SHORT);
+                                                    return;
                                                 }
-                                            });
-                                        }}>
+                                                NativeModules.DocPickerModule.openFilePicker({
+                                                    width: 300,
+                                                    height: 300,
+                                                    cropping: false,
+                                                    cropperCircleOverlay: false,
+                                                    compressImageMaxWidth: 480,
+                                                    compressImageMaxHeight: 640,
+                                                    compressImageQuality: 0.5,
+                                                    compressVideoPreset: 'MediumQuality'
+                                                }, fileType).then((data) => {
+                                                    let _data = {
+                                                        fileSize: data.fileSize,
+                                                        fileName: data.name + "." + data.extension,
+                                                        path: data.path,
+                                                        type: data.extension
+                                                    };
+                                                    if (locals.fileType) {
+                                                        if (locals.fileType == data.fileType) {
+                                                            locals.onChange(_data, new Date().toDateString(), locals.path, "add");
+                                                        } else {
+                                                            ToastAndroid.show("不支持的文件类型", ToastAndroid.SHORT);
+                                                        }
+                                                    } else {
+                                                        locals.onChange(_data, new Date().toDateString(), locals.path, "add");
+                                                    }
+                                                }).catch(e => {
+                                                    if (e.code.indexOf("CANCEL") === -1) {
+                                                        ToastAndroid.show("不支持的文件类型", ToastAndroid.SHORT);
+                                                    }
+                                                });
+                                            }}>
                             <Svg height={22} width={22} viewBox={"0 0 1024 1024"}>{IconLib.FILE_SELECT}</Svg>
-                    </TouchableHighlight>
-                    {/*<TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent'*/}
-                                        {/*onPress={() => {*/}
-                                            {/*if (locals.value.length >= locals.limit) {*/}
-                                                {/*ToastAndroid.show("已超出附件数量限制", ToastAndroid.SHORT);*/}
-                                                {/*return;*/}
-                                            {/*}*/}
-                                            {/*let photoOptions = {*/}
-                                                {/*//底部弹出框选项*/}
-                                                {/*title: '请选择',*/}
-                                                {/*cancelButtonTitle: '取消',*/}
-                                                {/*takePhotoButtonTitle: '录像',*/}
-                                                {/*chooseFromLibraryButtonTitle: '选择相册',*/}
-                                                {/*mediaType: "video",*/}
-                                                {/*quality: 1,*/}
-                                                {/*videoQuality: "high",*/}
-                                                {/*durationLimit: 10,*/}
-                                                {/*allowsEditing: true,*/}
-                                                {/*noData: false,*/}
-                                                {/*storageOptions: {*/}
-                                                    {/*path:'images'*/}
-                                                {/*},*/}
-                                                {/*permissionDenied: {*/}
-                                                    {/*title: "需要相机权限才能拍摄"*/}
-                                                {/*}*/}
-                                            {/*};*/}
-                                            {/*RNImagePicker.launchCamera(photoOptions, (response) => {*/}
-                                                {/*// Same code as in above section!*/}
-                                                {/*console.warn(response);*/}
-                                                {/*debugger*/}
-                                                {/*let source = {uri: response.uri};*/}
-                                                {/*if (Platform.OS === 'android') {*/}
-                                                    {/*source = {uri: response.uri, isStatic: true}*/}
-                                                {/*} else {*/}
-                                                    {/*source = {uri: response.uri.replace('file://', ''), isStatic: true}*/}
-                                                {/*}*/}
-                                                {/*console.warn(source);*/}
-                                                {/*if (response.didCancel) {*/}
-                                                    {/*return*/}
-                                                {/*}*/}
-                                                {/*let _data = {*/}
-                                                    {/*fileSize: response.fileSize,*/}
-                                                    {/*fileName: response.fileName?response.fileName:response.path.substring(response.path.lastIndexOf("/")+1),*/}
-                                                    {/*path: response.path,*/}
-                                                    {/*type: response.type?response.type:'mp4'*/}
-                                                {/*};*/}
-                                                {/*locals.onChange(_data, new Date().toDateString(), locals.path, "add");*/}
-                                            {/*});*/}
-                                        {/*}}>*/}
-                        {/*<Svg height={24} width={24} viewBox={"0 0 1024 1024"}>{IconLib.IC_TAKE_PICTURE}</Svg>*/}
-                    {/*</TouchableHighlight>*/}
+                        </TouchableHighlight>
+                        {showCameraView ?
+                            <TouchableHighlight style={list.touch} activeOpacity={0.8} underlayColor='transparent'
+                                                onPress={() => {
+                                                    if (locals.value.length >= locals.limit) {
+                                                        ToastAndroid.show("已超出附件数量限制", ToastAndroid.SHORT);
+                                                        return;
+                                                    }
+                                                    NativeModules.CameraViewModule.startCameraView(locals.fileType).then((data) => {
+                                                        let _data = {
+                                                            fileSize: data.fileSize,
+                                                            fileName: data.name + "." + data.extension,
+                                                            path: data.path,
+                                                            type: data.extension
+                                                        };
+                                                        if (locals.fileType) {
+                                                            if (locals.fileType == data.fileType) {
+                                                                locals.onChange(_data, new Date().toDateString(), locals.path, "add");
+                                                            } else {
+                                                                ToastAndroid.show("不支持的文件类型", ToastAndroid.SHORT);
+                                                            }
+                                                        } else {
+                                                            locals.onChange(_data, new Date().toDateString(), locals.path, "add");
+                                                        }
+                                                    }).catch(e => {
+                                                        if (e.code.indexOf("CANCEL") === -1) {
+                                                            ToastAndroid.show("不支持的文件类型", ToastAndroid.SHORT);
+                                                        }
+                                                    });
+                                                }}>
+                                <Svg height={24} width={24} viewBox={"0 0 1024 1024"}>{IconLib.IC_TAKE_PICTURE}</Svg>
+                            </TouchableHighlight> : null}
+
                     </View>
                 </View>
                 {error}

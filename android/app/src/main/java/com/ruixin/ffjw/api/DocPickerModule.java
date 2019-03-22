@@ -39,22 +39,14 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.PermissionAwareActivity;
 import com.facebook.react.modules.core.PermissionListener;
-//import com.yalantis.ucrop.UCrop;
-//import com.yalantis.ucrop.UCropActivity;
+import com.ruixin.ffjw.utils.MimeUtils;
+import com.ruixin.ffjw.utils.PermissionUtil;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.text.DecimalFormat;
 
 class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
@@ -104,7 +96,6 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
     private Uri mCameraCaptureURI;
     private String mCurrentPhotoPath;
     private ResultCollector resultCollector = new ResultCollector();
-    //    private Compression compression = new Compression();
     private ReactApplicationContext reactContext;
 
     DocPickerModule(ReactApplicationContext reactContext) {
@@ -112,12 +103,6 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
         reactContext.addActivityEventListener(this);
         this.reactContext = reactContext;
     }
-//
-//    private String getTmpDir(Activity activity) {
-//        String tmpDir = activity.getCacheDir() + "/ruixin";
-//        new File(tmpDir).mkdir();
-//        return tmpDir;
-//    }
 
     @Override
     public String getName() {
@@ -145,66 +130,6 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
         this.options = options;
     }
 
-    private void permissionsCheck(final Activity activity, final Promise promise, final List<String> requiredPermissions, final Callable<Void> callback) {
-
-        List<String> missingPermissions = new ArrayList<>();
-
-        for (String permission : requiredPermissions) {
-            int status = ActivityCompat.checkSelfPermission(activity, permission);
-            if (status != PackageManager.PERMISSION_GRANTED) {
-                missingPermissions.add(permission);
-            }
-        }
-
-        if (!missingPermissions.isEmpty()) {
-
-            getPermissionAwareActivity(activity)
-                    .requestPermissions(missingPermissions.toArray(new String[missingPermissions.size()]), 1, new PermissionListener() {
-
-                        @Override
-                        public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-                            if (requestCode == 1) {
-
-                                for (int grantResult : grantResults) {
-                                    if (grantResult == PackageManager.PERMISSION_DENIED) {
-                                        promise.reject(E_PERMISSIONS_MISSING, "Required permission missing");
-                                        return true;
-                                    }
-                                }
-
-                                try {
-                                    callback.call();
-                                } catch (Exception e) {
-                                    promise.reject(E_CALLBACK_ERROR, "Unknown error", e);
-                                }
-                            }
-
-                            return true;
-                        }
-                    });
-
-            return;
-        }
-
-        // all permissions granted
-        try {
-            callback.call();
-        } catch (Exception e) {
-            promise.reject(E_CALLBACK_ERROR, "Unknown error", e);
-        }
-    }
-
-    private PermissionAwareActivity getPermissionAwareActivity(final Activity activity) {
-        if (activity == null) {
-            throw new IllegalStateException("Tried to use permissions API while not attached to an " +
-                    "Activity.");
-        } else if (!(activity instanceof PermissionAwareActivity)) {
-            throw new IllegalStateException("Tried to use permissions API but the host Activity doesn't" +
-                    " implement PermissionAwareActivity.");
-        }
-        return (PermissionAwareActivity) activity;
-    }
-
     @ReactMethod
     public void openFilePicker(final ReadableMap options, final String mode, final Promise promise) {
         final Activity activity = getCurrentActivity();
@@ -217,7 +142,7 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
         setConfiguration(options);
         resultCollector.setup(promise, multiple);
 
-        permissionsCheck(activity, promise, Collections.singletonList(Manifest.permission.WRITE_EXTERNAL_STORAGE), new Callable<Void>() {
+        PermissionUtil.permissionsCheck(activity, promise, Collections.singletonList(Manifest.permission.WRITE_EXTERNAL_STORAGE), new Callable<Void>() {
             @Override
             public Void call() {
                 initiateFilePicker(promise, mode);
@@ -233,7 +158,6 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
             final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 
             galleryIntent.setType(mode);
-
             galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
 
             final Intent chooserIntent = Intent.createChooser(galleryIntent, "Pick an file");
@@ -256,7 +180,6 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
         }
     }
 
-    //
     @Override
     public void onNewIntent(Intent intent) {
     }
@@ -277,10 +200,14 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
                 String path = getFilePathByUri(activity.getApplicationContext(), uri);
                 image.putString("path", "file://" + path);
                 File file = new File(path);
-                String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase();
-                image.putString("extension", end);
+                String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase();
+                image.putString("extension", extension);
                 image.putString("name", file.getName().substring(0, file.getName().lastIndexOf(".")));
                 image.putInt("fileSize", (int) file.length());
+                //JDK7 及以上
+//                Path path2 = Paths.get(path);
+//                Files.probeContentType(path2)
+                image.putString("fileType", MimeUtils.guessFileTypeFromExtension(extension));
                 resultCollector.notifySuccess(image);
             } catch (Exception ex) {
                 Log.e("DocPicker", ex.toString());
@@ -347,7 +274,7 @@ class DocPickerModule extends ReactContextBaseJavaModule implements ActivityEven
                     path = getDataColumn(context, contentUri, selection, selectionArgs);
                     return path;
                 }
-            }else{
+            } else {
                 // 以 content:// 开头的，比如 content://media/extenral/images/media/17766
                 Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.Media.DATA}, null, null, null);
                 if (cursor != null) {

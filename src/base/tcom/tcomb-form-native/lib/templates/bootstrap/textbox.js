@@ -1,4 +1,4 @@
-import {Alert,PermissionsAndroid} from "react-native";
+import {Alert, PermissionsAndroid} from "react-native";
 
 let React = require("react");
 let {View, Text, TextInput, TouchableHighlight, NativeModules, Button, TouchableOpacity} = require("react-native");
@@ -166,56 +166,96 @@ function textbox(locals) {
             </View>
         )
     } else if (mode === "locate") {
+        // return (
+        //     <View style={{backgroundColor: "#FFF"}}>
+        //         <View style={formStyle.textBox.textInput}>
+        //             <View style={formStyle.textBox.textInputLabel}>
+        //                 {label}
+        //             </View>
+        //             <View style={formStyle.textBox.textInputRight}>
+        //                 <View style={formStyle.textBox.textInputView}>
+        //                     <TextInput
+        //                         accessibilityLabel={locals.label}
+        //                         ref="input"
+        //                         autoCapitalize={locals.autoCapitalize}
+        //                         autoCorrect={locals.autoCorrect}
+        //                         autoFocus={locals.autoFocus}
+        //                         blurOnSubmit={locals.blurOnSubmit}
+        //                         editable={false}
+        //                         keyboardType={locals.keyboardType}
+        //                         maxLength={locals.maxLength}
+        //                         multiline={locals.multiline}
+        //                         onBlur={locals.onBlur}
+        //                         onEndEditing={locals.onEndEditing}
+        //                         onFocus={locals.onFocus}
+        //                         onLayout={locals.onLayout}
+        //                         onSelectionChange={locals.onSelectionChange}
+        //                         onSubmitEditing={locals.onSubmitEditing}
+        //                         onContentSizeChange={locals.onContentSizeChange}
+        //                         secureTextEntry={locals.secureTextEntry}
+        //                         selectTextOnFocus={locals.selectTextOnFocus}
+        //                         selectionColor={locals.selectionColor}
+        //                         numberOfLines={locals.numberOfLines}
+        //                         underlineColorAndroid={locals.underlineColorAndroid}
+        //                         clearButtonMode={locals.clearButtonMode}
+        //                         clearTextOnFocus={locals.clearTextOnFocus}
+        //                         enablesReturnKeyAutomatically={locals.enablesReturnKeyAutomatically}
+        //                         keyboardAppearance={locals.keyboardAppearance}
+        //                         onKeyPress={locals.onKeyPress}
+        //                         returnKeyType={locals.returnKeyType}
+        //                         selectionState={locals.selectionState}
+        //                         onChangeText={value => {
+        //                             const newText = value.replace(/[^\d\.\,]+/, '');
+        //                             locals.onChange(newText)
+        //                         }}
+        //                         onChange={locals.onChangeNative}
+        //                         placeholder={locals.placeholder}
+        //                         placeholderTextColor={formStyle.helpColor.color}
+        //                         style={textboxLocateStyle}
+        //                         value={locals.value ? locals.value.toString() : ""}
+        //                     />
+        //                     <TouchableOpacity onPress={() => {
+        //                         NativeModules.Location.startLocation((location) => {
+        //                             if ("" !== location) {
+        //                                 if (location === "locateFailed") {
+        //                                     Alert.alert("温馨提示", "请检查GPS状态");
+        //                                 } else if (location === "noGPS") {
+        //                                     requestGPSPermission();
+        //                                 } else if (location === "close") {
+        //                                     Alert.alert("温馨提示", "GPS已关闭");
+        //                                 } else {
+        //                                     locals.onChange(location);
+        //                                 }
+        //                             } else {
+        //                                 Alert.alert("温馨提示", "定位失败");
+        //                                 locals.onChange("");
+        //                             }
+        //                         })
+        //                     }}>
+        //                         <View style={formStyle.textBox.locateButton}>
+        //                             <Text
+        //                                 style={formStyle.textBox.locateText}>{locals.value ? "点击重定位" : locals.placeholder}</Text>
+        //                         </View>
+        //                     </TouchableOpacity>
+        //                 </View>
+        //                 {error}
+        //             </View>
+        //         </View>
+        //     </View>
+        // )
         return (
             <View style={{backgroundColor: "#FFF"}}>
                 <View style={formStyle.textBox.textInput}>
                     <View style={formStyle.textBox.textInputLabel}>
                         {label}
                     </View>
-                    <View style={formStyle.textBox.textInputRight}>
-                        <View style={formStyle.textBox.textInputView}>
-                            <TextInput
-                                accessibilityLabel={locals.label}
-                                ref="input"
-                                autoCapitalize={locals.autoCapitalize}
-                                autoCorrect={locals.autoCorrect}
-                                autoFocus={locals.autoFocus}
-                                blurOnSubmit={locals.blurOnSubmit}
-                                editable={false}
-                                keyboardType={locals.keyboardType}
-                                maxLength={locals.maxLength}
-                                multiline={locals.multiline}
-                                onBlur={locals.onBlur}
-                                onEndEditing={locals.onEndEditing}
-                                onFocus={locals.onFocus}
-                                onLayout={locals.onLayout}
-                                onSelectionChange={locals.onSelectionChange}
-                                onSubmitEditing={locals.onSubmitEditing}
-                                onContentSizeChange={locals.onContentSizeChange}
-                                secureTextEntry={locals.secureTextEntry}
-                                selectTextOnFocus={locals.selectTextOnFocus}
-                                selectionColor={locals.selectionColor}
-                                numberOfLines={locals.numberOfLines}
-                                underlineColorAndroid={locals.underlineColorAndroid}
-                                clearButtonMode={locals.clearButtonMode}
-                                clearTextOnFocus={locals.clearTextOnFocus}
-                                enablesReturnKeyAutomatically={locals.enablesReturnKeyAutomatically}
-                                keyboardAppearance={locals.keyboardAppearance}
-                                onKeyPress={locals.onKeyPress}
-                                returnKeyType={locals.returnKeyType}
-                                selectionState={locals.selectionState}
-                                onChangeText={value => {
-                                    const newText = value.replace(/[^\d\.\,]+/, '');
-                                    locals.onChange(newText)
-                                }}
-                                onChange={locals.onChangeNative}
-                                placeholder={locals.placeholder}
-                                placeholderTextColor={formStyle.helpColor.color}
-                                style={textboxLocateStyle}
-                                value={locals.value ? locals.value.toString() : ""}
-                            />
-                            <TouchableOpacity onPress={() => {
-                                NativeModules.Location.startLocation((location) => {
+                    <View style={formStyle.textBox.locateRight}>
+                        <View style={formStyle.textBox.locateRightTop}>
+                            <View style={{flex: 1,flexDirection:"row"}}><Text numberOfLines={2}
+                                                          style={(!locals.value) ? formStyle.textBox.locateText : formStyle.textBox.locatedText}>{(!locals.value) ? "" : locals.address}</Text>
+                            </View>
+                            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                                NativeModules.Location.startLocation((location, address) => {
                                     if ("" !== location) {
                                         if (location === "locateFailed") {
                                             Alert.alert("温馨提示", "请检查GPS状态");
@@ -224,7 +264,7 @@ function textbox(locals) {
                                         } else if (location === "close") {
                                             Alert.alert("温馨提示", "GPS已关闭");
                                         } else {
-                                            locals.onChange(location);
+                                            locals.onChange(location, address);
                                         }
                                     } else {
                                         Alert.alert("温馨提示", "定位失败");
@@ -232,9 +272,8 @@ function textbox(locals) {
                                     }
                                 })
                             }}>
-                                <View style={formStyle.textBox.locateButton}>
-                                    <Text
-                                        style={formStyle.textBox.locateText}>{locals.value ? "点击重定位" : locals.placeholder}</Text>
+                                <View style={formStyle.textBox.locateSvg}>
+                                    <Svg height={24} width={24} viewBox="0 0 1024 1024">{IconLib.IC_LOCATE}</Svg>
                                 </View>
                             </TouchableOpacity>
                         </View>

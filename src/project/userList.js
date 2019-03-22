@@ -12,7 +12,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     BackHandler,
-    Image
+    Image,
+    Platform
 } from "react-native";
 import {ListItem, SearchBar} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -87,14 +88,24 @@ class userList extends Component {
         return key;
     };
 
-    componentDidMount() {
+    componentWillMount() {
+        if (Platform.OS === 'android') {
+            BackHandler.addEventListener("hardwareBackPress", this._onBackAndroid);
+        }
+    }
+
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackHandler.removeEventListener('hardwareBackPress', this._onBackAndroid);
+        }
+    }
+
+    _onBackAndroid = () => {
         let _this = this;
         let {oldValue} = _this.state;
-        BackHandler.addEventListener("hardwareBackPress", function () {
-            _this.props.navigation.state.params.callBack(oldValue);
-            _this.props.navigation.goBack();
-            return true;
-        });
+        _this.props.navigation.state.params.callBack(oldValue);
+        _this.props.navigation.goBack();
+        return true;
     }
 
     /**

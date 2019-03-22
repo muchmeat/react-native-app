@@ -31,14 +31,17 @@
         android:theme="@style/AppTheme">
 
         <!--<activity android:name=".SSOActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--&lt;!&ndash;启用图标&ndash;&gt;-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-                <!--&lt;!&ndash;隐藏图标&ndash;&gt;-->
-                <!--&lt;!&ndash;<category android:name="android.intent.category.DEFAULT" />&ndash;&gt;-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--&lt;!&ndash;启用图标&ndash;&gt;-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--&lt;!&ndash;隐藏图标&ndash;&gt;-->
+        <!--&lt;!&ndash;<category android:name="android.intent.category.DEFAULT" />&ndash;&gt;-->
+        <!--</intent-filter>-->
         <!--</activity>-->
+
+        <activity android:name=".cameraViewActivity">
+        </activity>
 
         <activity
             android:name=".MainActivity"
@@ -53,4 +56,6 @@
 
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
+
+
 </manifest>

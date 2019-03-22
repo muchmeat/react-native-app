@@ -1,4 +1,4 @@
-package com.ruixin.ffjw;
+package com.ruixin.ffjw.location;
 
 import android.app.Activity;
 import android.content.Intent;

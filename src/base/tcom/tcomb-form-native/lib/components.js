@@ -242,6 +242,14 @@ function parseNumber(value) {
 }
 
 class Textbox extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...this.state,
+            address: "已定位",
+        };
+    }
+
     getTransformer() {
         let options = this.props.options;
         return options.transformer
@@ -275,16 +283,25 @@ class Textbox extends Component {
         return keyboardType;
     }
 
-    onChange(value) {
-        this.setState({ value }, () =>{
-            this.props.onChange(value, this.props.ctx.path);
-            this.changeAfter(value);
-        });
+    onChange(value,address) {
+        if(address){
+            this.setState({ value,address }, () =>{
+                this.props.onChange(value, this.props.ctx.path);
+                this.changeAfter(value);
+            });
+        }else{
+            this.setState({ value }, () =>{
+                this.props.onChange(value, this.props.ctx.path);
+                this.changeAfter(value);
+            });
+        }
     }
+
 
     getLocals() {
         let locals = super.getLocals();
         locals.placeholder = this.getPlaceholder();
+        locals.address = this.state.address;
         locals.onChangeNative = this.props.options.onChange;
         locals.keyboardType = this.getKeyboardType();
         locals.underlineColorAndroid =

@@ -1,4 +1,4 @@
-package com.ruixin.ffjw;
+package com.ruixin.ffjw.location;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
