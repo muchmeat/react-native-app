@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "react": "16.5.0",
     "react-native": "0.57.2",
     "react-native-audio": "^4.3.0",
